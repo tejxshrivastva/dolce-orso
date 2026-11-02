@@ -1,0 +1,11 @@
+# local-only files, not part of the website
+.DS_Store
+CLAUDE.md
+serve.py
+hero.mp4
+uploads/
+scraps/
+_old-versions/
+screenshot-*.png
+.claude/
+.thumbnail

@@ -1,0 +1,155 @@
+/* =====================================================================
+   DOLCE ORSO — PAGE TEXT  (edit the words here, no coding needed)
+   Each page below is opened as  Page.dc.html?p=<name>
+   NOTE: the policy pages (delivery, returns, terms) are sensible starter
+   drafts. Please check every number and promise matches how you really
+   work before launch.
+   ===================================================================== */
+window.DOLCE_PAGES = {
+
+  'our-heritage': {
+    title: 'Our Heritage',
+    lead: 'Dolce Orso means “sweet bear”. It is the spirit of the house: gentle, warm and made to be lived in.',
+    sections: [
+      { h: 'Where we begin', p: ['Dolce Orso was imagined for little gentlemen who play hard and still like to look sharp. We take the codes of classic tailoring and Italian ease and cut them for real childhoods — climbing, running, sitting cross-legged on the floor.'] },
+      { h: 'What we make', p: ['Premium denim, fine knits, tailored shorts, easy tees and coordinated sets. Each piece is designed to work on its own and to layer with the rest of the wardrobe, so getting dressed is simple.'] },
+      { h: 'How we think', p: ['Fewer, better pieces. Soft fabrics, honest finishing and fits that grow with a child’s day. We would rather perfect a pocket than add a gimmick.'] }
+    ],
+    cta: [{ l: 'Shop the collection', href: 'Shop All.dc.html' }]
+  },
+
+  'our-promise': {
+    title: 'Our Promise',
+    lead: 'Clothes your child can live in, and a house that stands behind them.',
+    sections: [
+      { h: 'Comfort first', p: ['Every piece is tested for how it feels, not just how it looks: soft waists, flat seams, nothing that scratches or pinches.'] },
+      { h: 'Made to last', p: ['Reinforced stress points, colour-fast washes and fabrics chosen to survive the playground and the washing machine.'] },
+      { h: 'Looked after personally', p: ['Questions about sizing, styling or an order? Our concierge replies personally on WhatsApp — no ticket numbers, no scripts.'] }
+    ],
+    cta: [{ l: 'Talk to the concierge', href: 'Page.dc.html?p=concierge' }, { l: 'Returns & exchanges', href: 'Page.dc.html?p=returns', o: 1 }]
+  },
+
+  'delivery': {
+    title: 'Delivery Information',
+    lead: 'How and when your order reaches you.',
+    sections: [
+      { h: 'How ordering works', p: ['Add pieces to your bag and send your order to our concierge on WhatsApp. We confirm availability, delivery to your address and payment details with you directly before anything is charged.'] },
+      { h: 'Dispatch', list: ['Orders are usually dispatched within 2–3 working days of confirmation.', 'You will receive tracking details on WhatsApp as soon as your parcel ships.', 'Delivery times depend on your location; your concierge will give you an estimate when confirming.'] },
+      { h: 'Delivery charges', p: ['Delivery charges, if any, are shared with you before you confirm your order.'] },
+      { h: 'Need it for a date?', p: ['Tell us the date on WhatsApp and we will do our best to make it.'] }
+    ],
+    cta: [{ l: 'Track an order', href: 'Page.dc.html?p=order-tracking' }]
+  },
+
+  'returns': {
+    title: 'Returns & Exchanges',
+    lead: 'If it isn’t quite right, we’ll make it right.',
+    sections: [
+      { h: 'Exchanges', p: ['Wrong size? Message us within 7 days of delivery and we will arrange an exchange for another size, subject to availability.'] },
+      { h: 'Returns', list: ['Items must be unworn, unwashed and have their original tags attached.', 'Message our concierge within 7 days of delivery to start a return.', 'Approved refunds are returned to the original payment method.'] },
+      { h: 'Not eligible', p: ['Items that have been worn, washed, altered or damaged after delivery cannot be returned.'] },
+      { h: 'How to start', p: ['Send your order details on WhatsApp and we will take it from there.'] }
+    ],
+    cta: [{ l: 'Start a return', wa: 'Hello Dolce Orso, I would like to start a return/exchange for my order.' }, { l: 'Size guide', href: 'Page.dc.html?p=size-guide', o: 1 }]
+  },
+
+  'faq': {
+    title: 'Questions & Answers',
+    lead: 'Quick answers. Can’t find yours? Our concierge is a message away.',
+    faq: [
+      ['How do I place an order?', 'Add pieces to your bag, then tap “Order on WhatsApp”. Our concierge confirms everything with you before payment.'],
+      ['How do I choose a size?', 'See our <a href="Page.dc.html?p=size-guide" style="color:#000">size guide</a>, or message us your child’s height and we will recommend a size.'],
+      ['How long does delivery take?', 'Orders usually dispatch in 2–3 working days. See <a href="Page.dc.html?p=delivery" style="color:#000">Delivery Information</a>.'],
+      ['Can I return or exchange something?', 'Yes, within 7 days of delivery for unworn items with tags. See <a href="Page.dc.html?p=returns" style="color:#000">Returns & Exchanges</a>.'],
+      ['How do I wash the clothes?', 'Each product page lists wash care. As a rule: gentle machine wash at 30°C, do not bleach, reshape and dry flat.'],
+      ['Do you offer gift wrapping?', 'Ask our concierge when you order and we will arrange it.'],
+      ['How do I track my order?', 'Use <a href="Page.dc.html?p=order-tracking" style="color:#000">Order Tracking</a> and we will reply with the latest status.']
+    ],
+    cta: [{ l: 'Ask the concierge', href: 'Page.dc.html?p=concierge' }]
+  },
+
+  'terms': {
+    title: 'Terms of Service',
+    lead: 'The simple rules for using this website and buying from Dolce Orso.',
+    sections: [
+      { h: 'Using this site', p: ['By browsing or ordering you agree to these terms. We may update them from time to time; the version on this page is the one that applies.'] },
+      { h: 'Products and pricing', p: ['We take care to show our products accurately, but colours may vary slightly between screens. Prices are in Indian rupees (₹) unless shown otherwise, and may change without notice. Currency conversion shown on the site is an estimate only.'] },
+      { h: 'Orders', p: ['Placing a request through our website or WhatsApp is not a binding contract until we confirm it with you. We may decline or cancel an order if an item is unavailable or a price was shown in error.'] },
+      { h: 'Payment', p: ['Payment details and methods are shared with you by our concierge when your order is confirmed.'] },
+      { h: 'Delivery, returns and exchanges', p: ['These are covered in our <a href="Page.dc.html?p=delivery" style="color:#000">Delivery Information</a> and <a href="Page.dc.html?p=returns" style="color:#000">Returns & Exchanges</a> pages, which form part of these terms.'] },
+      { h: 'Intellectual property', p: ['All content on this site — designs, images, text and logos — belongs to Dolce Orso and may not be copied or reused without permission.'] },
+      { h: 'Your information', p: ['Details you save on this site (such as your bag, wishlist and address) are stored on your own device. Details you send us on WhatsApp are used only to serve your order or enquiry.'] },
+      { h: 'Contact', p: ['Questions about these terms? Reach our concierge from the <a href="Page.dc.html?p=concierge" style="color:#000">Concierge page</a>.'] }
+    ]
+  },
+
+  'press': {
+    title: 'Press',
+    lead: 'Writing about Dolce Orso? We’d love to help.',
+    sections: [
+      { h: 'Press enquiries', p: ['For lookbooks, high-resolution images, samples and interviews, message our concierge and mention “Press”. We will respond personally.'] },
+      { h: 'In a sentence', p: ['Dolce Orso is a children’s clothing house making premium denim, fine knits, tailored shorts and coordinated sets for little gentlemen.'] }
+    ],
+    cta: [{ l: 'Contact us about press', wa: 'Hello Dolce Orso, this is a press enquiry: ' }]
+  },
+
+  'partnerships': {
+    title: 'Partnerships',
+    lead: 'We like working with people who care about children’s style as much as we do.',
+    sections: [
+      { h: 'Stockists & boutiques', p: ['Run a children’s boutique or concept store? Tell us about your space and customers.'] },
+      { h: 'Collaborations', p: ['Stylists, photographers, illustrators and brands with a shared point of view — we’d be glad to hear your idea.'] }
+    ],
+    cta: [{ l: 'Start a conversation', wa: 'Hello Dolce Orso, I would like to discuss a partnership: ' }]
+  },
+
+  'join-us': {
+    title: 'Join Us',
+    lead: 'Help us dress the next generation of little gentlemen.',
+    sections: [
+      { h: 'Working with us', p: ['We are a small team that cares about craft, detail and warmth. If that sounds like you, we would like to meet you.'] },
+      { h: 'Areas we hire in', list: ['Design and product development', 'Production and quality', 'Content, styling and photography', 'Customer care and concierge'] },
+      { h: 'How to apply', p: ['Send a short note and a link to your work through our concierge, mentioning the role you have in mind.'] }
+    ],
+    cta: [{ l: 'Apply via WhatsApp', wa: 'Hello Dolce Orso, I would like to apply to join the team. Role: ' }]
+  },
+
+  'boutiques': {
+    title: 'Boutiques',
+    lead: 'Dolce Orso is available to you through our concierge.',
+    sections: [
+      { h: 'Private viewings', p: ['Boutique details will be listed here. Until then, message our concierge to arrange a private viewing or fitting.'] },
+      { h: 'Shop from home', p: ['Browse the full collection online and order through WhatsApp — we’ll guide you on size and styling.'] }
+    ],
+    cta: [{ l: 'Arrange a viewing', wa: 'Hello Dolce Orso, I would like to arrange a private viewing.' }, { l: 'Shop all', href: 'Shop All.dc.html', o: 1 }]
+  },
+
+  'journal': {
+    title: 'Journal',
+    lead: 'Notes on style, layering and the everyday.',
+    articles: [
+      { tag: 'Style notes', t: 'The Denim Edit', d: 'Balloon legs, carpenter pockets and graphic washes: how to wear the season’s denim.', cat: 'denim', href: 'Denim Collection.dc.html' },
+      { tag: 'Layering', t: 'Tees that do more', d: 'From crisp whites to stripes, the simple pieces that anchor every outfit.', cat: 't-shirts', href: 'The Tee Shop.dc.html' },
+      { tag: 'Guide', t: 'Sets, simplified', d: 'Matching sets for the mornings when you need to be out of the door in five minutes.', cat: 'sets-full', href: 'Full Set Range.dc.html' }
+    ]
+  },
+
+  'size-guide': {
+    title: 'Size Guide',
+    lead: 'A good fit makes everything easier. Here’s how to get it right.',
+    sections: [
+      { h: 'How to measure', list: ['Height: stand your child against a wall, shoes off, and measure from the floor to the top of the head.', 'Chest: measure around the fullest part of the chest, under the arms.', 'Waist: measure around the natural waistline, over the belly button.', 'Inseam: measure from the crotch to the ankle bone.'] },
+      { h: 'Choosing between sizes', p: ['If your child is between sizes, we suggest the larger one for denim and sets — most pieces have an adjustable or elasticated waist.'] },
+      { h: 'Want a personal recommendation?', p: ['Send us your child’s height and weight on WhatsApp and our concierge will recommend a size for the piece you like.'] }
+    ],
+    cta: [{ l: 'Get a size recommendation', wa: 'Hello Dolce Orso, please help me choose a size. My child’s height is ... and weight is ...' }]
+  },
+
+  'login': { title: 'Sign in' },
+
+  'concierge': {
+    title: 'Concierge',
+    lead: 'Sizing, styling, gifting and orders — each request is attended to personally.',
+    hours: 'Every message is answered by a person, usually within a few hours. Notes sent late are attended to the next morning.'
+  }
+};
