@@ -144,7 +144,7 @@
   function gridHTML(list) { return '<div class="do-grid">' + list.map(cardHTML).join('') + '</div>'; }
   function head(title, lead, crumb) {
     return '<section class="do-in" style="padding-top:clamp(16px,2.4vw,32px);padding-bottom:clamp(12px,2vw,24px);display:flex;flex-direction:column;gap:12px">'
-      + '<nav style="display:flex;gap:8px;font-size:11px;color:#888;' + MONO + '"><a href="Home Page.dc.html" style="color:#888;text-decoration:none">Home</a><span>/</span><span style="color:#000">' + esc(crumb || title) + '</span></nav>'
+      + '<nav style="display:flex;gap:8px;font-size:11px;color:#888;' + MONO + '"><a href="./" style="color:#888;text-decoration:none">Home</a><span>/</span><span style="color:#000">' + esc(crumb || title) + '</span></nav>'
       + '<h1 style="margin:0;font-size:clamp(34px,5.2vw,72px);font-weight:500;letter-spacing:-.045em;line-height:1">' + esc(title) + '</h1>'
       + (lead ? '<p style="margin:0;max-width:640px;color:#666;font-size:clamp(15px,1.3vw,17px);line-height:1.6">' + lead + '</p>' : '') + '</section>';
   }
@@ -705,7 +705,7 @@
       else if (t === 'Instagram' && soc.instagram) { a.href = soc.instagram; a.target = '_blank'; }
       else if (t === 'YouTube' && soc.youtube) { a.href = soc.youtube; a.target = '_blank'; }
       else if (t === 'LinkedIn' && soc.linkedin) { a.href = soc.linkedin; a.target = '_blank'; }
-      else if (t === 'DOLCE ORSO') a.href = 'Home Page.dc.html';
+      else if (t === 'DOLCE ORSO') a.href = './';
     });
   }
   var t;
