@@ -112,7 +112,7 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 <div style="display:{{ pdpDisplay }};gap:6px;padding:{{ pdpTop }} clamp(6px,0.5vw,8px) 8px;align-items:flex-start">
 <!-- LEFT: STICKY IMAGE -->
 <div style="flex:1;position:{{ stickyPos }};top:{{ stickyTop }};min-width:0;height:{{ leftH }};aspect-ratio:{{ leftRatio }}">
-<div id="zoom-container" onMouseMove="{{ onZoomMove }}" onMouseEnter="{{ onZoomEnter }}" onMouseLeave="{{ onZoomLeave }}" style="width:100%;height:100%;background:#000;border-radius:20px;overflow:hidden;display:flex;align-items:center;justify-content:center;border:1px solid #222;position:relative;cursor:crosshair">
+<div id="zoom-container" onMouseMove="{{ onZoomMove }}" onMouseEnter="{{ onZoomEnter }}" onMouseLeave="{{ onZoomLeave }}" style="width:100%;height:100%;background:#fff;border-radius:20px;overflow:hidden;display:flex;align-items:center;justify-content:center;border:1px solid #ddd;position:relative;cursor:crosshair">
 <img src="{{ heroSrc }}" style="width:100%;height:100%;object-fit:cover;object-position:center top;transform:scale(1.06);transform-origin:center top;display:block">
 <sc-if value="{{ zoomVisible }}" hint-placeholder-val="{{ false }}">
 <div style="position:absolute;width:200px;height:200px;border:1px solid #e0e0e0;border-radius:50%;pointer-events:none;overflow:hidden;left:{{ zoomX }};top:{{ zoomY }};transform:translate(-50%,-50%);box-shadow:0 4px 20px rgba(0,0,0,0.15)">
@@ -124,13 +124,13 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 <!-- MIDDLE: SCROLLING IMAGES -->
 <div style="flex:1;display:flex;flex-direction:{{ midDir }};gap:6px;min-width:0;padding-top:{{ midPadTop }};overflow-x:{{ midOverflow }};scroll-snap-type:x mandatory">
 <sc-for list="{{ midImages }}" as="mi" hint-placeholder-count="6">
-<div style="flex:{{ midItemFlex }};scroll-snap-align:start;aspect-ratio:4/5;background:#000;border-radius:20px;overflow:hidden;display:flex;align-items:center;justify-content:center;border:1px solid #222">
+<div style="flex:{{ midItemFlex }};scroll-snap-align:start;aspect-ratio:4/5;background:#fff;border-radius:20px;overflow:hidden;display:flex;align-items:center;justify-content:center;border:1px solid #ddd">
 <img src="{{ mi.src }}" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block">
 </div>
 </sc-for>
 </div>
 <!-- RIGHT: PRODUCT INFO -->
-<div style="flex:1;position:{{ stickyPos }};top:{{ stickyTop }};min-width:0;height:{{ infoH }};margin-top:{{ infoMt }};background:#fff;border-radius:20px;overflow-y:auto;border:1px solid #e0e0e0">
+<div style="flex:1;position:{{ stickyPos }};top:{{ stickyTop }};min-width:0;height:{{ infoH }};margin-top:{{ infoMt }};background:#fff;border-radius:20px;overflow-y:auto;border:1px solid #ddd">
 <div style="padding:clamp(20px,2.5vw,32px);display:flex;flex-direction:column;gap:0;min-height:100%">
 <!-- NAME + PRICE -->
 <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:6px">
