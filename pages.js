@@ -12,7 +12,7 @@ window.DOLCE_PAGES = {
     lead: 'Dolce Orso means “sweet bear”. It is the spirit of the house: gentle, warm and made to be lived in.',
     sections: [
       { h: 'Where we begin', p: ['Dolce Orso was imagined for little gentlemen who play hard and still like to look sharp. We take the codes of classic tailoring and Italian ease and cut them for real childhoods — climbing, running, sitting cross-legged on the floor.'] },
-      { h: 'What we make', p: ['Premium denim, fine knits, tailored shorts, easy tees and coordinated sets. Each piece is designed to work on its own and to layer with the rest of the wardrobe, so getting dressed is simple.'] },
+      { h: 'What we make', p: ['Premium denim, easy tees, felpe and giacche. Each piece is designed to work on its own and to layer with the rest of the wardrobe, so getting dressed is simple.'] },
       { h: 'How we think', p: ['Fewer, better pieces. Soft fabrics, honest finishing and fits that grow with a child’s day. We would rather perfect a pocket than add a gimmick.'] }
     ],
     cta: [{ l: 'Shop the collection', href: 'shop' }]
@@ -88,7 +88,7 @@ window.DOLCE_PAGES = {
     lead: 'Writing about Dolce Orso? We’d love to help.',
     sections: [
       { h: 'Press enquiries', p: ['For lookbooks, high-resolution images, samples and interviews, message our concierge and mention “Press”. We will respond personally.'] },
-      { h: 'In a sentence', p: ['Dolce Orso is a children’s clothing house making premium denim, fine knits, tailored shorts and coordinated sets for little gentlemen.'] }
+      { h: 'In a sentence', p: ['Dolce Orso is a children’s clothing house making premium denim, easy tees, felpe and giacche for little gentlemen.'] }
     ],
     cta: [{ l: 'Contact us about press', wa: 'Hello Dolce Orso, this is a press enquiry: ' }]
   },
@@ -130,7 +130,7 @@ window.DOLCE_PAGES = {
     articles: [
       { tag: 'Style notes', t: 'The Denim Edit', d: 'Balloon legs, carpenter pockets and graphic washes: how to wear the season’s denim.', cat: 'denim', href: 'denim' },
       { tag: 'Layering', t: 'Tees that do more', d: 'From crisp whites to stripes, the simple pieces that anchor every outfit.', cat: 't-shirts', href: 'tees' },
-      { tag: 'Guide', t: 'Sets, simplified', d: 'Matching sets for the mornings when you need to be out of the door in five minutes.', cat: 'sets-full', href: 'category-4' }
+      { tag: 'Guide', t: 'Layers, considered', d: 'Felpe and giacche for the days that start cool and end warm.', cat: 'giacche', href: 'giacche' }
     ]
   },
 
