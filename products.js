@@ -61,9 +61,9 @@
   { slug: "frayed-star-cargo-jeans", name: "Frayed Star Cargo Jeans", category: "denim", price: 4999, sale: true, folder: "pdp-frayed-star-cargo-jeans", hov: true,
     details: ["Washed charcoal denim", "Extra-wide relaxed fit", "Frayed-edge star appliqués on both legs", "Side cargo pocket"],
     description: "Extra-wide jeans in a washed charcoal with large frayed-edge star appliqués on the legs, a patched waist yoke with brass studs, and a flap cargo pocket on the side seam." },
-  { slug: "artisan-patchwork-denim", name: "Artisan Patchwork Denim", category: "denim", price: 5399, sale: false, folder: "pdp-artisan-patchwork-denim",
-    details: ["Washed denim", "Relaxed everyday fit", "Utility pockets", "Comfortable waist"],
-    description: "A denim piece from the Dolce Orso Autumn/Winter collection. Full product details coming soon." },
+  { slug: "gilded-scroll-wide-jeans", name: "Gilded Scroll Wide Jeans", category: "denim", price: 5399, sale: false, folder: "pdp-gilded-scroll-wide-jeans", hov: true,
+    details: ["Dark raw-look black denim", "Extra-wide relaxed fit", "Gold scrollwork embroidery down one leg", "Contrast gold topstitching"],
+    description: "Extra-wide jeans in deep black denim with a flowing gold scrollwork embroidery running down one leg and contrast gold stitching on the pockets and seams." },
 
   // ---- Les Tees ----
   { slug: "starboy-graphic-tee", name: "Starboy Graphic Tee", category: "t-shirts", price: 4299, sale: true, folder: "pdp-starboy-graphic-tee", hov: true, noSide: true,
