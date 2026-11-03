@@ -99,9 +99,9 @@
   { slug: "gods-plan-tee", name: "God's Plan Tee", category: "t-shirts", price: 4199, sale: false, folder: "pdp-gods-plan-tee", hov: true, noSide: true,
     details: ["Soft black cotton jersey", "Oversized boxy fit", "Bold cyan \"GOD'S PLAN.\" print on the chest", "Large glowing neon portrait on the back"],
     description: "A black oversized tee with a bold cyan \"GOD'S PLAN.\" print and a small Dolce Orso mark on the chest, and a large glowing blue-and-green portrait spread across the back." },
-  { slug: "contrast-stitch-tee", name: "Contrast Stitch Tee", category: "t-shirts", price: 4499, sale: false, folder: "pdp-contrast-stitch-tee",
-    details: ["Soft cotton jersey", "Relaxed everyday fit", "Ribbed crew neck", "Made for daily wear"],
-    description: "A tee from the Dolce Orso Autumn/Winter collection. Full product details coming soon." },
+  { slug: "red-graffiti-star-tee", name: "Red Graffiti Star Tee", category: "t-shirts", price: 4499, sale: false, folder: "pdp-red-graffiti-star-tee", hov: true, noSide: true,
+    details: ["Soft black cotton jersey", "Oversized boxy fit", "Large red graffiti lettering, illustrated figure and star on the front", "Small red graffiti tag on the back"],
+    description: "A black oversized tee with bold red graffiti lettering, a hand-drawn figure in a cap and a red star across the front, and a small matching graffiti tag on the back." },
 
   // ---- Les Shorts ----
   { slug: "utility-bermuda-shorts", name: "Utility Bermuda Shorts", category: "shorts", price: 4199, sale: true, folder: "pdp-utility-bermuda-shorts",
