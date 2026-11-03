@@ -83,7 +83,7 @@
   { slug: "tribal-back-washed-tee", name: "Tribal Back Washed Tee", category: "t-shirts", price: 4399, sale: true, folder: "pdp-tribal-back-washed-tee", hov: true, noSide: true,
     details: ["Washed charcoal cotton jersey", "Oversized boxy fit", "Small Dolce Orso mark on the chest", "Large tribal graphic on the back"],
     description: "A washed charcoal oversized tee with a small Dolce Orso mark on the chest and a large tribal graphic spread across the back." },
-  { slug: "red-crest-tee", name: "Red Crest Oversized Tee", category: "t-shirts", price: 4599, sale: false, folder: "pdp-red-crest-tee", hov: true, noSide: true,
+  { slug: "crimson-wing-tee", name: "Crimson Wing Tee", category: "t-shirts", price: 4599, sale: false, folder: "pdp-red-crest-tee", hov: true, noSide: true,
     details: ["Soft white cotton jersey", "Oversized boxy fit", "Red embroidered Dolce Orso crest on the chest", "Large red tribal crest on the back"],
     description: "A white oversized tee with a small red Dolce Orso crest on the chest and a bold, sculpted red tribal crest spread across the back." },
   { slug: "monogram-tee", name: "Monogram Tee", category: "t-shirts", price: 4799, sale: false, folder: "pdp-monogram-tee",
