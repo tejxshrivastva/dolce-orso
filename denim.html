@@ -120,9 +120,9 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 <nav style="display:flex;align-items:center;gap:8px;font-size:11px;letter-spacing:0.55px;text-transform:uppercase;font-family:'JetBrains Mono',monospace;color:#888">
 <a href="./" style="color:#888;text-decoration:none" style-hover="color:#000">Home</a>
 <span>/</span>
-<span style="color:#000">Le Denim</span>
+<span style="color:#000">Denim</span>
 </nav>
-<h1 style="margin:0;font-size:clamp(34px,5.2vw,72px);font-weight:500;letter-spacing:-0.045em;line-height:1">Le Denim</h1>
+<h1 style="margin:0;font-size:clamp(34px,5.2vw,72px);font-weight:500;letter-spacing:-0.045em;line-height:1">Denim</h1>
 </section>
 
 <!-- FILTER/SORT BAR -->
@@ -277,18 +277,18 @@ class Component extends DCLogic {
     const vw = this.state.vw;
     const catNavItems = [
       { name: 'All', weight: '400', underline: 'transparent', link: 'shop' },
-      { name: 'Le Denim', weight: '600', underline: '#000', link: 'denim' },
-        { name: 'Les Tees', weight: '400', underline: 'transparent', link: 'tees' },
-        { name: 'Le Felpe', weight: '400', underline: 'transparent', link: 'felpe' },
-        { name: 'Le Giacche', weight: '400', underline: 'transparent', link: 'giacche' },
+      { name: 'Denim', weight: '600', underline: '#000', link: 'denim' },
+        { name: 'T-Shirts', weight: '400', underline: 'transparent', link: 't-shirts' },
+        { name: 'Hoodies', weight: '400', underline: 'transparent', link: 'hoodies' },
+        { name: 'Jackets', weight: '400', underline: 'transparent', link: 'jackets' },
         { name: 'Category 5', weight: '400', underline: 'transparent', link: 'category-5' }
     ];
     const products = DOLCE.cards('denim');
     const megaCats = [
-      { name: 'Le Denim', img: DOLCE.cover('denim'), anchor: 'denim' },
-        { name: 'Les Tees', img: DOLCE.cover('t-shirts'), anchor: 'tees' },
-        { name: 'Le Felpe', img: DOLCE.cover('felpe'), anchor: 'felpe' },
-        { name: 'Le Giacche', img: DOLCE.cover('giacche'), anchor: 'ensembles' },
+      { name: 'Denim', img: DOLCE.cover('denim'), anchor: 'denim' },
+        { name: 'T-Shirts', img: DOLCE.cover('t-shirts'), anchor: 't-shirts' },
+        { name: 'Hoodies', img: DOLCE.cover('hoodies'), anchor: 'hoodies' },
+        { name: 'Jackets', img: DOLCE.cover('jackets'), anchor: 'ensembles' },
         { name: 'Category 5', img: DOLCE.cover('sets-half'), anchor: 'demi-sets' }
     ];
     const mob = vw < 768;
@@ -303,7 +303,7 @@ class Component extends DCLogic {
       mobRightGap: '8px',
       mobThumbRatio: mob ? '3/4' : '16/9',
       mobNavDisplay: 'flex',
-      activeCategoryName: 'Le Denim',
+      activeCategoryName: 'Denim',
       productCount: products.length + ' +',
       gridCols: vw >= 1024 ? 'repeat(4, 1fr)' : vw >= 768 ? 'repeat(3, 1fr)' : 'repeat(2, 1fr)',
       megaOpen: this.state.megaOpen,

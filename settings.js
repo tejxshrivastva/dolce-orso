@@ -36,16 +36,16 @@ window.DOLCE_SETTINGS = {
 
   // Raise this number by 1 whenever you replace product photos, so every
   // visitor's browser downloads the new pictures instead of showing old ones.
-  imageVersion: 23,
+  imageVersion: 24,
 
   // Hand-picked product lists for the Gift Guide and Most Loved pages.
   // Use the "slug" of each product from products.js.
   gifts: [
-    'giacche-product-1', 'giacche-product-2', 'giacche-product-3', 'giacche-product-4',
+    'jackets-product-1', 'jackets-product-2', 'jackets-product-3', 'jackets-product-4',
     'category-5-product-1', 'category-5-product-2', 'category-5-product-4', 'category-5-product-10'
   ],
   mostLoved: [
     'asymmetric-flap-cargo-jeans', 'swirl-panel-wide-jeans', 'starboy-graphic-tee', 'crochet-mandala-tee',
-    'felpe-product-1', 'felpe-product-2', 'giacche-product-1', 'category-5-product-1'
+    'hoodies-product-1', 'hoodies-product-2', 'jackets-product-1', 'category-5-product-1'
   ]
 };
