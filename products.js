@@ -236,7 +236,7 @@
     cards: function (c) { return inCat(c).map(card); },
     names: function (c, n) { return inCat(c).slice(0, n).map(function (p) { return p.name; }); },
     prices: function (c, n) { return inCat(c).slice(0, n).map(function (p) { return p.price; }); },
-    imgs: function (c, n) { return inCat(c).slice(0, n).map(function (p) { return [img(p, 7), img(p, 0)]; }); },
+    imgs: function (c, n) { return inCat(c).slice(0, n).map(function (p) { return [img(p, 7), img(p, p.hov ? 8 : 0)]; }); },
     cover: function (c) { var l = inCat(c); return l.length ? img(l[0], 0) : ''; },
     hrefForImg: function (path) {
       path = path || '';
