@@ -1,5 +1,5 @@
 /* Dolce Orso — shared shop behaviour: bag, wishlist, WhatsApp ordering, search
-   and the content pages (Page.dc.html?p=...). Content text lives in pages.js. */
+   and the content pages (bag, wishlist, concierge ... one tiny file each, generated from page.html). Content text lives in pages.js. */
 (function () {
   var D = window.DOLCE, S = window.DOLCE_SETTINGS || {};
   if (!D) return;
@@ -9,7 +9,7 @@
   function save(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
   var bag = load('dolce-bag', []), wish = load('dolce-wish', []);
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
-  function PAGE(p) { return 'Page.dc.html?p=' + p; }
+  function PAGE(p) { return p; }
   D.pageHref = PAGE;
 
   /* ---------- WhatsApp ---------- */
@@ -65,7 +65,7 @@
     if (session()) return false;
     save(PENDING, action ? { t: action.t, slug: action.slug || '', size: action.size || 'M', at: Date.now() } : null);
     var here = decodeURIComponent(location.pathname.split('/').pop()) + location.search;
-    location.href = PAGE('login') + '&next=' + encodeURIComponent(here);
+    location.href = PAGE('login') + '?next=' + encodeURIComponent(here);
     return true;
   }
   function applyPending() {
@@ -106,7 +106,7 @@
   document.addEventListener('keydown', function (e) {
     if (e.key !== 'Enter') return;
     var t = e.target;
-    if (t && t.tagName === 'INPUT' && t.type === 'search' && t.value.trim()) location.href = PAGE('search') + '&q=' + encodeURIComponent(t.value.trim());
+    if (t && t.tagName === 'INPUT' && t.type === 'search' && t.value.trim()) location.href = PAGE('search') + '?q=' + encodeURIComponent(t.value.trim());
   }, true);
 
   /* ---------- shared HTML pieces ---------- */
@@ -204,7 +204,7 @@
 
   R.bag = function () {
     if (!bag.length) {
-      return head('Your Bag', '') + wrap('<div class="do-emp">' + ICONBAG + '<h2>Your bag is empty</h2><p>Pieces you add will wait here for you. Begin with something from the collection.</p><a class="do-btn" href="Shop All.dc.html">Continue shopping</a></div>' + suggest('Most loved', []));
+      return head('Your Bag', '') + wrap('<div class="do-emp">' + ICONBAG + '<h2>Your bag is empty</h2><p>Pieces you add will wait here for you. Begin with something from the collection.</p><a class="do-btn" href="shop">Continue shopping</a></div>' + suggest('Most loved', []));
     }
     var save_ = 0, orig = 0;
     var rows = bag.map(function (it, i) {
@@ -230,7 +230,7 @@
     var bar = '<div class="do-bar"><div><div style="font:500 10px \'JetBrains Mono\',monospace;letter-spacing:.08em;text-transform:uppercase;color:#888">Total</div><div style="font-size:20px;font-weight:500;letter-spacing:-.02em">' + D.inr(bagTotal()) + '</div></div><a class="do-btn" data-order="1" href="#">Order on WhatsApp</a></div>';
     var inBag = bag.map(function (i) { return i.slug; });
     return head('Your Bag', bagCount() + (bagCount() === 1 ? ' piece' : ' pieces') + ' · held for you')
-      + wrap('<div class="do-bagpage"><div class="do-bag"><div>' + undo + rows + '<a href="Shop All.dc.html" class="do-tl" style="display:inline-block;margin-top:12px">← Continue shopping</a></div>' + summary + '</div>' + suggest('You may also love', inBag) + '</div>' + bar);
+      + wrap('<div class="do-bagpage"><div class="do-bag"><div>' + undo + rows + '<a href="shop" class="do-tl" style="display:inline-block;margin-top:12px">← Continue shopping</a></div>' + summary + '</div>' + suggest('You may also love', inBag) + '</div>' + bar);
   };
   R.bag.after = function () {
     var main = document.getElementById('dolce-main');
@@ -280,7 +280,7 @@
   R.wishlist = function () {
     var list = wish.map(D.bySlug).filter(Boolean);
     if (!list.length) {
-      return head('Wishlist', '') + wrap('<div class="do-emp">' + ICONBM + '<h2>Nothing saved yet</h2><p>Tap the bookmark on any piece to keep it here, then choose a size when you are ready.</p><a class="do-btn" href="Shop All.dc.html">Start browsing</a></div>' + suggest('Most loved', []));
+      return head('Wishlist', '') + wrap('<div class="do-emp">' + ICONBM + '<h2>Nothing saved yet</h2><p>Tap the bookmark on any piece to keep it here, then choose a size when you are ready.</p><a class="do-btn" href="shop">Start browsing</a></div>' + suggest('Most loved', []));
     }
     var tools = '<div class="do-wtools"><span style="font:500 11px \'JetBrains Mono\',monospace;letter-spacing:.06em;text-transform:uppercase;color:#888">Choose a size, then add to bag</span>'
       + '<a class="do-btn o" id="do-wshare" href="#" style="height:40px;padding:0 20px">Ask the concierge about these</a></div>';
@@ -318,12 +318,12 @@
       return words.every(function (w) { return hay.indexOf(w) > -1; });
     });
     var body = '<form id="do-sf" style="display:flex;gap:8px;max-width:560px;margin-bottom:28px"><input class="do-input" name="q" value="' + esc(q) + '" placeholder="Search our collection..." autofocus><button class="do-btn" type="submit">Search</button></form>'
-      + (res.length ? gridHTML(res) : empty(q ? 'No pieces matched “' + esc(q) + '”. Try “jeans”, “tee” or “set”.' : 'Type something to search.', 'Shop All', 'Shop All.dc.html'));
+      + (res.length ? gridHTML(res) : empty(q ? 'No pieces matched “' + esc(q) + '”. Try “jeans”, “tee” or “set”.' : 'Type something to search.', 'Shop All', 'shop'));
     return head('Search', q ? res.length + ' result' + (res.length === 1 ? '' : 's') + ' for “' + esc(q) + '”' : '') + wrap(body);
   };
   R.search.after = function () {
     var f = document.getElementById('do-sf');
-    f.addEventListener('submit', function (e) { e.preventDefault(); location.href = PAGE('search') + '&q=' + encodeURIComponent(f.q.value); });
+    f.addEventListener('submit', function (e) { e.preventDefault(); location.href = PAGE('search') + '?q=' + encodeURIComponent(f.q.value); });
   };
   function listPage(title, lead, slugs) { return function () { return head(title, lead) + wrap(gridHTML(slugs.map(D.bySlug).filter(Boolean))); }; }
   R['gift-guide'] = listPage('Gift Guide', 'Coordinated sets and easy gifting pieces for the little gentleman in your life.', S.gifts || []);
@@ -676,10 +676,10 @@
   var current = '';
   function render() {
     var main = document.getElementById('dolce-main'); if (!main) return;
-    var key = new URLSearchParams(location.search).get('p') || '';
+    var key = window.DOLCE_KEY || new URLSearchParams(location.search).get('p') || '';
     current = key;
     var fn = R[key] || contentPage(key);
-    if (!fn) { fn = function () { return head('Page not found', 'We couldn’t find that page.') + wrap(empty('Let’s get you back to the collection.', 'Shop All', 'Shop All.dc.html')); }; }
+    if (!fn) { fn = function () { return head('Page not found', 'We couldn’t find that page.') + wrap(empty('Let’s get you back to the collection.', 'Shop All', 'shop')); }; }
     var title = (window.DOLCE_PAGES && window.DOLCE_PAGES[key] && window.DOLCE_PAGES[key].title) || key.replace(/-/g, ' ').replace(/\b\w/g, function (c) { return c.toUpperCase(); });
     try { document.title = title + ' — Dolce Orso'; } catch (e) {}
     main.innerHTML = fn();

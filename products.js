@@ -19,11 +19,11 @@
    ===================================================================== */
 (function () {
   var CATEGORIES = [
-    { slug: "denim", name: "Le Denim", page: "Denim Collection.dc.html" },
-    { slug: "t-shirts", name: "Les Tees", page: "The Tee Shop.dc.html" },
-    { slug: "shorts", name: "Les Shorts", page: "Shorts Studio.dc.html" },
-    { slug: "sets-full", name: "Ensembles", page: "Full Set Range.dc.html" },
-    { slug: "sets-half", name: "Demi-Sets", page: "Half Set Range.dc.html" }
+    { slug: "denim", name: "Le Denim", page: "denim" },
+    { slug: "t-shirts", name: "Les Tees", page: "tees" },
+    { slug: "shorts", name: "Les Shorts", page: "shorts" },
+    { slug: "sets-full", name: "Ensembles", page: "ensembles" },
+    { slug: "sets-half", name: "Demi-Sets", page: "demi-sets" }
   ];
 
   var PRODUCTS = [
@@ -222,7 +222,7 @@
   function img(p, n) { return 'assets/' + p.folder + '/' + IMG[n] + '.web.jpg?v=' + ((window.DOLCE_SETTINGS || {}).imageVersion || 1); }
   function inr(n) { return '\u20b9' + Number(n).toLocaleString('en-IN'); }
   function salePrice(p) { return Math.round(p.price * 0.8); }
-  function href(p) { return 'Product Detail.dc.html?p=' + p.slug; }
+  function href(p) { return 'product?p=' + p.slug; }
   function bySlug(s) { for (var i = 0; i < PRODUCTS.length; i++) if (PRODUCTS[i].slug === s) return PRODUCTS[i]; return null; }
   function inCat(c) { return c ? PRODUCTS.filter(function (p) { return p.category === c; }) : PRODUCTS.slice(); }
   function card(p) {
@@ -241,7 +241,7 @@
     hrefForImg: function (path) {
       path = path || '';
       for (var i = 0; i < PRODUCTS.length; i++) if (path.indexOf('/' + PRODUCTS[i].folder + '/') > -1) return href(PRODUCTS[i]);
-      return 'Shop All.dc.html';
+      return 'shop';
     },
     card: card,
     slugForImg: function (path) {

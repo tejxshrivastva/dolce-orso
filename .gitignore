@@ -10,3 +10,4 @@ screenshot-*.png
 .claude/
 .thumbnail
 make-card-images.py
+make-clean-pages.py
