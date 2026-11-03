@@ -36,16 +36,16 @@ window.DOLCE_SETTINGS = {
 
   // Raise this number by 1 whenever you replace product photos, so every
   // visitor's browser downloads the new pictures instead of showing old ones.
-  imageVersion: 21,
+  imageVersion: 22,
 
   // Hand-picked product lists for the Gift Guide and Most Loved pages.
   // Use the "slug" of each product from products.js.
   gifts: [
-    'atelier-co-ord-set', 'cashmere-touch-track-set', 'ceremony-two-piece', 'printed-ensemble',
-    'riviera-tee-short', 'polo-bermuda-set', 'artisan-print-set', 'plage-day-set'
+    'category-4-product-1', 'category-4-product-2', 'category-4-product-3', 'category-4-product-4',
+    'category-5-product-1', 'category-5-product-2', 'category-5-product-4', 'category-5-product-10'
   ],
   mostLoved: [
     'asymmetric-flap-cargo-jeans', 'swirl-panel-wide-jeans', 'starboy-graphic-tee', 'crochet-mandala-tee',
-    'utility-bermuda-shorts', 'riviera-board-shorts', 'atelier-co-ord-set', 'riviera-tee-short'
+    'category-3-product-1', 'category-3-product-2', 'category-4-product-1', 'category-5-product-1'
   ]
 };

@@ -130,7 +130,7 @@ window.DOLCE_PAGES = {
     articles: [
       { tag: 'Style notes', t: 'The Denim Edit', d: 'Balloon legs, carpenter pockets and graphic washes: how to wear the season’s denim.', cat: 'denim', href: 'denim' },
       { tag: 'Layering', t: 'Tees that do more', d: 'From crisp whites to stripes, the simple pieces that anchor every outfit.', cat: 't-shirts', href: 'tees' },
-      { tag: 'Guide', t: 'Sets, simplified', d: 'Matching sets for the mornings when you need to be out of the door in five minutes.', cat: 'sets-full', href: 'ensembles' }
+      { tag: 'Guide', t: 'Sets, simplified', d: 'Matching sets for the mornings when you need to be out of the door in five minutes.', cat: 'sets-full', href: 'category-4' }
     ]
   },
 

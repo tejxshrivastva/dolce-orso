@@ -395,7 +395,7 @@ class Component extends DCLogic {
     const t = this.state.catT || 0;
     const mob = vw < 768;
     const boxPx = mob ? Math.min(vw * 0.44, 200) : Math.min(vw * 0.20, 270);
-    const names = ['Le Denim','Les Tees','Les Shorts','Ensembles','Demi-Sets'];
+    const names = ['Le Denim','Les Tees','Category 3','Category 4','Category 5'];
     const slugs = ['denim','t-shirts','shorts','sets-full','sets-half'];
     const images = ['', '', '', '', ''];
     const bw = boxPx / vw * 100;
@@ -502,13 +502,13 @@ class Component extends DCLogic {
     const categories = [
       { name: 'Le Denim', slug: 'denim', pageLink: 'denim', thumbImg: DOLCE.cover('denim'), thumbEl: null, products: mk('denim',DOLCE.names('denim',8),DOLCE.prices('denim',8),DOLCE.imgs('denim',8)) },
       { name: 'Les Tees', slug: 't-shirts', pageLink: 'tees', thumbImg: DOLCE.cover('t-shirts'), thumbEl: React.createElement('img', { src: DOLCE.cover('t-shirts'), style: { width: '100%', height: '100%', objectFit: 'cover', transform: 'scale(1)' } }), products: mk('t-shirts',DOLCE.names('t-shirts',8),DOLCE.prices('t-shirts',8),DOLCE.imgs('t-shirts',8)) },
-      { name: 'Les Shorts', slug: 'shorts', pageLink: 'shorts', thumbImg: DOLCE.cover('shorts'), thumbEl: React.createElement('img', { src: DOLCE.cover('shorts'), style: { width: '100%', height: '100%', objectFit: 'cover' } }), products: mk('shorts',DOLCE.names('shorts',8),DOLCE.prices('shorts',8),DOLCE.imgs('shorts',8)) },
-      { name: 'Ensembles', slug: 'sets-full', pageLink: 'ensembles', thumbImg: DOLCE.cover('sets-full'), thumbEl: React.createElement('img', { src: DOLCE.cover('sets-full'), style: { width: '100%', height: '100%', objectFit: 'cover' } }), products: mk('sets-full',DOLCE.names('sets-full',8),DOLCE.prices('sets-full',8),DOLCE.imgs('sets-full',8)) },
-      { name: 'Demi-Sets', slug: 'sets-half', pageLink: 'demi-sets', thumbImg: DOLCE.cover('sets-half'), thumbEl: React.createElement('img', { src: DOLCE.cover('sets-half'), style: { width: '100%', height: '100%', objectFit: 'cover' } }), products: mk('sets-half',DOLCE.names('sets-half',8),DOLCE.prices('sets-half',8),DOLCE.imgs('sets-half',8)) }
+      { name: 'Category 3', slug: 'shorts', pageLink: 'category-3', thumbImg: DOLCE.cover('shorts'), thumbEl: React.createElement('img', { src: DOLCE.cover('shorts'), style: { width: '100%', height: '100%', objectFit: 'cover' } }), products: mk('shorts',DOLCE.names('shorts',8),DOLCE.prices('shorts',8),DOLCE.imgs('shorts',8)) },
+      { name: 'Category 4', slug: 'sets-full', pageLink: 'category-4', thumbImg: DOLCE.cover('sets-full'), thumbEl: React.createElement('img', { src: DOLCE.cover('sets-full'), style: { width: '100%', height: '100%', objectFit: 'cover' } }), products: mk('sets-full',DOLCE.names('sets-full',8),DOLCE.prices('sets-full',8),DOLCE.imgs('sets-full',8)) },
+      { name: 'Category 5', slug: 'sets-half', pageLink: 'category-5', thumbImg: DOLCE.cover('sets-half'), thumbEl: React.createElement('img', { src: DOLCE.cover('sets-half'), style: { width: '100%', height: '100%', objectFit: 'cover' } }), products: mk('sets-half',DOLCE.names('sets-half',8),DOLCE.prices('sets-half',8),DOLCE.imgs('sets-half',8)) }
     ];
     const panelImages = ['denim','t-shirts','shorts','sets-full','sets-half'].map(c => DOLCE.cover(c));
-    const panelLinks = ['denim','tees','shorts','ensembles','demi-sets'];
-    const panelNames2 = ['Le Denim','Les Tees','Les Shorts','Ensembles','Demi-Sets'];
+    const panelLinks = ['denim','tees','category-3','category-4','category-5'];
+    const panelNames2 = ['Le Denim','Les Tees','Category 3','Category 4','Category 5'];
     const ap = this.state.activePanel ?? 0;
     const panels = panelNames2.map((name, i) => ({ name, num: String(i+1).padStart(2,'0'), href: panelLinks[i], img: panelImages[i], flex: i === ap ? '2.6 1 0%' : '1 1 0%', imgScale: i === ap ? 'scale(1.04)' : 'scale(1)', discoverOpacity: i === ap ? '1' : '0', onEnter: () => this.setState({ activePanel: i }), onLeave: () => {} }));
     const scrolled = this.state.scrolled;
@@ -548,9 +548,9 @@ class Component extends DCLogic {
       megaCats: [
         { name: 'Le Denim', img: DOLCE.cover('denim'), anchor: 'denim' },
         { name: 'Les Tees', img: DOLCE.cover('t-shirts'), anchor: 'tees' },
-        { name: 'Les Shorts', img: DOLCE.cover('shorts'), anchor: 'shorts' },
-        { name: 'Ensembles', img: DOLCE.cover('sets-full'), anchor: 'ensembles' },
-        { name: 'Demi-Sets', img: DOLCE.cover('sets-half'), anchor: 'demi-sets' },
+        { name: 'Category 3', img: DOLCE.cover('shorts'), anchor: 'shorts' },
+        { name: 'Category 4', img: DOLCE.cover('sets-full'), anchor: 'ensembles' },
+        { name: 'Category 5', img: DOLCE.cover('sets-half'), anchor: 'demi-sets' },
       ],
       toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
       gridCols: vw >= 1024 ? 'repeat(4, 1fr)' : vw >= 768 ? 'repeat(3, 1fr)' : 'repeat(2, 1fr)',
