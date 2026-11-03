@@ -36,7 +36,7 @@ window.DOLCE_SETTINGS = {
 
   // Raise this number by 1 whenever you replace product photos, so every
   // visitor's browser downloads the new pictures instead of showing old ones.
-  imageVersion: 24,
+  imageVersion: 25,
 
   // Hand-picked product lists for the Gift Guide and Most Loved pages.
   // Use the "slug" of each product from products.js.
@@ -46,6 +46,6 @@ window.DOLCE_SETTINGS = {
   ],
   mostLoved: [
     'asymmetric-flap-cargo-jeans', 'swirl-panel-wide-jeans', 'starboy-graphic-tee', 'crochet-mandala-tee',
-    'hoodies-product-1', 'hoodies-product-2', 'jackets-product-1', 'category-5-product-1'
+    'embossed-crest-zip-hoodie', 'hoodies-product-2', 'jackets-product-1', 'category-5-product-1'
   ]
 };

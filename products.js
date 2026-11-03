@@ -104,9 +104,9 @@
     description: "A black oversized tee with bold red graffiti lettering, a hand-drawn figure in a cap and a red star across the front, and a small matching graffiti tag on the back." },
 
   // ---- Hoodies ----
-  { slug: "hoodies-product-1", name: "Product 1", category: "hoodies", price: 4199, sale: true, folder: "pdp-utility-bermuda-shorts",
-    details: ["Soft cotton fabric", "Relaxed everyday fit", "Made for daily wear", "Details coming soon"],
-    description: "A piece from the Dolce Orso Autumn/Winter collection. Full product details coming soon." },
+  { slug: "embossed-crest-zip-hoodie", name: "Embossed Crest Zip Hoodie", category: "hoodies", price: 4199, sale: true, folder: "pdp-embossed-crest-zip-hoodie", hov: true, noSide: true,
+    details: ["Black leather-look finish", "Hooded zip-up with ribbed hem and cuffs", "Embossed Dolce Orso crest on the chest and back", "Silver cross studs and zip sleeve pockets"],
+    description: "A black hooded zip-up in a leather-look finish, with an embossed Dolce Orso crest on the chest, a large crest across the back, embossed floral sleeves and silver cross studs." },
   { slug: "hoodies-product-2", name: "Product 2", category: "hoodies", price: 4399, sale: false, folder: "pdp-riviera-board-shorts",
     details: ["Soft cotton fabric", "Relaxed everyday fit", "Made for daily wear", "Details coming soon"],
     description: "A piece from the Dolce Orso Autumn/Winter collection. Full product details coming soon." },
