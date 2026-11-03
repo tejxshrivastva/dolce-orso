@@ -9,3 +9,4 @@ _old-versions/
 screenshot-*.png
 .claude/
 .thumbnail
+make-card-images.py

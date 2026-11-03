@@ -9,8 +9,9 @@
           1-model-front.web.jpg, 2-product-front.web.jpg,
           3-model-side.web.jpg, 4-product-side.web.jpg,
           5-model-back.web.jpg, 6-product-back.web.jpg
-        The card shows card.web.jpg (the front-model photo with extra white margin
-        so the whole child fits the card; copy 1-model-front if unsure) and switches to hero on hover.
+        The card shows card.web.jpg and switches to hover.web.jpg on hover. Do NOT make these by hand:
+        after adding hero.web.jpg and 1-model-front.web.jpg run  python3 make-card-images.py <folder-name>
+        (it keeps the whole child inside the card with room above the head and below the shoes), then add  hov: true.
         No side views (e.g. t-shirts)? add  noSide: true  to the product and skip files 3 and 4.
      4. Set  folder  to that folder name.  That's it - every page updates.
    price = normal price in rupees.  sale: true = shows 20% off.
