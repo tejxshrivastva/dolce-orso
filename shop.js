@@ -714,3 +714,66 @@
   document.addEventListener('DOMContentLoaded', tick);
   tick();
 })();
+
+/* ---------- product-card hover slideshow ----------
+   Hover a card: it steps through the product page's slider photos in order (front product, side/back views ...)
+   and ends on the product page's left-panel photo, which stays until the mouse leaves. Touch screens are unaffected.
+   Works on every page, on any <img> pair made of  .../card.web.jpg  +  .../hover.web.jpg  (or hero.web.jpg). */
+(function () {
+  var D = window.DOLCE;
+  if (!D || !window.matchMedia || !matchMedia('(hover: hover)').matches) return;
+  var STEP = 750;                                   // ms each photo stays before the next one
+  var cache = {}, active = null, run = 0;
+  function preload(u) { return cache[u] || (cache[u] = new Promise(function (ok) { var i = new Image(); i.onload = i.onerror = ok; i.src = u; })); }
+  function sleep(ms) { return new Promise(function (ok) { setTimeout(ok, ms); }); }
+  function cardAt(target) {
+    for (var el = target; el && el !== document.body; el = el.parentElement) {
+      var c = el.querySelector && el.querySelector('img[src*="/card.web.jpg"]');
+      if (c) {
+        var ph = c.parentElement, imgs = ph.querySelectorAll('img');
+        if (imgs.length < 2) return null;
+        var h = imgs[1] === c ? imgs[0] : imgs[1];
+        var m = /assets\/([^/]+)\//.exec(c.getAttribute('src'));
+        var p = m && D.products.filter(function (x) { return x.folder === m[1]; })[0];
+        if (!p || !p.hov) return null;
+        return { ph: ph, h: h, p: p, base: c.getAttribute('src').replace(/[^/]+$/, '').replace(/\?.*$/, ''), v: (c.getAttribute('src').split('?')[1] || '') };
+      }
+    }
+    return null;
+  }
+  function frames(k) {
+    var names = ['2-product-front', '3-model-side', '4-product-side', '5-model-back', '6-product-back'];
+    return names.filter(function (n) { return !(k.p.noSide && /side/.test(n)); })
+                .map(function (n) { return k.base + n + '.web.jpg' + (k.v ? '?' + k.v : ''); });
+  }
+  function start(k) {
+    var h = k.h, my = ++run;
+    if (!h.dataset.orig) h.dataset.orig = h.getAttribute('src');
+    var list = frames(k), last = h.dataset.orig;
+    list.forEach(preload);
+    (async function () {
+      for (var i = 0; i < list.length; i++) {
+        await preload(list[i]);
+        if (run !== my) return;
+        h.setAttribute('src', list[i]);
+        await sleep(STEP);
+        if (run !== my) return;
+      }
+      h.setAttribute('src', last);                  // the product page's left-panel photo, held until un-hover
+    })();
+  }
+  function stop(k) {
+    run++;
+    var h = k.h, orig = h.dataset.orig;
+    if (!orig) return;
+    setTimeout(function () { if (!active || active.h !== h) h.setAttribute('src', orig); }, 380);   // after the fade-out
+  }
+  document.addEventListener('mouseover', function (e) {
+    var k = cardAt(e.target);
+    if ((k && active && k.ph === active.ph) || (!k && !active)) return;
+    var prev = active; active = k;
+    if (prev) stop(prev);
+    if (k) start(k);
+  });
+  document.addEventListener('mouseout', function (e) { if (e.relatedTarget) return; if (active) { var prev = active; active = null; stop(prev); } });
+})();
