@@ -41,11 +41,11 @@ window.DOLCE_SETTINGS = {
   // Hand-picked product lists for the Gift Guide and Most Loved pages.
   // Use the "slug" of each product from products.js.
   gifts: [
-    'jackets-product-1', 'jackets-product-2', 'jackets-product-3', 'jackets-product-4',
+    'hoodies-product-1', 'hoodies-product-2', 'hoodies-product-3', 'hoodies-product-4',
     'category-5-product-1', 'category-5-product-2', 'category-5-product-4', 'category-5-product-10'
   ],
   mostLoved: [
     'asymmetric-flap-cargo-jeans', 'swirl-panel-wide-jeans', 'starboy-graphic-tee', 'crochet-mandala-tee',
-    'embossed-crest-zip-hoodie', 'armoured-panel-denim-jacket', 'jackets-product-1', 'category-5-product-1'
+    'embossed-crest-zip-hoodie', 'armoured-panel-denim-jacket', 'hoodies-product-1', 'category-5-product-1'
   ]
 };
