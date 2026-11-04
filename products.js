@@ -113,7 +113,7 @@
   { slug: "tribal-layered-zip-hoodie", name: "Tribal Layered Zip Hoodie", category: "hoodies", price: 999, sale: false, folder: "pdp-tribal-layered-zip-hoodie", hov: true, noSide: true,
     details: ["Heavy black and grey fleece", "Oversized boxy fit", "Gothic tribal embroidery on the chest and sleeves", "Zip front, kangaroo pockets and ribbed hem"],
     description: "An oversized black and grey zip hoodie with a torn-edge layered panel over the body, gothic tribal embroidery across the chest and sleeves, silver star studs and a front zip." },
-  { slug: "icy-grey-puffer-jacket", name: "Icy Grey Puffer Jacket", category: "hoodies", price: 899, sale: false, folder: "pdp-icy-grey-puffer-jacket", hov: true, noSide: true,
+  { slug: "icy-grey-puffer-jacket", name: "Icy Grey Puffer Jacket", category: "hoodies", price: 8000, sale: false, folder: "pdp-icy-grey-puffer-jacket", hov: true, noSide: true,
     details: ["Quilted icy grey puffer fabric", "Cropped, roomy fit with a lined hood", "Snap front with two flap pockets", "Ribbed grey hem and cuffs"],
     description: "A cropped icy grey puffer jacket with a soft quilted finish, a snap front, two flap pockets, a ribbed hem and a small Dolce Orso logo on the chest." },
   { slug: "silver-swirl-bomber-jacket", name: "Silver Swirl Bomber Jacket", category: "hoodies", price: 4299, sale: false, folder: "pdp-silver-swirl-bomber-jacket", hov: true, noSide: true,
