@@ -137,9 +137,9 @@
   { slug: "capsule-red-leather-jacket", name: "Capsule Red Leather Jacket", category: "jackets", price: 6899, sale: false, folder: "pdp-capsule-red-leather-jacket", hov: true, noSide: true,
     details: ["Glossy red leather-look finish", "High collar with metal toggle fastenings", "Quilted shoulder panels and flap pockets", "Capsule emblem embroidered on the back"],
     description: "A glossy red leather-look jacket with a high collar, metal toggle fastenings, quilted shoulder panels, flap pockets, an elasticated hem and a large capsule emblem embroidered across the back." },
-  { slug: "jackets-product-12", name: "Product 12", category: "jackets", price: 7199, sale: false, folder: "pdp-racing-stripe-shorts",
-    details: ["Soft cotton fabric", "Relaxed everyday fit", "Made for daily wear", "Details coming soon"],
-    description: "A piece from the Dolce Orso Autumn/Winter collection. Full product details coming soon." },
+  { slug: "dragon-tiger-leather-jacket", name: "Dragon and Tiger Leather Jacket", category: "jackets", price: 7199, sale: false, folder: "pdp-dragon-tiger-leather-jacket", hov: true, noSide: true,
+    details: ["Smooth black leather-look finish", "Embroidered dragon and tiger across the back", "Collar with a full silver zip front and zip pockets", "Buckle tabs at the waist"],
+    description: "A smooth black leather-look jacket with a classic collar, a full silver zip, a small Dolce Orso mark on the chest, buckle tabs at the waist and a large embroidered dragon and tiger across the back." },
 
   // ---- Hoodies ----
   { slug: "hoodies-product-1", name: "Product 1", category: "hoodies", price: 4999, sale: true, folder: "pdp-atelier-co-ord-set",
