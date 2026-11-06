@@ -36,7 +36,7 @@ window.DOLCE_SETTINGS = {
 
   // Raise this number by 1 whenever you replace product photos, so every
   // visitor's browser downloads the new pictures instead of showing old ones.
-  imageVersion: 39,
+  imageVersion: 40,
 
   // Hand-picked product lists for the Gift Guide and Most Loved pages.
   // Use the "slug" of each product from products.js.
