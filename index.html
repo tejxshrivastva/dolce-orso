@@ -3,17 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./products.js?v=39"></script>
-<script src="./settings.js?v=39"></script>
-<script src="./pages.js?v=39"></script>
-<script src="./shop.js?v=39"></script>
+<script src="./products.js?v=40"></script>
+<script src="./settings.js?v=40"></script>
+<script src="./pages.js?v=40"></script>
+<script src="./shop.js?v=40"></script>
 <script src="./support.js"></script>
 </head>
 <body>
 <x-dc>
 
 <helmet>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
 body{margin:0;font-family:'Inter',sans-serif;font-feature-settings:'ss01';color:#000;background:#fff;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
 *,*::before,*::after{cursor:url(''), auto}
@@ -30,8 +30,8 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 @keyframes jiggle4{0%,100%{transform:rotate(-0.6deg) translateX(1px)}50%{transform:rotate(0.6deg) translateX(-1px)}}
 </style>
 <script type="module" src="https://unpkg.com/@google/model-viewer@3.5.0/dist/model-viewer.min.js"></script>
-<script src="./home-objects.js?v=39"></script>
-<script src="./hero-slides.js?v=39"></script>
+<script src="./home-objects.js?v=40"></script>
+<script src="./hero-slides.js?v=40"></script>
 <script src="./panda-drag.js"></script>
 <script src="./locale-switcher.js"></script>
 </helmet>
@@ -121,9 +121,9 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 </div>
 </header>
 
-<!-- HERO SECTION -->
-<section style="height:100vh;min-height:560px;position:relative;overflow:hidden;background:#000;color:#fff">
-<div id="hero-media" style="position:absolute;inset:0;z-index:0;background:#000;overflow:hidden">
+<!-- HERO SECTION (photo slideshow; styles + logic live in hero-slides.js) -->
+<section class="hs-hero" aria-label="Dolce Orso campaign">
+<div id="hero-media" style="position:absolute;z-index:0;background:#000;overflow:hidden">
 <img class="hs-slide on" src="assets/hero/01-airborne-tribal-denim.webp" alt="Boy mid-air in black tribal-print wide jeans" style="--x:50%" fetchpriority="high" decoding="async" draggable="false">
 <img class="hs-slide" data-src="assets/hero/02-dragon-tiger-crouch.webp" alt="Boy in a black leather jacket with dragon and tiger embroidery" style="--x:70%" decoding="async" draggable="false">
 <img class="hs-slide" data-src="assets/hero/03-fur-and-croc-duo.webp" alt="Two boys in a brown faux fur jacket and a red croc bomber" style="--x:66%" decoding="async" draggable="false">
@@ -136,28 +136,31 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 <img class="hs-slide" data-src="assets/hero/10-fur-street.webp" alt="Boy in a brown faux fur jacket and black cargo jeans" style="--x:63%" decoding="async" draggable="false">
 <img class="hs-slide" data-src="assets/hero/11-rooftop-parkour.webp" alt="Boy vaulting a rooftop ledge in a red croc bomber" style="--x:60%" decoding="async" draggable="false">
 <div class="hs-shade"></div>
+<div class="hs-grain"></div>
 </div>
-<div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(88px,12vh,120px) clamp(16px,2vw,28px) clamp(28px,5vh,48px)">
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:clamp(24px,4vw,64px);align-items:end;text-align:{{ fAlign }}">
-<div style="display:flex;flex-direction:column;align-items:{{ fItems }};gap:clamp(14px,2vh,22px)">
-<div style="display:flex;align-items:center;gap:12px">
-<span style="width:6px;height:6px;border-radius:50%;background:#fff"></span>
-<span style="font-size:11px;letter-spacing:0.55px;text-transform:uppercase;font-weight:500;font-family:'JetBrains Mono',monospace;color:rgba(255,255,255,0.85)">Little Gentlemen — Autumn/Winter</span>
+<div class="hs-ui">
+<div class="hs-main">
+<div class="hs-left">
+<span class="hs-eyebrow hs-rise" style="--i:0"><s></s>Little Gentlemen &mdash; Autumn/Winter</span>
+<h1 class="hs-title"><span class="hs-line"><span class="hs-rise" style="--i:1">Nouvelle</span></span><span class="hs-line"><em class="hs-rise" style="--i:2">Collection</em></span></h1>
 </div>
-<h1 style="font-size:clamp(40px,9vw,148px);font-weight:500;line-height:0.92;letter-spacing:-0.045em;margin:0;text-wrap:balance">Nouvelle<br>Collection</h1>
-</div>
-<div style="display:flex;flex-direction:column;align-items:{{ fItems }};gap:24px;max-width:420px;justify-self:{{ fSelf }};width:100%">
-<p style="margin:0;font-size:15px;line-height:1.55;color:rgba(255,255,255,0.8);text-wrap:pretty">Premium denim, tees, hoodies and jackets. Thoughtfully crafted for the world's most discerning little gentlemen.</p>
-<div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:{{ fItems }}">
-<a href="#shop-by-category-scroll" style="display:inline-flex;align-items:center;gap:10px;height:48px;padding:0 24px;border-radius:999px;background:#fff;color:#000;font-size:11px;letter-spacing:0.55px;text-transform:uppercase;font-family:'JetBrains Mono',monospace;font-weight:500;transition:background 0.2s" style-hover="background:#e8e6e3;color:#000">Explore the Collection<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="13 6 19 12 13 18"></polyline></svg></a>
-<a href="shop" style="display:inline-flex;align-items:center;height:48px;padding:0 24px;border-radius:999px;border:1px solid rgba(255,255,255,0.4);color:#fff;font-size:11px;letter-spacing:0.55px;text-transform:uppercase;font-family:'JetBrains Mono',monospace;font-weight:500;transition:border-color 0.2s" style-hover="border-color:#fff;color:#fff">Shop All</a>
+<div class="hs-right">
+<p class="hs-rise" style="--i:3">Premium denim, tees, hoodies and jackets. Thoughtfully crafted for the world's most discerning little gentlemen.</p>
+<div class="hs-ctas hs-rise" style="--i:4">
+<a class="hs-btn hs-solid" href="#shop-by-category-scroll">Explore the Collection<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="13 6 19 12 13 18"></polyline></svg></a>
+<a class="hs-btn hs-glass" href="shop">Shop All</a>
 </div>
 </div>
 </div>
-<div style="margin-top:clamp(28px,5vh,48px);padding-top:16px;border-top:1px solid rgba(255,255,255,0.2);display:flex;justify-content:space-between;align-items:center;gap:16px;font-size:11px;letter-spacing:0.55px;text-transform:uppercase;font-family:'JetBrains Mono',monospace;color:rgba(255,255,255,0.75)">
-<span>Dolce Orso — AW25</span>
-<span class="hs-count" aria-hidden="true"><b>01</b><i><u></u></i><b>11</b></span>
-<a href="#shop-by-category-scroll" style="display:flex;align-items:center;gap:8px;color:rgba(255,255,255,0.75)" style-hover="color:#fff">Scroll<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="6 13 12 19 18 13"></polyline></svg></a>
+<div class="hs-bar hs-rise" style="--i:5">
+<span class="hs-season">Dolce Orso &mdash; AW25</span>
+<div class="hs-nav">
+<button type="button" class="hs-arrow hs-prev" aria-label="Previous photo"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="15 6 9 12 15 18"></polyline></svg></button>
+<span class="hs-num" aria-live="polite"><b>01</b><i></i><em>11</em></span>
+<div class="hs-segs"></div>
+<button type="button" class="hs-arrow hs-next" aria-label="Next photo"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="9 6 15 12 9 18"></polyline></svg></button>
+</div>
+<a class="hs-scroll" href="#shop-by-category-scroll">Scroll<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="6 13 12 19 18 13"></polyline></svg></a>
 </div>
 </div>
 </section>
