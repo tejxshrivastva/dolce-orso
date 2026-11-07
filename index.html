@@ -29,6 +29,7 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 @keyframes jiggle3{0%,100%{transform:rotate(0.7deg)}50%{transform:rotate(-0.7deg)}}
 @keyframes jiggle4{0%,100%{transform:rotate(-0.6deg) translateX(1px)}50%{transform:rotate(0.6deg) translateX(-1px)}}
 </style>
+<script src="./home-objects.js?v=19"></script>
 <script src="./panda-drag.js"></script>
 <script src="./locale-switcher.js"></script>
 </helmet>
@@ -145,48 +146,27 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 </div>
 </section>
 
-<!-- CATEGORY COLLECTION PANELS -->
-<section id="shop-by-category-scroll" style="margin-top:clamp(60px,10vw,120px);margin-bottom:clamp(60px,10vw,120px)">
-<!-- Desktop accordion panels -->
-<div style="display:{{ accordionDisplay }};flex-direction:column;gap:clamp(24px,3vw,40px);padding:0 clamp(8px,1vw,16px)">
-<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap">
-<div style="display:flex;flex-direction:column;gap:8px">
-<span style="font-size:11px;letter-spacing:0.55px;text-transform:uppercase;font-weight:500;font-family:'JetBrains Mono',monospace;color:#888">The Collections</span>
-<h2 style="margin:0;font-size:clamp(28px,3.5vw,48px);font-weight:500;letter-spacing:-0.04em;line-height:1.05">Five wardrobes for the<br>young gentleman</h2>
+<!-- CATEGORY OBJECT CANVAS (styles + hover views live in home-objects.js) -->
+<section id="shop-by-category-scroll" class="dco-section">
+<div class="dco-head">
+<div><span class="dco-eyebrow">Shop by category</span><h2 class="dco-title">Four wardrobes for the<br>young gentleman</h2></div>
+<a class="dco-all" href="shop">View the Wardrobe</a>
 </div>
-<a href="shop" style="font-size:11px;letter-spacing:0.55px;text-transform:uppercase;font-family:'JetBrains Mono',monospace;font-weight:500;color:#000;border-bottom:1px solid #000;padding-bottom:4px;white-space:nowrap;flex-shrink:0" style-hover="color:#555;border-color:#555">View the Wardrobe</a>
-</div>
-<div style="display:flex;gap:8px;height:max(600px,calc(100svh - 120px))">
-<sc-for list="{{ panels }}" as="panel" hint-placeholder-count="4">
-<a href="{{ panel.href }}" onMouseEnter="{{ panel.onEnter }}" onMouseLeave="{{ panel.onLeave }}" style="flex:{{ panel.flex }};position:relative;border-radius:20px;overflow:hidden;background:#000;text-decoration:none;display:flex;align-items:center;justify-content:center;transition:flex 0.7s cubic-bezier(0.22,1,0.36,1);min-width:0">
-<span style="position:absolute;top:16px;left:18px;font-size:11px;font-family:'JetBrains Mono',monospace;color:rgba(255,255,255,0.85);z-index:2">{{ panel.num }}</span>
-<div style="position:absolute;bottom:0;left:0;right:0;padding:20px 24px;display:flex;align-items:flex-end;justify-content:space-between;gap:16px">
-<span style="color:#fff;font-size:clamp(18px,1.8vw,32px);font-weight:500;letter-spacing:-0.03em;line-height:1.1">{{ panel.name }}</span>
-<span style="color:#fff;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;font-family:'JetBrains Mono',monospace;border-bottom:1px solid rgba(255,255,255,0.8);padding-bottom:2px;opacity:{{ panel.discoverOpacity }};transition:opacity 0.4s ease;white-space:nowrap;flex-shrink:0">Discover</span>
-</div>
+<div class="dco-stage">
+<a class="dco-item" href="denim" aria-label="Shop Denim" data-views="assets/home-objects/denim-front.png" style="--x:20%;--y:37%;--w:15%;--ar:361/563;--d:0s;--r0:-1.5deg;--r1:1.2deg">
+<span class="dco-float"><img class="dco-img" src="assets/home-objects/denim-front.png" alt="Denim" draggable="false"><span class="dco-label"><i>01</i>Denim<b>Shop now</b></span></span>
 </a>
-</sc-for>
+<a class="dco-item" href="hoodies" aria-label="Shop Hoodies" data-views="assets/home-objects/hoodies-front.png" style="--x:41%;--y:67%;--w:19%;--ar:443/489;--d:-1.6s;--r0:1.2deg;--r1:-1.4deg">
+<span class="dco-float"><img class="dco-img" src="assets/home-objects/hoodies-front.png" alt="Hoodies" draggable="false"><span class="dco-label"><i>02</i>Hoodies<b>Shop now</b></span></span>
+</a>
+<a class="dco-item" href="jackets" aria-label="Shop Jackets" data-views="assets/home-objects/jackets-front.png" style="--x:60%;--y:35%;--w:16%;--ar:428/524;--d:-3.1s;--r0:-1deg;--r1:1.6deg">
+<span class="dco-float"><img class="dco-img" src="assets/home-objects/jackets-front.png" alt="Jackets" draggable="false"><span class="dco-label"><i>03</i>Jackets<b>Shop now</b></span></span>
+</a>
+<a class="dco-item" href="t-shirts" aria-label="Shop T-Shirts" data-views="assets/home-objects/t-shirts-front.png" style="--x:79%;--y:66%;--w:20%;--ar:437/423;--d:-4.4s;--r0:1.4deg;--r1:-1.2deg">
+<span class="dco-float"><img class="dco-img" src="assets/home-objects/t-shirts-front.png" alt="T-Shirts" draggable="false"><span class="dco-label"><i>04</i>T-Shirts<b>Shop now</b></span></span>
+</a>
 </div>
-</div>
-<!-- Mobile polaroid cards -->
-<div style="display:{{ polaroidDisplay }};height:100vh;position:relative;overflow:hidden">
-<div style="height:100%;overflow:hidden;padding:clamp(32px,5vh,60px) clamp(32px,5vw,60px)">
-<div style="position:absolute;left:50%;top:{{ catTextY }};transform:translate(-50%,-50%);text-align:center;opacity:{{ catTextOpacity }};pointer-events:none;z-index:10;white-space:nowrap">
-<h2 style="font-size:11px;font-weight:500;letter-spacing:0.55px;margin:0;text-transform:uppercase;font-family:'JetBrains Mono',monospace">SHOP BY CATEGORY</h2>
-</div>
-<sc-for list="{{ catBoxes }}" as="box" hint-placeholder-count="4">
-<div onMouseDown="{{ box.onDown }}" onClick="{{ box.onClick }}" onMouseEnter="{{ box.onEnter }}" onMouseLeave="{{ box.onLeave }}" style="position:absolute;width:{{ box.size }};left:{{ box.x }};top:{{ box.y }};transform:{{ box.transform }};z-index:{{ box.z }};text-decoration:none;box-shadow:0 12px 40px rgba(0,0,0,0.10);user-select:none;transition:{{ box.transition }};animation:{{ box.animation }}" style-hover="z-index:20;box-shadow:0 16px 48px rgba(0,0,0,0.15);cursor:url(''), pointer">
-<div style="background:#000;padding:clamp(6px,0.8vw,10px) clamp(6px,0.8vw,10px) clamp(28px,4vw,48px);border-radius:4px;pointer-events:none;position:relative;overflow:hidden">
-<div style="position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(105deg,transparent 45%,rgba(255,255,255,0.3) 49%,rgba(255,255,255,0.35) 50%,rgba(255,255,255,0.3) 51%,transparent 55%);background-size:200% 100%;animation:shine 2.5s ease-in-out infinite;opacity:{{ box.shineOpacity }};pointer-events:none;z-index:2;transition:opacity 0.3s ease"></div>
-<div style="width:100%;aspect-ratio:1;background:#000;border-radius:2px;overflow:hidden">
-{{ box.imgEl }}
-</div>
-<p style="margin:clamp(8px,1vw,14px) 0 0;text-align:center;font-size:clamp(14px,1.5vw,20px);font-weight:400;color:#000;font-family:'Inter',sans-serif;font-weight:500;letter-spacing:-0.22px">{{ box.name }}</p>
-</div>
-</div>
-</sc-for>
-</div>
-</div>
+<p class="dco-hint">Tap an item to shop</p>
 </section>
 
 <!-- CATEGORY SECTIONS -->
