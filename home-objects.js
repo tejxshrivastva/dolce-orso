@@ -6,8 +6,8 @@
    Jeans, hoodie and jacket are flat photos (<category>-front.webp / -back.webp) turned in 3D space.
    The T-shirt is a real 3D model (assets/home-objects/t-shirts.glb) shown with Google's model-viewer;
    the flat photos stay as a fallback if the viewer can't load.
-   All four spin together. The one you hover turns to face front and stops; when you move away it joins the spin again.
-   Spin speed: change CYCLE (milliseconds for one full turn) below.
+   Always turning at a constant speed; hover freezes it; drag turns it; let go and it spins on again.
+   Spin speed: change SPEED below (the 10000 = milliseconds per full turn).
    ===================================================================== */
 (function () {
   var css = [
@@ -18,7 +18,7 @@
     '.dco-all{font:500 11px/1 "JetBrains Mono",monospace;letter-spacing:.55px;text-transform:uppercase;color:#000;border-bottom:1px solid #000;padding-bottom:4px;white-space:nowrap;text-decoration:none}',
     '.dco-all:hover{color:#555;border-color:#555}',
     '.dco-stage{position:relative;width:100%;aspect-ratio:16/8.4;max-height:920px;background:#fff}',
-    '.dco-item{position:absolute;left:var(--x);top:var(--y);width:var(--w);transform:translate(-50%,-50%);display:block;text-decoration:none;color:#000;-webkit-tap-highlight-color:transparent;outline-offset:8px}',
+    '.dco-item{position:absolute;left:var(--x);top:var(--y);width:var(--w);transform:translate(-50%,-50%);display:block;touch-action:pan-y;user-select:none;-webkit-user-select:none;cursor:grab;text-decoration:none;color:#000;-webkit-tap-highlight-color:transparent;outline-offset:8px}',
     '.dco-float{position:relative;display:block;perspective:1400px;animation:dcoFloat 6.5s ease-in-out infinite;animation-delay:var(--d,0s)}',
     '.dco-spin{position:relative;display:block;width:100%;aspect-ratio:var(--ar);transform-style:preserve-3d;transition:scale .5s cubic-bezier(.22,1,.36,1)}',
     '.dco-item:hover .dco-spin,.dco-item:focus-visible .dco-spin{scale:1.07}',
@@ -42,8 +42,16 @@
   ].join('\n');
   var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 
-  // ---- the spin: one shared turntable clock; hovering an object parks it facing front ----
-  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  // ---- the spin ----
+  // Every object turns on its vertical axis at one constant speed, no gaps.
+  // Hover = it freezes where it is. Drag = it turns with your finger/mouse (with a little momentum).
+  // Let go and move away = it carries on spinning from wherever it stopped.
+  var SPEED = 360 / 10000;                 // degrees per ms  (360 / 10000 = one full turn every 10 seconds)
+  var DRAG = 0.45;                         // degrees turned per pixel dragged
+  var still = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+  var canHover = !!(window.matchMedia && matchMedia('(hover: hover)').matches);
+  var states = new WeakMap(), drag = null, moved = false, last = performance.now();
+
   // if the 3D viewer script can't load (offline, blocked), fall back to the flat photos
   function fallback3d() {
     var v = document.querySelectorAll('.dco-3d');
@@ -54,33 +62,30 @@
   }
   setTimeout(fallback3d, 9000);
   document.addEventListener('error', function (e) { if (e.target && e.target.tagName === 'MODEL-VIEWER') fallback3d(); }, true);
-  var CYCLE = 11000;                       // ms for one full turn
-  var canHover = !!(window.matchMedia && matchMedia('(hover: hover)').matches);
-  var t0 = performance.now(), states = new WeakMap();
-  function ease(t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
-  // rest facing front, turn to the back, rest, turn back to the front
-  function angleAt(f) {
-    if (f < .12) return 0;
-    if (f < .5) return 180 * ease((f - .12) / .38);
-    if (f < .62) return 180;
-    return 180 + 180 * ease((f - .62) / .38);
-  }
+
   function state(el) {
-    var st = states.get(el);
-    if (!st) { st = { disp: 0, hov: false, ret: false }; states.set(el, st); }
-    return st;
+    var s = states.get(el);
+    if (!s) { s = { a: 0, hov: false, vel: 0 }; states.set(el, s); }
+    return s;
+  }
+  function spinOf(item) { return item && item.querySelector('.dco-spin:not([style*="display: none"])'); }
+  function apply(el, a) {
+    var mv = el.firstElementChild;
+    if (mv && mv.tagName === 'MODEL-VIEWER') mv.cameraOrbit = (-a).toFixed(2) + 'deg 90deg 105%';
+    else el.style.transform = 'rotateY(' + a.toFixed(2) + 'deg)';
   }
   function frame(now) {
-    var g = (now - t0) / CYCLE, cyc = Math.floor(g), target = cyc * 360 + angleAt(g - cyc);
+    var dt = Math.min(now - last, 50); last = now;
     var spins = document.querySelectorAll('.dco-spin');
     for (var i = 0; i < spins.length; i++) {
       var el = spins[i], s = state(el);
-      if (s.hov) s.disp += (Math.round(s.disp / 360) * 360 - s.disp) * .14;
-      else if (s.ret) { s.disp += (target - s.disp) * .08; if (Math.abs(target - s.disp) < 1) s.ret = false; }
-      else s.disp = target;
-      var mv = el.firstElementChild;
-      if (mv && mv.tagName === 'MODEL-VIEWER') mv.cameraOrbit = (-s.disp).toFixed(2) + 'deg 90deg 105%';
-      else el.style.transform = 'rotateY(' + s.disp.toFixed(2) + 'deg)';
+      if (!(drag && drag.spin === el)) {
+        if (!s.hov && !still) s.a += SPEED * dt;
+        s.a += s.vel * dt;                       // momentum left over from a drag
+        s.vel *= Math.exp(-dt / 300);
+        if (Math.abs(s.vel) < 0.001) s.vel = 0;
+      }
+      apply(el, s.a);
     }
     requestAnimationFrame(frame);
   }
@@ -88,15 +93,44 @@
 
   if (canHover) {
     document.addEventListener('mouseover', function (e) {
-      var item = e.target.closest && e.target.closest('.dco-item'); if (!item) return;
-      var sp = item.querySelector('.dco-spin'); if (!sp) return;
-      var s = state(sp); s.hov = true; s.ret = false;
+      var item = e.target.closest && e.target.closest('.dco-item'), sp = spinOf(item); if (sp) state(sp).hov = true;
     });
     document.addEventListener('mouseout', function (e) {
       var item = e.target.closest && e.target.closest('.dco-item'); if (!item) return;
       var to = e.relatedTarget; if (to && to.closest && to.closest('.dco-item') === item) return;
-      var sp = item.querySelector('.dco-spin'); if (!sp) return;
-      var s = state(sp); s.hov = false; s.ret = true;
+      var sp = spinOf(item); if (sp) state(sp).hov = false;
     });
   }
+
+  // drag to turn
+  document.addEventListener('dragstart', function (e) { if (e.target.closest && e.target.closest('.dco-item')) e.preventDefault(); });
+  document.addEventListener('pointerdown', function (e) {
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    var item = e.target.closest && e.target.closest('.dco-item'), sp = spinOf(item); if (!sp) return;
+    drag = { item: item, spin: sp, id: e.pointerId, x: e.clientX, t: e.timeStamp, total: 0 };
+    moved = false; state(sp).vel = 0;
+    try { item.setPointerCapture(e.pointerId); } catch (err) {}
+  });
+  document.addEventListener('pointermove', function (e) {
+    if (!drag || e.pointerId !== drag.id) return;
+    var dx = e.clientX - drag.x, dtm = Math.max(e.timeStamp - drag.t, 1), s = state(drag.spin);
+    drag.total += Math.abs(dx); if (drag.total > 5) moved = true;
+    var da = dx * DRAG; s.a += da;
+    s.vel = Math.max(-0.5, Math.min(0.5, s.vel * .6 + (da / dtm) * .4));
+    drag.x = e.clientX; drag.t = e.timeStamp;
+  });
+  function endDrag(e) {
+    if (!drag || e.pointerId !== drag.id) return;
+    var item = drag.item, s = state(drag.spin);
+    if (e.timeStamp - drag.t > 80) s.vel = 0;     // held still before letting go: no throw
+    if (canHover) s.hov = item.matches(':hover');
+    drag = null;
+  }
+  document.addEventListener('pointerup', endDrag);
+  document.addEventListener('pointercancel', endDrag);
+  // a drag must not count as a click on the category link
+  document.addEventListener('click', function (e) {
+    if (moved && e.target.closest && e.target.closest('.dco-item')) { e.preventDefault(); e.stopPropagation(); }
+    moved = false;
+  }, true);
 })();
