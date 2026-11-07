@@ -3,8 +3,9 @@
    Four product cut-outs floating on white. Each one slowly spins on its own axis,
    showing its front and its back. Click one to open its category.
 
-   Photos live in assets/home-objects/ as <category>-front.webp and <category>-back.webp
-   (transparent background). To change an object, replace those two files.
+   Jeans, hoodie and jacket are flat photos (<category>-front.webp / -back.webp) turned in 3D space.
+   The T-shirt is a real 3D model (assets/home-objects/t-shirts.glb) shown with Google's model-viewer;
+   the flat photos stay as a fallback if the viewer can't load.
    All four spin together. The one you hover turns to face front and stops; when you move away it joins the spin again.
    Spin speed: change CYCLE (milliseconds for one full turn) below.
    ===================================================================== */
@@ -23,6 +24,7 @@
     '.dco-item:hover .dco-spin,.dco-item:focus-visible .dco-spin{scale:1.07}',
     '.dco-face{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;backface-visibility:hidden;-webkit-backface-visibility:hidden;user-select:none;-webkit-user-drag:none}',
     '.dco-back{transform:rotateY(180deg)}',
+    '.dco-3d model-viewer{position:absolute;inset:-14%;width:128%;height:128%;--poster-color:transparent;background:transparent;pointer-events:none}',
     '.dco-shadow{position:absolute;left:12%;right:12%;bottom:-3%;height:7%;border-radius:50%;background:radial-gradient(ellipse at center,rgba(0,0,0,.22),rgba(0,0,0,0) 70%);filter:blur(6px);pointer-events:none}',
     '.dco-label{position:absolute;left:50%;top:100%;transform:translate(-50%,10px);margin-top:10px;display:flex;flex-direction:column;align-items:center;gap:6px;white-space:nowrap;font:500 clamp(15px,1.5vw,22px)/1 "Inter",sans-serif;letter-spacing:-.02em}',
     '.dco-label i{font:500 10px/1 "JetBrains Mono",monospace;letter-spacing:.1em;color:#888;font-style:normal}',
@@ -42,6 +44,16 @@
 
   // ---- the spin: one shared turntable clock; hovering an object parks it facing front ----
   if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  // if the 3D viewer script can't load (offline, blocked), fall back to the flat photos
+  function fallback3d() {
+    var v = document.querySelectorAll('.dco-3d');
+    for (var i = 0; i < v.length; i++) {
+      if (customElements.get('model-viewer') && v[i].firstElementChild.loaded !== false) continue;
+      v[i].style.display = 'none'; var f = v[i].parentNode.querySelector('.dco-2d'); if (f) f.style.display = '';
+    }
+  }
+  setTimeout(fallback3d, 9000);
+  document.addEventListener('error', function (e) { if (e.target && e.target.tagName === 'MODEL-VIEWER') fallback3d(); }, true);
   var CYCLE = 11000;                       // ms for one full turn
   var canHover = !!(window.matchMedia && matchMedia('(hover: hover)').matches);
   var t0 = performance.now(), states = new WeakMap();
@@ -66,7 +78,9 @@
       if (s.hov) s.disp += (Math.round(s.disp / 360) * 360 - s.disp) * .14;
       else if (s.ret) { s.disp += (target - s.disp) * .08; if (Math.abs(target - s.disp) < 1) s.ret = false; }
       else s.disp = target;
-      el.style.transform = 'rotateY(' + s.disp.toFixed(2) + 'deg)';
+      var mv = el.firstElementChild;
+      if (mv && mv.tagName === 'MODEL-VIEWER') mv.cameraOrbit = (-s.disp).toFixed(2) + 'deg 90deg 105%';
+      else el.style.transform = 'rotateY(' + s.disp.toFixed(2) + 'deg)';
     }
     requestAnimationFrame(frame);
   }
