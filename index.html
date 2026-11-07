@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./products.js?v=38"></script>
-<script src="./settings.js?v=38"></script>
-<script src="./pages.js?v=38"></script>
-<script src="./shop.js?v=38"></script>
+<script src="./products.js?v=39"></script>
+<script src="./settings.js?v=39"></script>
+<script src="./pages.js?v=39"></script>
+<script src="./shop.js?v=39"></script>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -30,7 +30,8 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 @keyframes jiggle4{0%,100%{transform:rotate(-0.6deg) translateX(1px)}50%{transform:rotate(0.6deg) translateX(-1px)}}
 </style>
 <script type="module" src="https://unpkg.com/@google/model-viewer@3.5.0/dist/model-viewer.min.js"></script>
-<script src="./home-objects.js?v=38"></script>
+<script src="./home-objects.js?v=39"></script>
+<script src="./hero-slides.js?v=39"></script>
 <script src="./panda-drag.js"></script>
 <script src="./locale-switcher.js"></script>
 </helmet>
@@ -122,7 +123,20 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 
 <!-- HERO SECTION -->
 <section style="height:100vh;min-height:560px;position:relative;overflow:hidden;background:#000;color:#fff">
-<div id="hero-media" style="position:absolute;inset:0;background:#000"></div>
+<div id="hero-media" style="position:absolute;inset:0;z-index:0;background:#000;overflow:hidden">
+<img class="hs-slide on" src="assets/hero/01-airborne-tribal-denim.webp" alt="Boy mid-air in black tribal-print wide jeans" style="--x:50%" fetchpriority="high" decoding="async" draggable="false">
+<img class="hs-slide" data-src="assets/hero/02-dragon-tiger-crouch.webp" alt="Boy in a black leather jacket with dragon and tiger embroidery" style="--x:70%" decoding="async" draggable="false">
+<img class="hs-slide" data-src="assets/hero/03-fur-and-croc-duo.webp" alt="Two boys in a brown faux fur jacket and a red croc bomber" style="--x:66%" decoding="async" draggable="false">
+<img class="hs-slide" data-src="assets/hero/04-rainy-rockstar.webp" alt="Boy in a pink skeleton hoodie dancing in the rain" style="--x:56%" decoding="async" draggable="false">
+<img class="hs-slide" data-src="assets/hero/05-skateboard-puffer.webp" alt="Boy in a light blue Dolce Orso puffer on a skateboard" style="--x:60%" decoding="async" draggable="false">
+<img class="hs-slide" data-src="assets/hero/06-rain-city-duo.webp" alt="Two boys in a tribal zip hoodie and a magenta fur jacket at night" style="--x:52%" decoding="async" draggable="false">
+<img class="hs-slide" data-src="assets/hero/07-golden-scroll-parkour.webp" alt="Boy running up a wall in gold scroll embroidered jeans" style="--x:55%" decoding="async" draggable="false">
+<img class="hs-slide" data-src="assets/hero/08-loft-duo.webp" alt="Two boys in a neon face tee and an armoured denim jacket" style="--x:30%" decoding="async" draggable="false">
+<img class="hs-slide" data-src="assets/hero/09-butterfly-breakdance.webp" alt="Boy in a butterfly print tee breakdancing at a skatepark" style="--x:45%" decoding="async" draggable="false">
+<img class="hs-slide" data-src="assets/hero/10-fur-street.webp" alt="Boy in a brown faux fur jacket and black cargo jeans" style="--x:63%" decoding="async" draggable="false">
+<img class="hs-slide" data-src="assets/hero/11-rooftop-parkour.webp" alt="Boy vaulting a rooftop ledge in a red croc bomber" style="--x:60%" decoding="async" draggable="false">
+<div class="hs-shade"></div>
+</div>
 <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(88px,12vh,120px) clamp(16px,2vw,28px) clamp(28px,5vh,48px)">
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:clamp(24px,4vw,64px);align-items:end;text-align:{{ fAlign }}">
 <div style="display:flex;flex-direction:column;align-items:{{ fItems }};gap:clamp(14px,2vh,22px)">
@@ -142,6 +156,7 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 </div>
 <div style="margin-top:clamp(28px,5vh,48px);padding-top:16px;border-top:1px solid rgba(255,255,255,0.2);display:flex;justify-content:space-between;align-items:center;gap:16px;font-size:11px;letter-spacing:0.55px;text-transform:uppercase;font-family:'JetBrains Mono',monospace;color:rgba(255,255,255,0.75)">
 <span>Dolce Orso — AW25</span>
+<span class="hs-count" aria-hidden="true"><b>01</b><i><u></u></i><b>11</b></span>
 <a href="#shop-by-category-scroll" style="display:flex;align-items:center;gap:8px;color:rgba(255,255,255,0.75)" style-hover="color:#fff">Scroll<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="6 13 12 19 18 13"></polyline></svg></a>
 </div>
 </div>
