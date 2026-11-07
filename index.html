@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./products.js?v=30"></script>
-<script src="./settings.js?v=30"></script>
-<script src="./pages.js?v=30"></script>
-<script src="./shop.js?v=30"></script>
+<script src="./products.js?v=31"></script>
+<script src="./settings.js?v=31"></script>
+<script src="./pages.js?v=31"></script>
+<script src="./shop.js?v=31"></script>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -30,7 +30,7 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 @keyframes jiggle4{0%,100%{transform:rotate(-0.6deg) translateX(1px)}50%{transform:rotate(0.6deg) translateX(-1px)}}
 </style>
 <script type="module" src="https://unpkg.com/@google/model-viewer@3.5.0/dist/model-viewer.min.js"></script>
-<script src="./home-objects.js?v=30"></script>
+<script src="./home-objects.js?v=31"></script>
 <script src="./panda-drag.js"></script>
 <script src="./locale-switcher.js"></script>
 </helmet>
@@ -149,25 +149,38 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 
 <!-- CATEGORY OBJECT CANVAS (styles + spin live in home-objects.js) -->
 <section id="shop-by-category-scroll" class="dco-section">
+<span class="dco-mark" aria-hidden="true">DOLCE ORSO</span>
 <div class="dco-head">
-<div><span class="dco-eyebrow">Shop by category</span><h2 class="dco-title">Four wardrobes for the<br>young gentleman</h2></div>
-<a class="dco-all" href="shop">View the Wardrobe</a>
+<div><span class="dco-eyebrow"><s></s>Shop by category</span><h2 class="dco-title">Four wardrobes for the<br>young gentleman</h2></div>
+<a class="dco-all" href="shop">View the Wardrobe <u>&rarr;</u></a>
 </div>
 <div class="dco-stage">
-<a class="dco-item" href="denim" aria-label="Shop Denim" style="--x:20%;--y:37%;--w:17%;--ar:0.8;--d:0s;--r0:-1.5deg;--r1:1.2deg;--sd:0s">
-<span class="dco-float"><span class="dco-spin dco-3d"><model-viewer src="assets/home-objects/denim.glb" alt="Denim" camera-orbit="0deg 90deg 105%" min-camera-orbit="auto auto 105%" max-camera-orbit="auto auto 105%" field-of-view="30deg" exposure="1.1" shadow-intensity="0" environment-image="neutral" interaction-prompt="none" loading="eager" disable-zoom disable-pan></model-viewer></span><span class="dco-spin dco-2d" style="display:none"><img class="dco-face dco-front" src="assets/home-objects/denim-front.webp" alt="Denim" draggable="false"><img class="dco-face dco-back" src="assets/home-objects/denim-back.webp" alt="" draggable="false"></span><span class="dco-shadow"></span><span class="dco-label"><i>01</i>Denim<b>Shop now</b></span></span>
+<a class="dco-item" href="denim" aria-label="Shop Denim" style="--s:0.985;--d:0s">
+<span class="dco-spot"></span>
+<span class="dco-float"><span class="dco-spin dco-3d"><model-viewer src="assets/home-objects/denim.glb" alt="Denim" camera-orbit="0deg 90deg 105%" min-camera-orbit="auto auto 105%" max-camera-orbit="auto auto 105%" field-of-view="30deg" exposure="1.1" shadow-intensity="0" environment-image="neutral" interaction-prompt="none" loading="eager" disable-zoom disable-pan></model-viewer></span><span class="dco-spin dco-2d" style="display:none"><img class="dco-face dco-front" src="assets/home-objects/denim-front.webp" alt="Denim" draggable="false"><img class="dco-face dco-back" src="assets/home-objects/denim-back.webp" alt="" draggable="false"></span></span>
+<span class="dco-shadow"></span>
+<span class="dco-label"><i>01 &middot; 12 pieces</i><em>Denim</em><b>Shop now <u>&rarr;</u></b></span>
 </a>
-<a class="dco-item" href="hoodies" aria-label="Shop Hoodies" style="--x:41%;--y:67%;--w:20%;--ar:1/1;--d:-1.6s;--r0:1.2deg;--r1:-1.4deg;--sd:-2.6s">
-<span class="dco-float"><span class="dco-spin dco-3d"><model-viewer src="assets/home-objects/hoodies.glb" alt="Hoodies" camera-orbit="0deg 90deg 105%" min-camera-orbit="auto auto 105%" max-camera-orbit="auto auto 105%" field-of-view="30deg" exposure="1.1" shadow-intensity="0" environment-image="neutral" interaction-prompt="none" loading="eager" disable-zoom disable-pan></model-viewer></span><span class="dco-spin dco-2d" style="display:none"><img class="dco-face dco-front" src="assets/home-objects/hoodies-front.webp" alt="Hoodies" draggable="false"><img class="dco-face dco-back" src="assets/home-objects/hoodies-back.webp" alt="" draggable="false"></span><span class="dco-shadow"></span><span class="dco-label"><i>02</i>Hoodies<b>Shop now</b></span></span>
+<a class="dco-item" href="hoodies" aria-label="Shop Hoodies" style="--s:1.03;--d:-1.6s">
+<span class="dco-spot"></span>
+<span class="dco-float"><span class="dco-spin dco-3d"><model-viewer src="assets/home-objects/hoodies.glb" alt="Hoodies" camera-orbit="0deg 90deg 105%" min-camera-orbit="auto auto 105%" max-camera-orbit="auto auto 105%" field-of-view="30deg" exposure="1.1" shadow-intensity="0" environment-image="neutral" interaction-prompt="none" loading="eager" disable-zoom disable-pan></model-viewer></span><span class="dco-spin dco-2d" style="display:none"><img class="dco-face dco-front" src="assets/home-objects/hoodies-front.webp" alt="Hoodies" draggable="false"><img class="dco-face dco-back" src="assets/home-objects/hoodies-back.webp" alt="" draggable="false"></span></span>
+<span class="dco-shadow"></span>
+<span class="dco-label"><i>02 &middot; 12 pieces</i><em>Hoodies</em><b>Shop now <u>&rarr;</u></b></span>
 </a>
-<a class="dco-item" href="jackets" aria-label="Shop Jackets" style="--x:60%;--y:35%;--w:20%;--ar:1/1.1;--d:-3.1s;--r0:-1deg;--r1:1.6deg;--sd:-5.2s">
-<span class="dco-float"><span class="dco-spin dco-3d"><model-viewer src="assets/home-objects/jackets.glb" alt="Jackets" camera-orbit="0deg 90deg 105%" min-camera-orbit="auto auto 105%" max-camera-orbit="auto auto 105%" field-of-view="30deg" exposure="1.1" shadow-intensity="0" environment-image="neutral" interaction-prompt="none" loading="eager" disable-zoom disable-pan></model-viewer></span><span class="dco-spin dco-2d" style="display:none"><img class="dco-face dco-front" src="assets/home-objects/jackets-front.webp" alt="Jackets" draggable="false"><img class="dco-face dco-back" src="assets/home-objects/jackets-back.webp" alt="" draggable="false"></span><span class="dco-shadow"></span><span class="dco-label"><i>03</i>Jackets<b>Shop now</b></span></span>
+<a class="dco-item" href="jackets" aria-label="Shop Jackets" style="--s:1.05;--d:-3.1s">
+<span class="dco-spot"></span>
+<span class="dco-float"><span class="dco-spin dco-3d"><model-viewer src="assets/home-objects/jackets.glb" alt="Jackets" camera-orbit="0deg 90deg 105%" min-camera-orbit="auto auto 105%" max-camera-orbit="auto auto 105%" field-of-view="30deg" exposure="1.1" shadow-intensity="0" environment-image="neutral" interaction-prompt="none" loading="eager" disable-zoom disable-pan></model-viewer></span><span class="dco-spin dco-2d" style="display:none"><img class="dco-face dco-front" src="assets/home-objects/jackets-front.webp" alt="Jackets" draggable="false"><img class="dco-face dco-back" src="assets/home-objects/jackets-back.webp" alt="" draggable="false"></span></span>
+<span class="dco-shadow"></span>
+<span class="dco-label"><i>03 &middot; 12 pieces</i><em>Jackets</em><b>Shop now <u>&rarr;</u></b></span>
 </a>
-<a class="dco-item" href="t-shirts" aria-label="Shop T-Shirts" style="--x:79%;--y:66%;--w:23%;--ar:1/1;--d:-4.4s;--r0:1.4deg;--r1:-1.2deg;--sd:-7.8s">
-<span class="dco-float"><span class="dco-spin dco-3d"><model-viewer src="assets/home-objects/t-shirts.glb" alt="T-Shirts" camera-orbit="0deg 90deg 105%" min-camera-orbit="auto auto 105%" max-camera-orbit="auto auto 105%" field-of-view="30deg" exposure="1.1" shadow-intensity="0" environment-image="neutral" interaction-prompt="none" loading="eager" disable-zoom disable-pan></model-viewer></span><span class="dco-spin dco-2d" style="display:none"><img class="dco-face dco-front" src="assets/home-objects/t-shirts-front.webp" alt="T-Shirts" draggable="false"><img class="dco-face dco-back" src="assets/home-objects/t-shirts-back.webp" alt="" draggable="false"></span><span class="dco-shadow"></span><span class="dco-label"><i>04</i>T-Shirts<b>Shop now</b></span></span>
+<a class="dco-item" href="t-shirts" aria-label="Shop T-Shirts" style="--s:0.95;--d:-4.4s">
+<span class="dco-spot"></span>
+<span class="dco-float"><span class="dco-spin dco-3d"><model-viewer src="assets/home-objects/t-shirts.glb" alt="T-Shirts" camera-orbit="0deg 90deg 105%" min-camera-orbit="auto auto 105%" max-camera-orbit="auto auto 105%" field-of-view="30deg" exposure="1.1" shadow-intensity="0" environment-image="neutral" interaction-prompt="none" loading="eager" disable-zoom disable-pan></model-viewer></span><span class="dco-spin dco-2d" style="display:none"><img class="dco-face dco-front" src="assets/home-objects/t-shirts-front.webp" alt="T-Shirts" draggable="false"><img class="dco-face dco-back" src="assets/home-objects/t-shirts-back.webp" alt="" draggable="false"></span></span>
+<span class="dco-shadow"></span>
+<span class="dco-label"><i>04 &middot; 12 pieces</i><em>T-Shirts</em><b>Shop now <u>&rarr;</u></b></span>
 </a>
 </div>
-<p class="dco-hint">Tap an item to shop</p>
+<p class="dco-hint">Drag any piece to turn it &nbsp;&middot;&nbsp; Click to shop</p>
 </section>
 
 <!-- CATEGORY SECTIONS -->
