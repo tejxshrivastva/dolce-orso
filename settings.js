@@ -36,16 +36,15 @@ window.DOLCE_SETTINGS = {
 
   // Raise this number by 1 whenever you replace product photos, so every
   // visitor's browser downloads the new pictures instead of showing old ones.
-  imageVersion: 42,
+  imageVersion: 43,
 
   // Hand-picked product lists for the Gift Guide and Most Loved pages.
   // Use the "slug" of each product from products.js.
   gifts: [
-    'neon-pink-flame-hoodie', 'persian-rug-black-hoodie', 'purple-skeleton-patchwork-hoodie', 'crimson-smoke-patchwork-hoodie',
-    'category-5-product-1', 'category-5-product-2', 'category-5-product-4', 'category-5-product-10'
+    'neon-pink-flame-hoodie', 'persian-rug-black-hoodie', 'purple-skeleton-patchwork-hoodie', 'crimson-smoke-patchwork-hoodie'
   ],
   mostLoved: [
     'asymmetric-flap-cargo-jeans', 'swirl-panel-wide-jeans', 'starboy-graphic-tee', 'crochet-mandala-tee',
-    'embossed-crest-zip-hoodie', 'armoured-panel-denim-jacket', 'neon-pink-flame-hoodie', 'category-5-product-1'
+    'embossed-crest-zip-hoodie', 'armoured-panel-denim-jacket', 'neon-pink-flame-hoodie'
   ]
 };

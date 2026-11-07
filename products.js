@@ -15,15 +15,14 @@
         No side views (e.g. t-shirts)? add  noSide: true  to the product and skip files 3 and 4.
      4. Set  folder  to that folder name.  That's it - every page updates.
    price = normal price in rupees.  sale: true = shows 20% off.
-   category = denim | t-shirts | jackets | hoodies | sets-half
+   category = denim | t-shirts | jackets | hoodies
    ===================================================================== */
 (function () {
   var CATEGORIES = [
     { slug: "denim", name: "Denim", page: "denim" },
     { slug: "t-shirts", name: "T-Shirts", page: "t-shirts" },
     { slug: "jackets", name: "Jackets", page: "jackets" },
-    { slug: "hoodies", name: "Hoodies", page: "hoodies" },
-    { slug: "sets-half", name: "Category 5", page: "category-5" }
+    { slug: "hoodies", name: "Hoodies", page: "hoodies" }
   ];
 
   var PRODUCTS = [
@@ -178,44 +177,6 @@
   { slug: "black-floral-jacquard-hoodie", name: "Black Floral Jacquard Hoodie", category: "hoodies", price: 5099, sale: false, folder: "pdp-black-floral-jacquard-hoodie", hov: true, noSide: true,
     details: ["Soft black knit with a tonal floral jacquard pattern", "Flowers wrap across the front, sleeves and back", "Roomy hood and kangaroo pocket", "Ribbed cuffs and hem, relaxed oversized fit"],
     description: "A soft black knit hoodie with a tonal grey floral jacquard pattern that wraps across the front, sleeves, hood and back, with a kangaroo pocket, ribbed cuffs and hem and a relaxed oversized fit." },
-
-  // ---- Category 5 ----
-  { slug: "category-5-product-1", name: "Product 1", category: "sets-half", price: 4999, sale: true, folder: "pdp-riviera-tee-short",
-    details: ["Soft cotton fabric", "Relaxed everyday fit", "Made for daily wear", "Details coming soon"],
-    description: "A piece from the Dolce Orso Autumn/Winter collection. Full product details coming soon." },
-  { slug: "category-5-product-2", name: "Product 2", category: "sets-half", price: 5299, sale: false, folder: "pdp-polo-bermuda-set",
-    details: ["Soft cotton fabric", "Relaxed everyday fit", "Made for daily wear", "Details coming soon"],
-    description: "A piece from the Dolce Orso Autumn/Winter collection. Full product details coming soon." },
-  { slug: "category-5-product-3", name: "Product 3", category: "sets-half", price: 4799, sale: false, folder: "pdp-debardeur-short-set",
-    details: ["Soft cotton fabric", "Relaxed everyday fit", "Made for daily wear", "Details coming soon"],
-    description: "A piece from the Dolce Orso Autumn/Winter collection. Full product details coming soon." },
-  { slug: "category-5-product-4", name: "Product 4", category: "sets-half", price: 5099, sale: false, folder: "pdp-artisan-print-set",
-    details: ["Soft cotton fabric", "Relaxed everyday fit", "Made for daily wear", "Details coming soon"],
-    description: "A piece from the Dolce Orso Autumn/Winter collection. Full product details coming soon." },
-  { slug: "category-5-product-5", name: "Product 5", category: "sets-half", price: 4899, sale: false, folder: "pdp-sport-luxe-mesh-set",
-    details: ["Soft cotton fabric", "Relaxed everyday fit", "Made for daily wear", "Details coming soon"],
-    description: "A piece from the Dolce Orso Autumn/Winter collection. Full product details coming soon." },
-  { slug: "category-5-product-6", name: "Product 6", category: "sets-half", price: 5199, sale: true, folder: "pdp-boucle-summer-set",
-    details: ["Soft cotton fabric", "Relaxed everyday fit", "Made for daily wear", "Details coming soon"],
-    description: "A piece from the Dolce Orso Autumn/Winter collection. Full product details coming soon." },
-  { slug: "category-5-product-7", name: "Product 7", category: "sets-half", price: 4999, sale: false, folder: "pdp-mariniere-casual-set",
-    details: ["Soft cotton fabric", "Relaxed everyday fit", "Made for daily wear", "Details coming soon"],
-    description: "A piece from the Dolce Orso Autumn/Winter collection. Full product details coming soon." },
-  { slug: "category-5-product-8", name: "Product 8", category: "sets-half", price: 5499, sale: false, folder: "pdp-printed-resort-set",
-    details: ["Soft cotton fabric", "Relaxed everyday fit", "Made for daily wear", "Details coming soon"],
-    description: "A piece from the Dolce Orso Autumn/Winter collection. Full product details coming soon." },
-  { slug: "category-5-product-9", name: "Product 9", category: "sets-half", price: 4899, sale: false, folder: "pdp-colour-block-duo",
-    details: ["Soft cotton fabric", "Relaxed everyday fit", "Made for daily wear", "Details coming soon"],
-    description: "A piece from the Dolce Orso Autumn/Winter collection. Full product details coming soon." },
-  { slug: "category-5-product-10", name: "Product 10", category: "sets-half", price: 5099, sale: true, folder: "pdp-plage-day-set",
-    details: ["Soft cotton fabric", "Relaxed everyday fit", "Made for daily wear", "Details coming soon"],
-    description: "A piece from the Dolce Orso Autumn/Winter collection. Full product details coming soon." },
-  { slug: "category-5-product-11", name: "Product 11", category: "sets-half", price: 4799, sale: false, folder: "pdp-petit-sportif-set",
-    details: ["Soft cotton fabric", "Relaxed everyday fit", "Made for daily wear", "Details coming soon"],
-    description: "A piece from the Dolce Orso Autumn/Winter collection. Full product details coming soon." },
-  { slug: "category-5-product-12", name: "Product 12", category: "sets-half", price: 5299, sale: false, folder: "pdp-weekend-leisure-set",
-    details: ["Soft cotton fabric", "Relaxed everyday fit", "Made for daily wear", "Details coming soon"],
-    description: "A piece from the Dolce Orso Autumn/Winter collection. Full product details coming soon." },
   ];
 
   var IMG = ['hero', '1-model-front', '2-product-front', '3-model-side', '4-product-side', '5-model-back', '6-product-back', 'card', 'hover'];

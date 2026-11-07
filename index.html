@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./products.js?v=18"></script>
-<script src="./settings.js?v=18"></script>
-<script src="./pages.js?v=18"></script>
-<script src="./shop.js?v=18"></script>
+<script src="./products.js?v=19"></script>
+<script src="./settings.js?v=19"></script>
+<script src="./pages.js?v=19"></script>
+<script src="./shop.js?v=19"></script>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -45,7 +45,7 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 <div style="padding:24px 16px 0;display:flex;flex-direction:column;gap:14px">
 <p style="margin:0;padding:0 4px;font-size:11px;letter-spacing:0.55px;text-transform:uppercase;font-weight:500;font-family:'JetBrains Mono',monospace;color:#666">Explore our collections</p>
 <nav style="display:flex;flex-direction:column;gap:8px">
-<sc-for list="{{ megaCats }}" as="mc" hint-placeholder-count="5">
+<sc-for list="{{ megaCats }}" as="mc" hint-placeholder-count="4">
 <a href="{{ mc.anchor }}" onClick="{{ closeMenu }}" style="display:flex;align-items:center;gap:14px;padding:8px;border-radius:16px;background:#f5f5f5;color:#000" style-hover="background:#eee;color:#000">
 <div style="width:64px;height:64px;border-radius:12px;overflow:hidden;background:#000;flex-shrink:0"><sc-if value="{{ mc.img }}" hint-placeholder-val="{{ false }}"><img src="{{ mc.img }}" style="width:100%;height:100%;object-fit:cover;display:block"></sc-if></div>
 <span style="flex:1;font-size:16px;font-weight:500;letter-spacing:-0.22px">{{ mc.name }}</span>
@@ -104,7 +104,7 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 <!-- MEGA MENU -->
 <div onMouseEnter="{{ onMegaEnter }}" onMouseLeave="{{ onMegaLeave }}" style="position:absolute;top:100%;left:0;right:0;background:{{ headerBg }};padding:0 8px 8px;display:{{ megaDisplay }};opacity:{{ megaOpacity }};transition:opacity 0.25s ease;pointer-events:{{ megaPointer }};border-radius:0 0 24px 24px;box-shadow:0 4px 16px rgba(0,0,0,0.06)">
 <div style="background:#e8e8e8;border-radius:20px;padding:12px;display:flex;gap:10px;justify-content:flex-start;overflow-x:auto">
-<sc-for list="{{ megaCats }}" as="mc" hint-placeholder-count="5">
+<sc-for list="{{ megaCats }}" as="mc" hint-placeholder-count="4">
 <a href="{{ mc.anchor }}" style="text-decoration:none;color:#000;flex:1 1 0;min-width:0;background:#fff;border-radius:14px;overflow:hidden;display:flex;flex-direction:column" style-hover="opacity:0.9">
 <div style="width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:12px;background:#000">
 <sc-if value="{{ mc.img }}" hint-placeholder-val="{{ false }}"><img src="{{ mc.img }}" style="width:100%;height:100%;object-fit:cover"></sc-if>
@@ -157,7 +157,7 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 <a href="shop" style="font-size:11px;letter-spacing:0.55px;text-transform:uppercase;font-family:'JetBrains Mono',monospace;font-weight:500;color:#000;border-bottom:1px solid #000;padding-bottom:4px;white-space:nowrap;flex-shrink:0" style-hover="color:#555;border-color:#555">View the Wardrobe</a>
 </div>
 <div style="display:flex;gap:8px;height:max(600px,calc(100svh - 120px))">
-<sc-for list="{{ panels }}" as="panel" hint-placeholder-count="5">
+<sc-for list="{{ panels }}" as="panel" hint-placeholder-count="4">
 <a href="{{ panel.href }}" onMouseEnter="{{ panel.onEnter }}" onMouseLeave="{{ panel.onLeave }}" style="flex:{{ panel.flex }};position:relative;border-radius:20px;overflow:hidden;background:#000;text-decoration:none;display:flex;align-items:center;justify-content:center;transition:flex 0.7s cubic-bezier(0.22,1,0.36,1);min-width:0">
 <span style="position:absolute;top:16px;left:18px;font-size:11px;font-family:'JetBrains Mono',monospace;color:rgba(255,255,255,0.85);z-index:2">{{ panel.num }}</span>
 <div style="position:absolute;bottom:0;left:0;right:0;padding:20px 24px;display:flex;align-items:flex-end;justify-content:space-between;gap:16px">
@@ -174,7 +174,7 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 <div style="position:absolute;left:50%;top:{{ catTextY }};transform:translate(-50%,-50%);text-align:center;opacity:{{ catTextOpacity }};pointer-events:none;z-index:10;white-space:nowrap">
 <h2 style="font-size:11px;font-weight:500;letter-spacing:0.55px;margin:0;text-transform:uppercase;font-family:'JetBrains Mono',monospace">SHOP BY CATEGORY</h2>
 </div>
-<sc-for list="{{ catBoxes }}" as="box" hint-placeholder-count="5">
+<sc-for list="{{ catBoxes }}" as="box" hint-placeholder-count="4">
 <div onMouseDown="{{ box.onDown }}" onClick="{{ box.onClick }}" onMouseEnter="{{ box.onEnter }}" onMouseLeave="{{ box.onLeave }}" style="position:absolute;width:{{ box.size }};left:{{ box.x }};top:{{ box.y }};transform:{{ box.transform }};z-index:{{ box.z }};text-decoration:none;box-shadow:0 12px 40px rgba(0,0,0,0.10);user-select:none;transition:{{ box.transition }};animation:{{ box.animation }}" style-hover="z-index:20;box-shadow:0 16px 48px rgba(0,0,0,0.15);cursor:url(''), pointer">
 <div style="background:#000;padding:clamp(6px,0.8vw,10px) clamp(6px,0.8vw,10px) clamp(28px,4vw,48px);border-radius:4px;pointer-events:none;position:relative;overflow:hidden">
 <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(105deg,transparent 45%,rgba(255,255,255,0.3) 49%,rgba(255,255,255,0.35) 50%,rgba(255,255,255,0.3) 51%,transparent 55%);background-size:200% 100%;animation:shine 2.5s ease-in-out infinite;opacity:{{ box.shineOpacity }};pointer-events:none;z-index:2;transition:opacity 0.3s ease"></div>
@@ -190,7 +190,7 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 </section>
 
 <!-- CATEGORY SECTIONS -->
-<sc-for list="{{ categories }}" as="cat" hint-placeholder-count="5">
+<sc-for list="{{ categories }}" as="cat" hint-placeholder-count="4">
 <section id="{{ cat.slug }}" style="scroll-margin-top:100px;padding:clamp(28px,4vw,56px) clamp(8px,1vw,16px) clamp(14px,1.6vw,22px)">
 <a href="{{ cat.pageLink }}" style="display:block;position:relative;width:100%;aspect-ratio:{{ catRatio }};border-radius:20px;overflow:hidden;background:#000;text-decoration:none;color:#fff;isolation:isolate">
 <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 50%,rgba(0,0,0,0.6) 100%);pointer-events:none"></div>
@@ -395,14 +395,14 @@ class Component extends DCLogic {
     const t = this.state.catT || 0;
     const mob = vw < 768;
     const boxPx = mob ? Math.min(vw * 0.44, 200) : Math.min(vw * 0.20, 270);
-    const names = ['Denim','T-Shirts','Jackets','Hoodies','Category 5'];
-    const slugs = ['denim','t-shirts','jackets','hoodies','sets-half'];
-    const images = ['', '', '', '', ''];
+    const names = ['Denim','T-Shirts','Jackets','Hoodies'];
+    const slugs = ['denim','t-shirts','jackets','hoodies'];
+    const images = ['', '', '', ''];
     const bw = boxPx / vw * 100;
     const bh = boxPx / vh * 100;
-    const startRotations = [-3, 2, -2, 4, -3];
-    const endRotations = [-12, 6, 10, -8, 7];
-    const zIndices = [5, 4, 3, 2, 1];
+    const startRotations = [-3, 2, -2, 4];
+    const endRotations = [-12, 6, 10, -8];
+    const zIndices = [4, 3, 2, 1];
     const r1y = 50 - bh * 0.6;
     const r2y = 50 + bh * 0.1;
     const cx = 50 - bw * 0.35;
@@ -410,21 +410,18 @@ class Component extends DCLogic {
       { x: 51.13, y: 54.73 },
       { x: 28.85, y: 55.85 },
       { x: 16.35, y: 13.93 },
-      { x: 66.85, y: 15.68 },
-      { x: 41.38, y: 2.46 }
+      { x: 66.85, y: 15.68 }
     ];
     const endPositions = mob ? [
       { x: 5, y: 8 },
       { x: 42, y: 4 },
       { x: 55, y: 30 },
-      { x: 5, y: 50 },
-      { x: 45, y: 52 }
+      { x: 5, y: 50 }
     ] : [
       { x: 50 - bw * 2.2, y: 50 - bh * 0.8 },
       { x: 50 - bw * 0.5, y: 50 - bh * 1.4 },
       { x: 50 + bw * 1.2, y: 50 - bh * 0.9 },
-      { x: 50 - bw * 1.4, y: 50 + bh * 0.3 },
-      { x: 50 + bw * 0.4, y: 50 + bh * 0.2 }
+      { x: 50 - bw * 1.4, y: 50 + bh * 0.3 }
     ];
     const lerp = (a, b, p) => a + (b - a) * p;
     const ease = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
@@ -503,12 +500,11 @@ class Component extends DCLogic {
       { name: 'Denim', slug: 'denim', pageLink: 'denim', thumbImg: DOLCE.cover('denim'), thumbEl: null, products: mk('denim',DOLCE.names('denim',8),DOLCE.prices('denim',8),DOLCE.imgs('denim',8)) },
       { name: 'T-Shirts', slug: 't-shirts', pageLink: 't-shirts', thumbImg: DOLCE.cover('t-shirts'), thumbEl: React.createElement('img', { src: DOLCE.cover('t-shirts'), style: { width: '100%', height: '100%', objectFit: 'cover', transform: 'scale(1)' } }), products: mk('t-shirts',DOLCE.names('t-shirts',8),DOLCE.prices('t-shirts',8),DOLCE.imgs('t-shirts',8)) },
       { name: 'Jackets', slug: 'jackets', pageLink: 'jackets', thumbImg: DOLCE.cover('jackets'), thumbEl: React.createElement('img', { src: DOLCE.cover('jackets'), style: { width: '100%', height: '100%', objectFit: 'cover' } }), products: mk('jackets',DOLCE.names('jackets',8),DOLCE.prices('jackets',8),DOLCE.imgs('jackets',8)) },
-      { name: 'Hoodies', slug: 'hoodies', pageLink: 'hoodies', thumbImg: DOLCE.cover('hoodies'), thumbEl: React.createElement('img', { src: DOLCE.cover('hoodies'), style: { width: '100%', height: '100%', objectFit: 'cover' } }), products: mk('hoodies',DOLCE.names('hoodies',8),DOLCE.prices('hoodies',8),DOLCE.imgs('hoodies',8)) },
-      { name: 'Category 5', slug: 'sets-half', pageLink: 'category-5', thumbImg: DOLCE.cover('sets-half'), thumbEl: React.createElement('img', { src: DOLCE.cover('sets-half'), style: { width: '100%', height: '100%', objectFit: 'cover' } }), products: mk('sets-half',DOLCE.names('sets-half',8),DOLCE.prices('sets-half',8),DOLCE.imgs('sets-half',8)) }
+      { name: 'Hoodies', slug: 'hoodies', pageLink: 'hoodies', thumbImg: DOLCE.cover('hoodies'), thumbEl: React.createElement('img', { src: DOLCE.cover('hoodies'), style: { width: '100%', height: '100%', objectFit: 'cover' } }), products: mk('hoodies',DOLCE.names('hoodies',8),DOLCE.prices('hoodies',8),DOLCE.imgs('hoodies',8)) }
     ];
-    const panelImages = ['denim','t-shirts','jackets','hoodies','sets-half'].map(c => DOLCE.cover(c));
-    const panelLinks = ['denim','t-shirts','jackets','hoodies','category-5'];
-    const panelNames2 = ['Denim','T-Shirts','Jackets','Hoodies','Category 5'];
+    const panelImages = ['denim','t-shirts','jackets','hoodies'].map(c => DOLCE.cover(c));
+    const panelLinks = ['denim','t-shirts','jackets','hoodies'];
+    const panelNames2 = ['Denim','T-Shirts','Jackets','Hoodies'];
     const ap = this.state.activePanel ?? 0;
     const panels = panelNames2.map((name, i) => ({ name, num: String(i+1).padStart(2,'0'), href: panelLinks[i], img: panelImages[i], flex: i === ap ? '2.6 1 0%' : '1 1 0%', imgScale: i === ap ? 'scale(1.04)' : 'scale(1)', discoverOpacity: i === ap ? '1' : '0', onEnter: () => this.setState({ activePanel: i }), onLeave: () => {} }));
     const scrolled = this.state.scrolled;
@@ -550,7 +546,6 @@ class Component extends DCLogic {
         { name: 'T-Shirts', img: DOLCE.cover('t-shirts'), anchor: 't-shirts' },
         { name: 'Jackets', img: DOLCE.cover('jackets'), anchor: 'jackets' },
         { name: 'Hoodies', img: DOLCE.cover('hoodies'), anchor: 'ensembles' },
-        { name: 'Category 5', img: DOLCE.cover('sets-half'), anchor: 'demi-sets' },
       ],
       toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
       gridCols: vw >= 1024 ? 'repeat(4, 1fr)' : vw >= 768 ? 'repeat(3, 1fr)' : 'repeat(2, 1fr)',
