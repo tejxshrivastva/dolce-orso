@@ -27,6 +27,7 @@
     '.dco-3d model-viewer{position:absolute;inset:-14%;width:128%;height:128%;--poster-color:transparent;--progress-bar-color:transparent;--progress-bar-height:0px;background:transparent;pointer-events:none}',
     '.dco-shadow{position:absolute;left:12%;right:12%;bottom:-3%;height:7%;border-radius:50%;background:radial-gradient(ellipse at center,rgba(0,0,0,.22),rgba(0,0,0,0) 70%);filter:blur(6px);pointer-events:none}',
     '.dco-label{position:absolute;left:50%;top:100%;transform:translate(-50%,10px);margin-top:10px;display:flex;flex-direction:column;align-items:center;gap:6px;white-space:nowrap;font:500 clamp(15px,1.5vw,22px)/1 "Inter",sans-serif;letter-spacing:-.02em}',
+    '.dco-3d ~ .dco-label{margin-top:clamp(14px,2.4vw,34px)}',
     '.dco-label i{font:500 10px/1 "JetBrains Mono",monospace;letter-spacing:.1em;color:#888;font-style:normal}',
     '.dco-label b{font:500 10px/1 "JetBrains Mono",monospace;letter-spacing:.1em;text-transform:uppercase;border-bottom:1px solid #000;padding-bottom:2px;opacity:0;transition:opacity .35s ease}',
     '.dco-item:hover .dco-label b,.dco-item:focus-visible .dco-label b{opacity:1}',
