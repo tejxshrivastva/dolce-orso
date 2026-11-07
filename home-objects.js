@@ -40,7 +40,7 @@
     '.dco-label i{grid-column:1;font:500 10px/1 "JetBrains Mono",monospace;letter-spacing:.14em;color:#8d8d8d;font-style:normal}',
     '.dco-label em{grid-column:1;font:800 clamp(20px,2.9vw,46px)/.95 "Inter",sans-serif;letter-spacing:-.03em;text-transform:uppercase;font-style:normal;color:#fff}',
     '.dco-label small{grid-column:1;font:500 10px/1 "JetBrains Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:#8d8d8d}',
-    '.dco-label b{grid-column:2;grid-row:1 / span 3;display:grid;place-items:center;width:clamp(36px,3.6vw,54px);aspect-ratio:1;border:1.5px solid #fff;border-radius:50%;font:500 clamp(15px,1.5vw,22px)/1 "Inter",sans-serif;color:#fff;transition:background .35s,color .35s,transform .45s cubic-bezier(.22,1,.36,1)}',
+    '.dco-label b{grid-column:2;grid-row:1;display:grid;place-items:center;width:clamp(36px,3.6vw,54px);aspect-ratio:1;border:1.5px solid #fff;border-radius:50%;font:500 clamp(15px,1.5vw,22px)/1 "Inter",sans-serif;color:#fff;transition:background .35s,color .35s,transform .45s cubic-bezier(.22,1,.36,1)}',
     '.dco-item:hover .dco-label b,.dco-item:focus-visible .dco-label b{background:#fff;color:#000;transform:rotate(-45deg)}',
     '.dco-hint{position:relative;margin:clamp(8px,1.5vw,20px) 0 0;text-align:center;font:500 11px/1 "JetBrains Mono",monospace;letter-spacing:.55px;text-transform:uppercase;color:#8d8d8d}',
     '@keyframes dcoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}',
