@@ -7,7 +7,7 @@
    The T-shirt is a real 3D model (assets/home-objects/t-shirts.glb) shown with Google's model-viewer;
    the flat photos stay as a fallback if the viewer can't load.
    Always turning at a constant speed; hover freezes it; drag turns it; let go and it spins on again.
-   Spin speed: change SPEED below (the 10000 = milliseconds per full turn).
+   Spin speed: change SPEED below (the 6000 = milliseconds per full turn).
    ===================================================================== */
 (function () {
   var css = [
@@ -47,7 +47,7 @@
   // Every object turns on its vertical axis at one constant speed, no gaps.
   // Hover = it freezes where it is. Drag = it turns with your finger/mouse (with a little momentum).
   // Let go and move away = it carries on spinning from wherever it stopped.
-  var SPEED = 360 / 10000;                 // degrees per ms  (360 / 10000 = one full turn every 10 seconds)
+  var SPEED = 360 / 6000;                  // degrees per ms  (360 / 6000 = one full turn every 6 seconds)
   var DRAG = 0.45;                         // degrees turned per pixel dragged
   var still = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
   var canHover = !!(window.matchMedia && matchMedia('(hover: hover)').matches);
