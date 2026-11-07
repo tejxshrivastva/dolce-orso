@@ -53,7 +53,7 @@
     '.hs-glass{color:#fff;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}',
     '.hs-glass:hover{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.8);color:#fff}',
     // bottom bar: season | photo controls | scroll
-    '.hs-bar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;margin-top:clamp(24px,4.5vh,44px);padding-top:14px;border-top:1px solid rgba(255,255,255,.18);font:' + MONO + ';letter-spacing:.55px;text-transform:uppercase;color:rgba(255,255,255,.7)}',
+    '.hs-bar{display:flex;justify-content:flex-end;align-items:center;gap:16px;margin-top:clamp(24px,4.5vh,44px);padding-top:14px;border-top:1px solid rgba(255,255,255,.18);font:' + MONO + ';letter-spacing:.55px;text-transform:uppercase;color:rgba(255,255,255,.7)}',
     '.hs-scroll{justify-self:end;display:inline-flex;align-items:center;gap:8px;color:rgba(255,255,255,.7);text-decoration:none;transition:color .3s}',
     '.hs-scroll:hover{color:#fff}.hs-scroll svg{animation:hsBob 1.8s ease-in-out infinite}',
     '@keyframes hsBob{0%,100%{transform:translateY(-2px)}50%{transform:translateY(2px)}}',
@@ -135,7 +135,6 @@
   function ensure() {
     var h = hero(), s = slides(); if (!h || !s.length) return;
     if (ready && !h.classList.contains('ready')) h.classList.add('ready');
-    if (ready && !document.querySelector('.hs-prog u.run')) paint(s.length);
     if (!document.querySelector('#hero-media .hs-slide.on')) {
       for (var i = 0; i < s.length; i++) s[i].classList.toggle('alt', i % 2 === 1);
       load(s[idx]); s[idx].classList.add('on');
