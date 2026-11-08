@@ -1,13 +1,13 @@
 /* Footer object (was the panda, then a rose, now a 3D silver tribal blade) on the big "Dolce Orso" wordmark.
    - Drag it anywhere; let go and it springs back.
-   - The blade is flat, so it rocks to show its face instead of spinning edge-on; a flick spins it, then it settles.
+   - Turns on its own axis at the hero chain's speed; a flick spins it faster, then it settles back.
    - Hover gives a gentle sway.
    Markup: [data-slot="footer-panda"] wrapper with a <model-viewer> inside (every page's footer). */
 (function () {
   if (window.__pandaDrag) return; window.__pandaDrag = true;
 
   var css =
-    '.do-rose{--rw:clamp(120px,20vw,330px);--rh:1.9;--tx:clamp(52px,15.2vw,276px);width:var(--rw);height:calc(var(--rw) * var(--rh));margin-bottom:calc(-1 * (var(--tx) + var(--rw) * var(--rh) * .05));' +
+    '.do-rose{--rw:clamp(120px,20vw,330px);--rh:1.9;--tx:clamp(52px,15.2vw,276px);width:var(--rw);height:calc(var(--rw) * var(--rh));margin-bottom:calc(-1 * (var(--tx) + var(--rw) * var(--rh) * .05));left:clamp(14px,3vw,52px);top:calc(var(--rw) * var(--rh) * -.1);' +
     'position:relative;z-index:1;user-select:none;-webkit-user-select:none;touch-action:none;cursor:grab;-webkit-tap-highlight-color:transparent;' +
     'filter:drop-shadow(0 18px 30px rgba(0,0,0,.5))}' +
     '.do-rose model-viewer{width:100%;height:100%;pointer-events:none;background:transparent;--poster-color:transparent;--progress-bar-height:0px;--progress-mask:transparent}';
@@ -37,7 +37,7 @@
   function end() {
     if (!el) return;
     var t = el; el = null;
-    spin = Math.max(-720, Math.min(720, IDLE + vx * 40));   // a flick sends it spinning
+    spin = Math.max(-900, Math.min(900, IDLE + vx * 40));   // a flick sends it spinning
     t.style.transition = SPRING;
     t.style.transform = 'translate(0px, 0px) rotate(0deg) scale(1)';
     t.style.cursor = 'grab';
@@ -67,25 +67,19 @@
 
   // slow turn, only while the footer is on screen
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var IDLE = 0, theta = 0, spin = 0, last = 0, t0 = 0;
+  var IDLE = reduce ? 0 : 30, theta = 0, spin = IDLE, last = 0, t0 = 0;
   function frame(now) {
     requestAnimationFrame(frame);
     var dt = last ? Math.min((now - last) / 1000, 0.05) : 0.016; last = now;
     var w = document.querySelector('[data-slot="footer-panda"]'); if (!w || document.hidden) return;
     var r = w.getBoundingClientRect(); if (r.bottom < 0 || r.top > innerHeight) return;
     t0 += dt;
-    spin *= Math.exp(-dt * 1.3);
-    if (!el) {
-      theta += spin * dt;
-      if (Math.abs(spin) < 40) {                           // settle back to facing front (nearest full turn)
-        var home = Math.round(theta / 360) * 360;
-        theta += (home - theta) * (1 - Math.exp(-dt * 2.2));
-      }
-    }
+    var idle = IDLE * (1 + 0.35 * Math.sin(t0 * 0.5));          // same turn as the hero chain (30deg/s, breathing)
+    spin = idle + (spin - idle) * Math.exp(-dt * 1.4);
+    if (!el) theta += spin * dt;
     var mv = w.querySelector('model-viewer');
-    var rock = reduce ? 0 : Math.sin(t0 * 0.7) * 32;           // slow rock so the flat blade shows its face
     var nod = reduce ? 0 : Math.sin(t0 * 0.9) * 5;
-    if (mv) mv.cameraOrbit = ((theta + rock) % 360).toFixed(1) + 'deg ' + (90 + nod).toFixed(1) + 'deg 100%';
+    if (mv) mv.cameraOrbit = (theta % 360).toFixed(1) + 'deg ' + (90 + nod).toFixed(1) + 'deg 100%';
   }
   requestAnimationFrame(frame);
 })();
