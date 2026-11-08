@@ -6,13 +6,13 @@
    Markup lives in index.html (.hc); everything else is here. */
 (function () {
   var css = [
-    '.hs-hero{--hc-w:180px}',
+    '.hs-hero{--hc-w:150px}',
     '.hc{position:absolute;z-index:1;left:0;top:0;width:var(--hc-w);height:calc(var(--hc-w) * 1.6);touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;opacity:0;transition:opacity 1.2s ease .8s;will-change:transform}',
     '.hs-hero.ready .hc{opacity:1}',
     '.hc.grab{cursor:grabbing}',
     '.hc-body{width:100%;height:100%;filter:drop-shadow(0 14px 20px rgba(0,0,0,.55))}',
     '.hc model-viewer{width:100%;height:100%;pointer-events:none;background:transparent;--poster-color:transparent;--progress-bar-height:0px;--progress-mask:transparent}',
-    '@media (max-width:767px){.hs-hero{--hc-w:100px}}'
+    '@media (max-width:767px){.hs-hero{--hc-w:92px}}'
   ].join('');
   var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 
@@ -36,14 +36,20 @@
     return { x0: -homeL, x1: hr.width - homeL - r.width, y0: -homeT + 64, y1: hr.height - homeT - r.height };
   }
   // home: a spot in the hero given as fractions of its width/height (centre of the charm)
-  var HOME = { desk: { fx: 0.875, fy: 0.6, w: 190 }, phone: { fx: 0.83, fy: 0.6, w: 100 } };
+  // gap = how far the box bottom sits below the headline top, as a share of the box height (the chain's ink ends above the box bottom)
+  var HOME = { desk: { title: true, gap: -0.06, w: 150 }, phone: { title: true, gap: -0.24, w: 92 } };
   function place() {
     var h = el(); if (!h || drag) return;
     var hero = h.closest('.hs-hero'); if (!hero) return;
     var c = window.__hc || (innerWidth < 768 ? HOME.phone : HOME.desk);
     hero.style.setProperty('--hc-w', c.w + 'px');
-    var W = hero.clientWidth, H = hero.clientHeight, w = h.offsetWidth, hh = h.offsetHeight;
-    h.style.left = Math.round(c.fx * W - w / 2) + 'px'; h.style.top = Math.round(c.fy * H - hh / 2) + 'px';
+    var W = hero.clientWidth, H = hero.clientHeight, w = h.offsetWidth, hh = h.offsetHeight, cx, top;
+    var tt = c.title && document.querySelector('.hs-title');
+    if (tt) {                                        // centred above the headline, like an emblem
+      var tr = tt.getBoundingClientRect(), hr = hero.getBoundingClientRect();
+      cx = tr.left + tr.width / 2 - hr.left; top = tr.top - hr.top - hh * (1 - c.gap);
+    } else { cx = c.fx * W; top = c.fy * H - hh / 2; }
+    h.style.left = Math.round(cx - w / 2) + 'px'; h.style.top = Math.round(top) + 'px';
   }
   setInterval(place, 400); addEventListener('resize', place);
   function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
