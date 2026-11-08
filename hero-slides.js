@@ -40,7 +40,7 @@
     '@keyframes hsPulse{0%{transform:scale(.4);opacity:1}100%{transform:scale(1.6);opacity:0}}',
     '@font-face{font-family:"Germanica";src:url("assets/fonts/PlainGermanica.woff") format("woff");font-weight:400;font-style:normal;font-display:block}',
     '.hs-title{margin:0 0 -.42em;white-space:nowrap;font:400 clamp(32px,8.2vw,150px)/1 "Germanica","Inter",sans-serif;letter-spacing:.05em;word-spacing:-.275em;font-kerning:none;font-variant-ligatures:none;text-shadow:0 2px 24px rgba(0,0,0,.5)}',
-    '.hs-line{display:block;overflow:hidden;padding:.4em .1em .4em .25em;margin:-.4em 0}',
+    '.hs-title{filter:drop-shadow(0 2px 14px rgba(0,0,0,.45))}','.hs-chrome{display:inline-block;padding:.32em .12em;margin:-.32em -.12em;text-shadow:none;color:#e9edf0;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.95) 50%,transparent 70%) -80% 0/45% 100% no-repeat,linear-gradient(180deg,#ffffff 20%,#e4e8ec 31%,#9aa2aa 42%,#4a5157 47%,#b9c0c6 52%,#f3f5f7 59%,#c5cbd0 67%,#7d858c 77%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:hsChrome 7s ease-in-out 3s infinite}','@keyframes hsChrome{0%{background-position:-80% 0,0 0}30%,100%{background-position:180% 0,0 0}}','.hs-line{display:block;overflow:hidden;padding:.4em .1em .4em .25em;margin:-.4em 0}',
     '.hs-line>*{display:inline-block}',
     '.hs-title em{font:inherit;letter-spacing:inherit}',
     '.hs-ui a,.hs-ui button{pointer-events:auto}','.hs-tag{margin:0;font:500 clamp(10px,.85vw,12px)/1.2 "Inter",sans-serif;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.78);text-wrap:balance;padding-left:.18em}',
@@ -77,7 +77,7 @@
     '.hs-scroll{display:none}',
     '.hs-ctas{width:100%}.hs-ctas .hs-btn{flex:1;padding:0 14px;height:42px}',
     '}',
-    '@media (prefers-reduced-motion:reduce){.hs-slide.on,.hs-slide.was,.hs-eyebrow s::after,.hs-scroll svg,.hs-glass::after{animation:none}.hs-hero.ready .hs-rise{animation-duration:.01ms}}'
+    '@media (prefers-reduced-motion:reduce){.hs-slide.on,.hs-slide.was,.hs-eyebrow s::after,.hs-scroll svg,.hs-glass::after,.hs-chrome{animation:none}.hs-hero.ready .hs-rise{animation-duration:.01ms}}'
   ].join('\n');
   var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 
