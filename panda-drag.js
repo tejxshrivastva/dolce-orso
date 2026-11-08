@@ -14,13 +14,13 @@
   var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 
   var el = null, sx = 0, sy = 0, dx = 0, dy = 0, lastX = 0, vx = 0;
-  var SPRING = 'transform 0.9s cubic-bezier(.34,1.56,.64,1)';
+  var SPRING = 'transform 0.9s cubic-bezier(.34,1.56,.64,1), scale .45s cubic-bezier(.34,1.56,.64,1)';
   document.addEventListener('pointerdown', function (e) {
     var t = e.target.closest && e.target.closest('[data-slot="footer-panda"]');
     if (!t) return;
     e.preventDefault();
     el = t; sx = e.clientX; sy = e.clientY; lastX = e.clientX; vx = 0;
-    el.style.transition = 'transform 0.12s ease';
+    el.style.transition = 'transform 0.12s ease, scale .45s cubic-bezier(.34,1.56,.64,1)';
     el.style.cursor = 'grabbing';
     el.style.transform = 'scale(1.04) rotate(-3deg)';
   });
@@ -31,7 +31,7 @@
     vx = vx * 0.7 + step * 0.3; lastX = e.clientX;
     theta += step * 0.8;                                   // moving it turns it
     var rot = Math.max(-18, Math.min(18, vx * 1.2));
-    el.style.transition = 'none';
+    el.style.transition = 'scale .45s cubic-bezier(.34,1.56,.64,1)';
     el.style.transform = 'translate(' + dx + 'px,' + dy + 'px) rotate(' + rot + 'deg) scale(1.04)';
   });
   function end() {
@@ -49,18 +49,20 @@
     hov = t;
     if (jig) jig.cancel();
     t.style.transformOrigin = '50% 100%';
+    if (!t.style.transition) t.style.transition = 'scale .45s cubic-bezier(.34,1.56,.64,1)';
+    t.style.scale = '1.1';                                  // hover: grow a little
     jig = t.animate([
-      { translate: '0 0', scale: '1 1', rotate: '0deg' },
-      { translate: '0 -3px', scale: '1.012 1.012', rotate: '-1.2deg', offset: 0.25 },
-      { translate: '0 0', scale: '1 1', rotate: '0deg', offset: 0.5 },
-      { translate: '0 -3px', scale: '1.012 1.012', rotate: '1.2deg', offset: 0.75 },
-      { translate: '0 0', scale: '1 1', rotate: '0deg' }
+      { translate: '0 0', rotate: '0deg' },
+      { translate: '0 -3px', rotate: '-1.2deg', offset: 0.25 },
+      { translate: '0 0', rotate: '0deg', offset: 0.5 },
+      { translate: '0 -3px', rotate: '1.2deg', offset: 0.75 },
+      { translate: '0 0', rotate: '0deg' }
     ], { duration: 3600, iterations: Infinity, easing: 'ease-in-out' });
   });
   document.addEventListener('pointerout', function (e) {
     if (!hov) return;
     var to = e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest('[data-slot="footer-panda"]');
-    if (to !== hov) { var t = hov; hov = null; if (jig) { var cs = getComputedStyle(t); var from = { translate: cs.translate, scale: cs.scale, rotate: cs.rotate }; jig.cancel(); jig = t.animate([from, { translate: '0 0', scale: '1 1', rotate: '0deg' }], { duration: 700, easing: 'ease-out' }); } }
+    if (to !== hov) { var t = hov; hov = null; t.style.scale = '1'; if (jig) { var cs = getComputedStyle(t); var from = { translate: cs.translate, rotate: cs.rotate }; jig.cancel(); jig = t.animate([from, { translate: '0 0', rotate: '0deg' }], { duration: 700, easing: 'ease-out' }); } }
   });
   window.addEventListener('pointerup', end);
   window.addEventListener('pointercancel', end);
