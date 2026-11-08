@@ -40,7 +40,7 @@
     '@keyframes hsPulse{0%{transform:scale(.4);opacity:1}100%{transform:scale(1.6);opacity:0}}',
     '@font-face{font-family:"Germanica";src:url("assets/fonts/PlainGermanica.woff") format("woff");font-weight:400;font-style:normal;font-display:block}',
     '.hs-title{margin:0 0 -.42em;white-space:nowrap;font:400 clamp(32px,8.2vw,150px)/1 "Germanica","Inter",sans-serif;letter-spacing:.05em;word-spacing:-.275em;font-kerning:none;font-variant-ligatures:none;text-shadow:0 2px 24px rgba(0,0,0,.5)}',
-    '.hs-title{filter:drop-shadow(0 2px 14px rgba(0,0,0,.45))}','.hs-chrome{display:inline-block;padding:.32em .12em;margin:-.32em -.12em;text-shadow:none;color:#e9edf0;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.95) 50%,transparent 70%) -80% 0/45% 100% no-repeat,linear-gradient(180deg,#ffffff 19%,#dfe3e7 27%,#7c848b 36%,#1b1f23 44%,#5d656c 48%,#e9edf0 54%,#ffffff 58%,#a7aeb4 65%,#2e3338 72%,#9ba2a8 79%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:url(#hs-chrome-fx);animation:hsChrome 7s ease-in-out 3s infinite}','@keyframes hsChrome{0%{background-position:-80% 0,0 0}30%,100%{background-position:180% 0,0 0}}','.hs-line{display:block;overflow:hidden;padding:.4em .1em .4em .25em;margin:-.4em 0}',
+    '.hs-line{display:block;overflow:hidden;padding:.4em .1em .4em .25em;margin:-.4em 0}',
     '.hs-line>*{display:inline-block}',
     '.hs-title em{font:inherit;letter-spacing:inherit}',
     '.hs-ui a,.hs-ui button{pointer-events:auto}','.hs-tag{margin:0;font:500 clamp(10px,.85vw,12px)/1.2 "Inter",sans-serif;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.78);text-wrap:balance;padding-left:.18em}',
@@ -77,33 +77,9 @@
     '.hs-scroll{display:none}',
     '.hs-ctas{width:100%}.hs-ctas .hs-btn{flex:1;padding:0 14px;height:42px}',
     '}',
-    '@media (prefers-reduced-motion:reduce){.hs-slide.on,.hs-slide.was,.hs-eyebrow s::after,.hs-scroll svg,.hs-glass::after,.hs-chrome{animation:none}.hs-hero.ready .hs-rise{animation-duration:.01ms}}'
+    '@media (prefers-reduced-motion:reduce){.hs-slide.on,.hs-slide.was,.hs-eyebrow s::after,.hs-scroll svg,.hs-glass::after{animation:none}.hs-hero.ready .hs-rise{animation-duration:.01ms}}'
   ].join('\n');
   var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
-
-  // liquid-chrome lighting for the headline: bevel (diffuse) + hot highlights (specular) + a dark extruded edge
-  var FX = '<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><filter id="hs-chrome-fx" x="-8%" y="-25%" width="116%" height="160%" color-interpolation-filters="sRGB">' +
-    '<feGaussianBlur in="SourceAlpha" stdDeviation="2.4" result="b"/>' +
-    '<feDiffuseLighting in="b" surfaceScale="9" diffuseConstant="1.1" lighting-color="#fff" result="d"><feDistantLight azimuth="240" elevation="48"/></feDiffuseLighting>' +
-    '<feComposite in="d" in2="SourceAlpha" operator="in" result="dIn"/>' +
-    '<feBlend in="SourceGraphic" in2="dIn" mode="multiply" result="shade"/>' +
-    '<feSpecularLighting in="b" surfaceScale="9" specularConstant="1.6" specularExponent="16" lighting-color="#fff" result="s"><feDistantLight azimuth="235" elevation="40"/></feSpecularLighting>' +
-    '<feComposite in="s" in2="SourceAlpha" operator="in" result="sIn"/>' +
-    '<feComposite in="shade" in2="sIn" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" result="lit"/>' +
-    '<feOffset in="SourceAlpha" dy="3" result="o"/><feFlood flood-color="#23272b"/><feComposite in2="o" operator="in" result="edge"/>' +
-    '<feMerge><feMergeNode in="edge"/><feMergeNode in="lit"/></feMerge></filter></svg>';
-  function addFx() {
-    if (document.getElementById('hs-chrome-fx') || !document.body) return;
-    var d = document.createElement('div'); d.innerHTML = FX; document.body.appendChild(d.firstChild);
-  }
-  // scale the bevel with the headline size (phones get a finer bevel)
-  function tuneFx() {
-    var c = document.querySelector('.hs-chrome'), f = document.getElementById('hs-chrome-fx'); if (!c || !f) return;
-    var fs = parseFloat(getComputedStyle(c).fontSize) || 100;
-    f.querySelector('feGaussianBlur').setAttribute('stdDeviation', (fs * 0.03).toFixed(2));
-    f.querySelector('feOffset').setAttribute('dy', Math.max(1.5, fs * 0.025).toFixed(1));
-  }
-  setInterval(function () { addFx(); tuneFx(); }, 600); addEventListener('resize', tuneFx);
 
   var idx = 0, timer = null, ready = false;
   function hero() { return document.querySelector('.hs-hero'); }
