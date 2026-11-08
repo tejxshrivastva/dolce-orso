@@ -44,7 +44,7 @@
     '.hs-line>*{display:inline-block}',
     '.hs-title em{font:inherit;letter-spacing:inherit}',
     '.hs-ui a,.hs-ui button{pointer-events:auto}','.hs-tag{margin:0;font:500 clamp(10px,.85vw,12px)/1.2 "Inter",sans-serif;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.78);text-wrap:balance;padding-left:.18em}',
-    '.hs-ctas{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:calc(var(--g) * -.45) 0 0}',
+    '.hs-ctas{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:calc(var(--g) * -.72) 0 0}',
     '.hs-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:40px;padding:0 24px;border-radius:999px;position:relative;overflow:hidden;isolation:isolate;font:' + MONO + ';letter-spacing:.55px;text-transform:uppercase;text-decoration:none;white-space:nowrap;transition:background .3s,color .3s,border-color .3s}',
     '.hs-btn svg{transition:transform .3s}.hs-btn:hover svg{transform:translateX(4px)}',
     '.hs-solid{background:#fff;color:#000}.hs-solid:hover{background:#e6e6e6;color:#000}',
