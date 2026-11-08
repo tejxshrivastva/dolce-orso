@@ -192,15 +192,13 @@
       sizes: 'S \u00b7 M \u00b7 L \u00b7 XL' };
   }
 
-  var THUMBS = { denim: 'assets/thumbs/denim.webp' };   // custom category thumbnails (override the first product shot)
-
   window.DOLCE = {
     categories: CATEGORIES, products: PRODUCTS, bySlug: bySlug, inr: inr, href: href, salePrice: salePrice,
     cards: function (c) { return inCat(c).map(card); },
     names: function (c, n) { return inCat(c).slice(0, n).map(function (p) { return p.name; }); },
     prices: function (c, n) { return inCat(c).slice(0, n).map(function (p) { return p.price; }); },
     imgs: function (c, n) { return inCat(c).slice(0, n).map(function (p) { return [img(p, 7), img(p, p.hov ? 8 : 0)]; }); },
-    cover: function (c) { if (THUMBS[c]) return THUMBS[c]; var l = inCat(c); return l.length ? img(l[0], 0) : ''; },
+    cover: function (c) { var l = inCat(c); return l.length ? img(l[0], 0) : ''; },
     hrefForImg: function (path) {
       path = path || '';
       for (var i = 0; i < PRODUCTS.length; i++) if (path.indexOf('/' + PRODUCTS[i].folder + '/') > -1) return href(PRODUCTS[i]);
