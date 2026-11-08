@@ -32,6 +32,7 @@
     '.dco-face{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;backface-visibility:hidden;-webkit-backface-visibility:hidden;user-select:none;-webkit-user-drag:none}',
     '.dco-back{transform:rotateY(180deg)}',
     '.dco-3d{perspective:none}',
+    '#denim>a{background:#000 url(assets/thumbs/denim.webp) 53% 38%/cover no-repeat !important}',
     '.dco-3d model-viewer{position:absolute;left:50%;top:50%;width:calc(128% * var(--s,1));height:calc(128% * var(--s,1));transform:translate(-50%,-50%);--poster-color:transparent;--progress-bar-color:transparent;--progress-bar-height:0px;background:transparent;pointer-events:none}',
     '.dco-shadow{display:block;width:46%;height:clamp(8px,1.1vw,16px);margin-top:clamp(4px,.8vw,12px);border-radius:50%;background:radial-gradient(ellipse at center,rgba(255,255,255,.22),rgba(255,255,255,0) 70%);filter:blur(5px)}',
     '.dco-item{transition:background .4s ease}',
