@@ -39,8 +39,8 @@
     '.hs-eyebrow s::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:1px solid rgba(255,255,255,.6);animation:hsPulse 2.4s ease-out infinite}',
     '@keyframes hsPulse{0%{transform:scale(.4);opacity:1}100%{transform:scale(1.6);opacity:0}}',
     '@font-face{font-family:"Germanica";src:url("assets/fonts/PlainGermanica.woff") format("woff");font-weight:400;font-style:normal;font-display:block}',
-    '.hs-title{margin:0;white-space:nowrap;font:400 clamp(38px,8.2vw,138px)/1 "Germanica","Inter",sans-serif;letter-spacing:.045em;word-spacing:-.28em;text-shadow:0 2px 24px rgba(0,0,0,.45)}',
-    '.hs-line{display:block;overflow:hidden;padding:.06em .04em .14em;margin:-.06em 0 -.14em}',
+    '.hs-title{margin:0;white-space:nowrap;font:400 clamp(32px,7.4vw,124px)/1 "Germanica","Inter",sans-serif;letter-spacing:.15em;word-spacing:-.32em;font-kerning:none;font-variant-ligatures:none;text-shadow:0 2px 24px rgba(0,0,0,.5)}',
+    '.hs-line{display:block;overflow:hidden;padding:.4em .1em .4em .25em;margin:-.4em 0}',
     '.hs-line>*{display:inline-block}',
     '.hs-title em{font:inherit;letter-spacing:inherit}',
     '.hs-tag{margin:0;font:500 clamp(10px,.85vw,12px)/1.7 "Inter",sans-serif;letter-spacing:.32em;text-transform:uppercase;color:rgba(255,255,255,.78);text-wrap:balance;padding-left:.32em}',
@@ -63,7 +63,7 @@
     '@keyframes hsFill{from{transform:scaleX(0)}to{transform:scaleX(1)}}',
     // entrance
     '.hs-rise{opacity:0;transform:translateY(22px)}',
-    '.hs-line .hs-rise{opacity:1;transform:translateY(108%)}',
+    '.hs-line .hs-rise{opacity:1;transform:translateY(190%)}',
     '.hs-hero.ready .hs-rise{animation:hsRise 1.15s cubic-bezier(.2,.75,.2,1) forwards;animation-delay:calc(var(--i,0) * 90ms + 120ms)}',
     '@keyframes hsRise{to{opacity:1;transform:none}}',
     // phones: photo on top, text below it on black, so the photo is cropped far less
@@ -72,7 +72,7 @@
     '#hero-media{inset:0 0 auto 0;height:70%}',
     '.hs-shade{background:linear-gradient(to top,#000 0%,rgba(0,0,0,.78) 14%,rgba(0,0,0,.28) 34%,rgba(0,0,0,0) 52%),linear-gradient(to bottom,rgba(0,0,0,.38) 0%,rgba(0,0,0,0) 18%)}',
     '.hs-ui{padding:0 16px 16px}',
-    '.hs-title{font-size:clamp(38px,13.6vw,70px)}',
+    '.hs-title{font-size:clamp(30px,11vw,58px)}',
     '.hs-main{gap:16px}.hs-tag{font-size:10px;letter-spacing:.2em;padding-left:.2em}',
     '.hs-scroll{display:none}',
     '.hs-ctas{width:100%}.hs-ctas .hs-btn{flex:1;padding:0 14px;height:48px}',
