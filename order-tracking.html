@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./products.js?v=111"></script>
+<script src="./products.js?v=112"></script>
 <script>window.DOLCE_KEY='order-tracking';</script>
-<script src="./settings.js?v=111"></script>
-<script src="./pages.js?v=111"></script>
-<script src="./shop.js?v=111"></script>
+<script src="./settings.js?v=112"></script>
+<script src="./pages.js?v=112"></script>
+<script src="./shop.js?v=112"></script>
 <script src="./support.js"></script>
 <style>@font-face{font-family:"Germanica";src:url("assets/fonts/PlainGermanica.woff") format("woff");font-weight:400;font-style:normal;font-display:swap}</style>
 </head>
@@ -26,7 +26,7 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 ::-webkit-scrollbar{width:0;height:0}
 </style>
 <script type="module" src="https://unpkg.com/@google/model-viewer@3.5.0/dist/model-viewer.min.js"></script>
-<script src="./panda-drag.js?v=111"></script>
+<script src="./panda-drag.js?v=112"></script>
 <script src="./locale-switcher.js"></script>
 </helmet>
 
@@ -215,10 +215,10 @@ class Component extends DCLogic {
     ];
     const products = [];
     const megaCats = [
-      { name: 'Denim', img: DOLCE.cover('denim'), anchor: 'denim' },
-        { name: 'T-Shirts', img: DOLCE.cover('t-shirts'), anchor: 't-shirts' },
-        { name: 'Jackets', img: DOLCE.cover('jackets'), anchor: 'jackets' },
-        { name: 'Hoodies', img: DOLCE.cover('hoodies'), anchor: 'ensembles' },
+      { name: 'Denim', img: DOLCE.menuCover('denim'), anchor: 'denim' },
+        { name: 'T-Shirts', img: DOLCE.menuCover('t-shirts'), anchor: 't-shirts' },
+        { name: 'Jackets', img: DOLCE.menuCover('jackets'), anchor: 'jackets' },
+        { name: 'Hoodies', img: DOLCE.menuCover('hoodies'), anchor: 'ensembles' },
     ];
     const mob = vw < 768;
     return {
