@@ -6,19 +6,19 @@
    Markup lives in index.html (.hc); everything else is here. */
 (function () {
   var css = [
-    '.hs-hero{--hc-size:180px}',
-    '.hc{position:absolute;z-index:1;left:0;top:0;width:var(--hc-size);height:var(--hc-size);touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;opacity:0;transition:opacity 1.2s ease .8s;will-change:transform}',
+    '.hs-hero{--hc-w:180px}',
+    '.hc{position:absolute;z-index:1;left:0;top:0;width:var(--hc-w);height:calc(var(--hc-w) * 1.6);touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;opacity:0;transition:opacity 1.2s ease .8s;will-change:transform}',
     '.hs-hero.ready .hc{opacity:1}',
     '.hc.grab{cursor:grabbing}',
     '.hc-body{width:100%;height:100%;filter:drop-shadow(0 14px 20px rgba(0,0,0,.55))}',
     '.hc model-viewer{width:100%;height:100%;pointer-events:none;background:transparent;--poster-color:transparent;--progress-bar-height:0px;--progress-mask:transparent}',
-    '@media (max-width:767px){.hs-hero{--hc-size:112px}}'
+    '@media (max-width:767px){.hs-hero{--hc-w:100px}}'
   ].join('');
   var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var IDLE = reduce ? 0 : 26;          // idle turn, deg/s
-  var R = '78%';                      // camera distance: smaller = chain fills more of its box
+  var IDLE = reduce ? 0 : 30;          // idle turn, deg/s (breathes faster/slower a little)
+  var R = '100%';                      // camera distance: smaller = chain fills more of its box
   var PHI0 = 78;                       // resting camera pitch, deg
   var K = 62, C = 6.5;                 // spring stiffness / damping (underdamped = small wobble)
 
@@ -35,17 +35,15 @@
     var homeL = r.left - x - hr.left, homeT = r.top - y - hr.top;
     return { x0: -homeL, x1: hr.width - homeL - r.width, y0: -homeT + 64, y1: hr.height - homeT - r.height };
   }
-  // home = sitting behind the "Q" of the headline, peeking out above it (text stays on top)
+  // home: a spot in the hero given as fractions of its width/height (centre of the charm)
+  var HOME = { desk: { fx: 0.875, fy: 0.6, w: 190 }, phone: { fx: 0.83, fy: 0.6, w: 100 } };
   function place() {
     var h = el(); if (!h || drag) return;
-    var hero = h.closest('.hs-hero'), w = document.querySelector('.hs-title .hs-rise');
-    if (!hero || !w || !w.firstChild) return;
-    var rg = document.createRange(); rg.setStart(w.firstChild, 0); rg.setEnd(w.firstChild, 1);
-    var q = rg.getBoundingClientRect(), wr = w.getBoundingClientRect(), hr = hero.getBoundingClientRect();
-    if (!q.width || !wr.height) return;
-    var s = h.offsetWidth, fs = parseFloat(getComputedStyle(w).fontSize) || wr.height;
-    var cx = q.left + q.width * 0.5 - hr.left, cy = wr.top + fs * 0.12 - hr.top;
-    h.style.left = Math.round(cx - s / 2) + 'px'; h.style.top = Math.round(cy - s / 2) + 'px';
+    var hero = h.closest('.hs-hero'); if (!hero) return;
+    var c = window.__hc || (innerWidth < 768 ? HOME.phone : HOME.desk);
+    hero.style.setProperty('--hc-w', c.w + 'px');
+    var W = hero.clientWidth, H = hero.clientHeight, w = h.offsetWidth, hh = h.offsetHeight;
+    h.style.left = Math.round(c.fx * W - w / 2) + 'px'; h.style.top = Math.round(c.fy * H - hh / 2) + 'px';
   }
   setInterval(place, 400); addEventListener('resize', place);
   function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
@@ -101,12 +99,15 @@
       x += vx * dt; y += vy * dt;
       if (Math.abs(x) < 0.05 && Math.abs(vx) < 0.5) { x = 0; vx = 0; }
       if (Math.abs(y) < 0.05 && Math.abs(vy) < 0.5) { y = 0; vy = 0; }
-      spin = IDLE + (spin - IDLE) * Math.exp(-dt * 1.4);
+      var idle = IDLE * (1 + 0.35 * Math.sin(t * 0.5));            // swirl: spin speed breathes
+      spin = idle + (spin - idle) * Math.exp(-dt * 1.4);
       theta += spin * dt;
-      phi += (PHI0 - phi) * (1 - Math.exp(-dt * 3));
+      var nod = reduce ? 0 : Math.sin(t * 0.9) * 12;                 // swirl: slow nod, like a hanging charm
+      phi += (PHI0 + nod - phi) * (1 - Math.exp(-dt * 3));
     }
-    tilt += (clamp(vx * 0.02, -28, 28) - tilt) * (1 - Math.exp(-dt * 10));   // swings with the motion
-    var bob = (drag || reduce) ? 0 : Math.sin(t * 1.5) * 6;
+    var sway = (drag || reduce) ? 0 : Math.sin(t * 1.1) * 5;            // swirl: gentle side sway
+    tilt += (clamp(vx * 0.02, -28, 28) + sway - tilt) * (1 - Math.exp(-dt * 10));   // swings with the motion
+    var bob = (drag || reduce) ? 0 : Math.sin(t * 1.3) * 7;
     h.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + (y + bob).toFixed(1) + 'px,0)';
     var b = h.firstElementChild; if (b) b.style.transform = 'rotate(' + tilt.toFixed(2) + 'deg)';
     var mv = h.querySelector('model-viewer');
