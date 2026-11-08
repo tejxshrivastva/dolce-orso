@@ -1,36 +1,50 @@
+/* Footer object (was the panda, now a 3D chrome rose) sitting on the big "Dolce Orso" wordmark.
+   - Drag it anywhere; let go and it springs back.
+   - The rose turns slowly on its own; a flick while dragging spins it faster, then it settles.
+   - Hover gives a gentle sway.
+   Markup: [data-slot="footer-panda"] wrapper with a <model-viewer> inside (every page's footer). */
 (function () {
   if (window.__pandaDrag) return; window.__pandaDrag = true;
-  let el = null, sx = 0, sy = 0, dx = 0, dy = 0, lastX = 0, vx = 0;
-  const SPRING = 'transform 0.9s cubic-bezier(.34,1.56,.64,1)';
-  document.addEventListener('pointerdown', (e) => {
-    const t = e.target.closest && e.target.closest('[data-slot="footer-panda"]');
+
+  var css =
+    '.do-rose{--rw:clamp(170px,19vw,300px);width:var(--rw);height:calc(var(--rw) * 1.45);margin-bottom:calc(var(--rw) * -0.42);' +
+    'position:relative;z-index:1;user-select:none;-webkit-user-select:none;touch-action:none;cursor:grab;-webkit-tap-highlight-color:transparent;' +
+    'filter:drop-shadow(0 18px 30px rgba(0,0,0,.5))}' +
+    '.do-rose model-viewer{width:100%;height:100%;pointer-events:none;background:transparent;--poster-color:transparent;--progress-bar-height:0px;--progress-mask:transparent}';
+  var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
+
+  var el = null, sx = 0, sy = 0, dx = 0, dy = 0, lastX = 0, vx = 0;
+  var SPRING = 'transform 0.9s cubic-bezier(.34,1.56,.64,1)';
+  document.addEventListener('pointerdown', function (e) {
+    var t = e.target.closest && e.target.closest('[data-slot="footer-panda"]');
     if (!t) return;
     e.preventDefault();
     el = t; sx = e.clientX; sy = e.clientY; lastX = e.clientX; vx = 0;
     el.style.transition = 'transform 0.12s ease';
-    
     el.style.cursor = 'grabbing';
-    el.style.transform = 'scale(1.06) rotate(-3deg)';
+    el.style.transform = 'scale(1.04) rotate(-3deg)';
   });
-  window.addEventListener('pointermove', (e) => {
+  window.addEventListener('pointermove', function (e) {
     if (!el) return;
     dx = e.clientX - sx; dy = e.clientY - sy;
-    vx = vx * 0.7 + (e.clientX - lastX) * 0.3; lastX = e.clientX;
-    const rot = Math.max(-18, Math.min(18, vx * 1.2));
+    var step = e.clientX - lastX;
+    vx = vx * 0.7 + step * 0.3; lastX = e.clientX;
+    theta += step * 0.8;                                   // moving it turns it
+    var rot = Math.max(-18, Math.min(18, vx * 1.2));
     el.style.transition = 'none';
-    el.style.transform = `translate(${dx}px, ${dy}px) rotate(${rot}deg) scale(1.06)`;
+    el.style.transform = 'translate(' + dx + 'px,' + dy + 'px) rotate(' + rot + 'deg) scale(1.04)';
   });
-  const end = () => {
+  function end() {
     if (!el) return;
-    const t = el; el = null;
+    var t = el; el = null;
+    spin = Math.max(-720, Math.min(720, IDLE + vx * 40));   // a flick sends it spinning
     t.style.transition = SPRING;
     t.style.transform = 'translate(0px, 0px) rotate(0deg) scale(1)';
     t.style.cursor = 'grab';
-    
-  };
-  let hov = null, jig = null;
-  document.addEventListener('pointerover', (e) => {
-    const t = e.target.closest && e.target.closest('[data-slot="footer-panda"]');
+  }
+  var hov = null, jig = null;
+  document.addEventListener('pointerover', function (e) {
+    var t = e.target.closest && e.target.closest('[data-slot="footer-panda"]');
     if (!t || t === hov || el) return;
     hov = t;
     if (jig) jig.cancel();
@@ -43,11 +57,28 @@
       { translate: '0 0', scale: '1 1', rotate: '0deg' }
     ], { duration: 3600, iterations: Infinity, easing: 'ease-in-out' });
   });
-  document.addEventListener('pointerout', (e) => {
+  document.addEventListener('pointerout', function (e) {
     if (!hov) return;
-    const to = e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest('[data-slot="footer-panda"]');
-    if (to !== hov) { const t = hov; hov = null; if (jig) { const cs = getComputedStyle(t); const from = { translate: cs.translate, scale: cs.scale, rotate: cs.rotate }; jig.cancel(); jig = t.animate([from, { translate: '0 0', scale: '1 1', rotate: '0deg' }], { duration: 700, easing: 'ease-out' }); } }
+    var to = e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest('[data-slot="footer-panda"]');
+    if (to !== hov) { var t = hov; hov = null; if (jig) { var cs = getComputedStyle(t); var from = { translate: cs.translate, scale: cs.scale, rotate: cs.rotate }; jig.cancel(); jig = t.animate([from, { translate: '0 0', scale: '1 1', rotate: '0deg' }], { duration: 700, easing: 'ease-out' }); } }
   });
   window.addEventListener('pointerup', end);
   window.addEventListener('pointercancel', end);
+
+  // slow turn, only while the footer is on screen
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var IDLE = reduce ? 0 : 24, theta = 0, spin = IDLE, last = 0, t0 = 0;
+  function frame(now) {
+    requestAnimationFrame(frame);
+    var dt = last ? Math.min((now - last) / 1000, 0.05) : 0.016; last = now;
+    var w = document.querySelector('[data-slot="footer-panda"]'); if (!w || document.hidden) return;
+    var r = w.getBoundingClientRect(); if (r.bottom < 0 || r.top > innerHeight) return;
+    t0 += dt;
+    spin = IDLE + (spin - IDLE) * Math.exp(-dt * 1.3);
+    if (!el) theta += spin * dt;
+    var mv = w.querySelector('model-viewer');
+    var nod = reduce ? 0 : Math.sin(t0 * 0.8) * 6;
+    if (mv) mv.cameraOrbit = (theta % 360).toFixed(1) + 'deg ' + (80 + nod).toFixed(1) + 'deg 100%';
+  }
+  requestAnimationFrame(frame);
 })();

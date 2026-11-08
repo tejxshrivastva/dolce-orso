@@ -25,7 +25,8 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 *{box-sizing:border-box}
 ::-webkit-scrollbar{width:0;height:0}
 </style>
-<script src="./panda-drag.js"></script>
+<script type="module" src="https://unpkg.com/@google/model-viewer@3.5.0/dist/model-viewer.min.js"></script>
+<script src="./panda-drag.js?v=91"></script>
 <script src="./locale-switcher.js"></script>
 </helmet>
 
@@ -183,7 +184,7 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 <span style="width:6px;height:6px;border-radius:50%;background:#fff"></span>
 <span style="font-size:11px;letter-spacing:0.55px;text-transform:uppercase;font-family:'JetBrains Mono',monospace;font-weight:500;color:rgba(255,255,255,0.62)">Crafted for little ones</span>
 </div>
-<img data-slot="footer-panda" src="assets/footer-panda-boba-cut.png" alt="Dolce Orso" draggable="false" style="width:clamp(200px,27vw,400px);height:auto;display:block;margin-bottom:calc(clamp(200px,27vw,400px) * -0.2);position:relative;z-index:1;user-select:none;touch-action:none;cursor:grab;filter:drop-shadow(0 18px 30px rgba(0,0,0,0.5))">
+<div data-slot="footer-panda" class="do-rose" aria-hidden="true"><model-viewer src="assets/home-objects/rose.glb" alt="" camera-orbit="0deg 80deg 100%" field-of-view="30deg" exposure="1.6" shadow-intensity="0" environment-image="neutral" interaction-prompt="none" loading="lazy" interpolation-decay="20" disable-zoom disable-pan disable-tap></model-viewer></div>
 <p style="margin:0;width:100%;text-align:center;font-family:'Germanica',serif;font-size:clamp(56px,16.5vw,300px);font-weight:400;letter-spacing:.04em;text-indent:.04em;word-spacing:-.25em;font-kerning:none;font-variant-ligatures:none;line-height:.92;white-space:nowrap;color:#fff;user-select:none;position:relative;z-index:2;pointer-events:none">Dolce Orso</p>
 </div>
 <div style="max-width:1440px;margin:0 auto;padding:clamp(20px,2.4vw,28px) clamp(16px,2vw,28px);display:flex;flex-direction:{{ fBarDir }};align-items:center;justify-content:{{ fBarJustify }};gap:12px 24px;flex-wrap:wrap;text-align:center;border-top:1px solid rgba(255,255,255,0.1);margin-top:clamp(20px,3vw,40px)">
