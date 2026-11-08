@@ -39,7 +39,7 @@
     '.hs-eyebrow s::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:1px solid rgba(255,255,255,.6);animation:hsPulse 2.4s ease-out infinite}',
     '@keyframes hsPulse{0%{transform:scale(.4);opacity:1}100%{transform:scale(1.6);opacity:0}}',
     '@font-face{font-family:"Germanica";src:url("assets/fonts/PlainGermanica.woff") format("woff");font-weight:400;font-style:normal;font-display:block}',
-    '.hs-title{margin:0 0 -.56em;white-space:nowrap;font:400 clamp(32px,8.2vw,150px)/1 "Germanica","Inter",sans-serif;letter-spacing:.09em;word-spacing:-.355em;font-kerning:none;font-variant-ligatures:none;text-shadow:0 2px 24px rgba(0,0,0,.5)}',
+    '.hs-title{margin:0 0 -.6em;white-space:nowrap;font:400 clamp(32px,8.2vw,150px)/1 "Germanica","Inter",sans-serif;letter-spacing:.09em;word-spacing:-.355em;font-kerning:none;font-variant-ligatures:none;text-shadow:0 2px 24px rgba(0,0,0,.5)}',
     '.hs-line{display:block;overflow:hidden;padding:.4em .1em .4em .25em;margin:-.4em 0}',
     '.hs-line>*{display:inline-block}',
     '.hs-title em{font:inherit;letter-spacing:inherit}',
