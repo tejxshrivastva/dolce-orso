@@ -1,13 +1,13 @@
-/* Footer object (was the panda, now a 3D chrome rose) sitting on the big "Dolce Orso" wordmark.
+/* Footer object (was the panda, then a rose, now a 3D silver tribal blade) on the big "Dolce Orso" wordmark.
    - Drag it anywhere; let go and it springs back.
-   - The rose turns slowly on its own; a flick while dragging spins it faster, then it settles.
+   - The blade is flat, so it rocks to show its face instead of spinning edge-on; a flick spins it, then it settles.
    - Hover gives a gentle sway.
    Markup: [data-slot="footer-panda"] wrapper with a <model-viewer> inside (every page's footer). */
 (function () {
   if (window.__pandaDrag) return; window.__pandaDrag = true;
 
   var css =
-    '.do-rose{--rw:clamp(170px,19vw,300px);width:var(--rw);height:calc(var(--rw) * 1.45);margin-bottom:calc(var(--rw) * -0.42);' +
+    '.do-rose{--rw:clamp(120px,20vw,330px);--rh:1.9;--tx:clamp(52px,15.2vw,276px);width:var(--rw);height:calc(var(--rw) * var(--rh));margin-bottom:calc(-1 * (var(--tx) + var(--rw) * var(--rh) * .05));' +
     'position:relative;z-index:1;user-select:none;-webkit-user-select:none;touch-action:none;cursor:grab;-webkit-tap-highlight-color:transparent;' +
     'filter:drop-shadow(0 18px 30px rgba(0,0,0,.5))}' +
     '.do-rose model-viewer{width:100%;height:100%;pointer-events:none;background:transparent;--poster-color:transparent;--progress-bar-height:0px;--progress-mask:transparent}';
@@ -67,18 +67,25 @@
 
   // slow turn, only while the footer is on screen
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var IDLE = reduce ? 0 : 24, theta = 0, spin = IDLE, last = 0, t0 = 0;
+  var IDLE = 0, theta = 0, spin = 0, last = 0, t0 = 0;
   function frame(now) {
     requestAnimationFrame(frame);
     var dt = last ? Math.min((now - last) / 1000, 0.05) : 0.016; last = now;
     var w = document.querySelector('[data-slot="footer-panda"]'); if (!w || document.hidden) return;
     var r = w.getBoundingClientRect(); if (r.bottom < 0 || r.top > innerHeight) return;
     t0 += dt;
-    spin = IDLE + (spin - IDLE) * Math.exp(-dt * 1.3);
-    if (!el) theta += spin * dt;
+    spin *= Math.exp(-dt * 1.3);
+    if (!el) {
+      theta += spin * dt;
+      if (Math.abs(spin) < 40) {                           // settle back to facing front (nearest full turn)
+        var home = Math.round(theta / 360) * 360;
+        theta += (home - theta) * (1 - Math.exp(-dt * 2.2));
+      }
+    }
     var mv = w.querySelector('model-viewer');
-    var nod = reduce ? 0 : Math.sin(t0 * 0.8) * 6;
-    if (mv) mv.cameraOrbit = (theta % 360).toFixed(1) + 'deg ' + (80 + nod).toFixed(1) + 'deg 100%';
+    var rock = reduce ? 0 : Math.sin(t0 * 0.7) * 32;           // slow rock so the flat blade shows its face
+    var nod = reduce ? 0 : Math.sin(t0 * 0.9) * 5;
+    if (mv) mv.cameraOrbit = ((theta + rock) % 360).toFixed(1) + 'deg ' + (90 + nod).toFixed(1) + 'deg 100%';
   }
   requestAnimationFrame(frame);
 })();
