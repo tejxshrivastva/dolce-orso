@@ -34,7 +34,7 @@
     '.dco-3d{perspective:none}',
     '#denim>a::before,#t-shirts>a::before{content:"";position:absolute;inset:0;z-index:-1;background-size:cover;background-position:53% 40%;background-repeat:no-repeat;transition:transform 1.4s cubic-bezier(.22,1,.36,1)}',
     '#denim>a::before{background-image:url(assets/thumbs/denim.webp)}',
-    '#t-shirts>a::before{background-image:url(assets/thumbs/t-shirts.webp)}',
+    '#t-shirts>a::before{background-image:url(assets/thumbs/t-shirts-2.webp)}',
     '#denim>a,#t-shirts>a{aspect-ratio:3/1 !important}',
     '#denim>a:hover::before,#t-shirts>a:hover::before{transform:scale(1.045)}',
     '#denim>a>div:first-child,#t-shirts>a>div:first-child,#jackets>a>div:first-child,#hoodies>a>div:first-child{background:linear-gradient(180deg,rgba(0,0,0,.34) 0%,rgba(0,0,0,0) 24%,rgba(0,0,0,0) 46%,rgba(0,0,0,.86) 100%),radial-gradient(70% 62% at 50% 100%,rgba(0,0,0,.72) 0%,rgba(0,0,0,.3) 55%,rgba(0,0,0,0) 100%),radial-gradient(120% 120% at 50% 40%,rgba(0,0,0,0) 55%,rgba(0,0,0,.45) 100%) !important}',
