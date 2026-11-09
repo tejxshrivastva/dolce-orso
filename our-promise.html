@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./products.js?v=116"></script>
+<script src="./products.js?v=120"></script>
 <script>window.DOLCE_KEY='our-promise';</script>
-<script src="./settings.js?v=116"></script>
-<script src="./pages.js?v=116"></script>
-<script src="./shop.js?v=116"></script>
+<script src="./settings.js?v=120"></script>
+<script src="./pages.js?v=120"></script>
+<script src="./shop.js?v=120"></script>
 <script src="./support.js"></script>
 <style>@font-face{font-family:"Germanica";src:url("assets/fonts/PlainGermanica.woff") format("woff");font-weight:400;font-style:normal;font-display:swap}</style>
-<link rel="stylesheet" href="./mobile.css?v=1">
+<link rel="stylesheet" href="./mobile.css?v=7">
 </head>
 <body>
 <x-dc>
@@ -27,8 +27,8 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 ::-webkit-scrollbar{width:0;height:0}
 </style>
 <script type="module" src="https://unpkg.com/@google/model-viewer@3.5.0/dist/model-viewer.min.js"></script>
-<script src="./panda-drag.js?v=116"></script>
-<script src="./locale-switcher.js?v=116"></script>
+<script src="./panda-drag.js?v=120"></script>
+<script src="./locale-switcher.js?v=120"></script>
 </helmet>
 
 <!-- MOBILE MENU DRAWER -->
@@ -255,7 +255,7 @@ class Component extends DCLogic {
       searchBtnDisplay: this.state.searchOpen && vw >= 768 ? 'none' : 'flex',
       searchBarDisplay: this.state.searchOpen && vw >= 768 ? 'flex' : 'none',
       footJustify: vw < 768 ? 'flex-start' : 'flex-end',
-      fAlign: vw < 768 ? 'center' : 'left', fItems: vw < 768 ? 'center' : 'flex-start', fSelf: vw < 768 ? 'center' : 'end', fNewsCols: vw < 768 ? 'minmax(0,1fr)' : 'repeat(auto-fit,minmax(min(420px,100%),1fr))', fLinkCols: vw < 768 ? 'repeat(2,minmax(0,1fr))' : 'repeat(auto-fit,minmax(min(160px,100%),1fr))', fBarJustify: vw < 768 ? 'center' : 'space-between', fBarDir: vw < 768 ? 'column' : 'row', footAlign: vw < 768 ? 'left' : 'right',
+      fAlign: vw < 768 ? 'center' : 'left', fItems: vw < 768 ? 'center' : 'flex-start', fSelf: vw < 768 ? 'center' : 'end', fNewsCols: vw < 768 ? 'minmax(0,1fr)' : 'repeat(auto-fit,minmax(min(420px,100%),1fr))', fLinkCols: vw < 768 ? 'repeat(2,minmax(0,1fr))' : vw < 1024 ? 'repeat(4,minmax(0,1fr))' : 'repeat(auto-fit,minmax(min(160px,100%),1fr))', fBarJustify: vw < 768 ? 'center' : 'space-between', fBarDir: vw < 768 ? 'column' : 'row', footAlign: vw < 768 ? 'left' : 'right',
     };
   }
 }

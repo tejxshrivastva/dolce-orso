@@ -191,7 +191,7 @@
     '@media(max-width:959px){.do-bag{grid-template-columns:1fr}.do-sum{position:static!important}.do-bagpage{padding-bottom:96px!important}}',
     '.do-line{display:grid;grid-template-columns:clamp(96px,11vw,136px) minmax(0,1fr) auto;gap:clamp(14px,2vw,26px);padding:clamp(12px,1.6vw,18px);border:1px solid #e0e0e0;border-radius:20px;margin-bottom:8px;background:#fff;animation:doUp .45s cubic-bezier(.2,.7,.2,1) both}',
     '.do-li{display:flex;flex-direction:column;justify-content:space-between;gap:14px;min-width:0}',
-    '.do-cat{margin:0 0 6px;font:500 10px "JetBrains Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:#999}',
+    '.do-cat{margin:0 0 6px;font:500 11px "JetBrains Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:#999}',
     '.do-nm{color:#000;text-decoration:none;font-size:clamp(15px,1.3vw,18px);font-weight:500;line-height:1.3}.do-nm:hover{text-decoration:underline;text-underline-offset:3px}',
     '.do-szs{display:flex;gap:6px;flex-wrap:wrap}.do-szs button{min-width:38px;height:32px;padding:0 10px;border:1px solid #ddd;border-radius:999px;background:#fff;color:#000;font:500 11px "JetBrains Mono",monospace;cursor:pointer;transition:all .2s}.do-szs button:hover{border-color:#000}.do-szs button.on{background:#000;color:#fff;border-color:#000}',
     '.do-act{display:flex;align-items:center;gap:16px;flex-wrap:wrap}',
@@ -213,6 +213,7 @@
     '.do-emp{display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;padding:clamp(36px,7vw,88px) 20px;border:1px solid #e0e0e0;border-radius:20px}.do-emp svg{opacity:.85}.do-emp h2{margin:0;font-size:clamp(26px,3vw,40px);font-weight:500;letter-spacing:-.035em}.do-emp p{margin:0 0 8px;max-width:420px;color:#666;font-size:15px;line-height:1.65}',
     '.do-wtools{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:clamp(14px,2vw,24px)}',
     '.do-wc{gap:12px;animation:doUp .5s cubic-bezier(.2,.7,.2,1) both}.do-wc:hover{opacity:1}',
+    '.do-wc>div:nth-child(2){align-items:flex-start!important}.do-wc>div:nth-child(2)>a{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;min-height:2.6em;line-height:1.3}',   // same-height name row, so size buttons line up across cards
     '.do-wc .do-szs{margin-top:2px}.do-wc .do-szs button{flex:1 0 calc(25% - 6px);min-width:0;height:34px;padding:0}',
     '.do-wc .do-btn{height:44px;width:100%;padding:0 12px;box-sizing:border-box}'
   ].join('');
@@ -258,7 +259,7 @@
       + '<a class="do-btn w" data-order="1" href="#">Order on WhatsApp<span class="do-arr">→</span></a>'
       + '<p style="margin:14px 0 0;font-size:12px;line-height:1.6;color:rgba(255,255,255,.6);text-align:center">Payment and delivery are confirmed personally before anything is charged.</p>'
       + '<div class="do-perks2">' + perks + '</div></aside>';
-    var bar = '<div class="do-bar"><div><div style="font:500 10px \'JetBrains Mono\',monospace;letter-spacing:.08em;text-transform:uppercase;color:#888">Total</div><div style="font-size:20px;font-weight:500;letter-spacing:-.02em">' + D.inr(bagTotal()) + '</div></div><a class="do-btn" data-order="1" href="#">Order on WhatsApp</a></div>';
+    var bar = '<div class="do-bar"><div><div style="font:500 11px \'JetBrains Mono\',monospace;letter-spacing:.08em;text-transform:uppercase;color:#888">Total</div><div style="font-size:20px;font-weight:500;letter-spacing:-.02em">' + D.inr(bagTotal()) + '</div></div><a class="do-btn" data-order="1" href="#">Order on WhatsApp</a></div>';
     var inBag = bag.map(function (i) { return i.slug; });
     return head('Your Bag', bagCount() + (bagCount() === 1 ? ' piece' : ' pieces') + ' · held for you')
       + wrap('<div class="do-bagpage"><div class="do-bag"><div>' + undo + rows + '<a href="shop" class="do-tl" style="display:inline-block;margin-top:12px">← Continue shopping</a></div>' + summary + '</div>' + suggest('You may also love', inBag) + '</div>' + bar);

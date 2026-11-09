@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dolce Orso — Quiet Rebels</title>
-<script src="./products.js?v=116"></script>
-<script src="./settings.js?v=116"></script>
-<script src="./pages.js?v=116"></script>
-<script src="./shop.js?v=116"></script>
+<script src="./products.js?v=120"></script>
+<script src="./settings.js?v=120"></script>
+<script src="./pages.js?v=120"></script>
+<script src="./shop.js?v=120"></script>
 <script src="./support.js"></script>
 <style>@font-face{font-family:"Germanica";src:url("assets/fonts/PlainGermanica.woff") format("woff");font-weight:400;font-style:normal;font-display:swap}</style>
-<link rel="stylesheet" href="./mobile.css?v=1">
+<link rel="stylesheet" href="./mobile.css?v=7">
 </head>
 <body>
 <x-dc>
@@ -35,11 +35,11 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 @keyframes jiggle4{0%,100%{transform:rotate(-0.6deg) translateX(1px)}50%{transform:rotate(0.6deg) translateX(-1px)}}
 </style>
 <script type="module" src="https://unpkg.com/@google/model-viewer@3.5.0/dist/model-viewer.min.js"></script>
-<script src="./home-objects.js?v=116"></script>
-<script src="./hero-slides.js?v=116"></script>
-<script src="./hero-charm.js?v=116"></script>
-<script src="./panda-drag.js?v=116"></script>
-<script src="./locale-switcher.js?v=116"></script>
+<script src="./home-objects.js?v=120"></script>
+<script src="./hero-slides.js?v=120"></script>
+<script src="./hero-charm.js?v=120"></script>
+<script src="./panda-drag.js?v=120"></script>
+<script src="./locale-switcher.js?v=120"></script>
 </helmet>
 
 <!-- MOBILE MENU DRAWER -->
@@ -131,13 +131,13 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 <section class="hs-hero" aria-label="Dolce Orso campaign">
 <div id="hero-media" style="position:absolute;z-index:0;background:#000;overflow:hidden">
 <img class="hs-slide on" src="assets/hero/01-airborne-tribal-denim.webp" alt="Boy mid-air in black tribal-print wide jeans" style="--x:50%" fetchpriority="high" decoding="async" draggable="false">
-<img class="hs-slide" data-src="assets/hero/02-dragon-tiger-crouch.webp" alt="Boy in a black leather jacket with dragon and tiger embroidery" style="--x:70%" decoding="async" draggable="false">
+<img class="hs-slide" data-src="assets/hero/02-dragon-tiger-crouch.webp" alt="Boy in a black leather jacket with dragon and tiger embroidery" style="--x:80%" decoding="async" draggable="false">
 <img class="hs-slide" data-src="assets/hero/03-fur-and-croc-duo.webp" alt="Two boys in a brown faux fur jacket and a red croc bomber" style="--x:66%" decoding="async" draggable="false">
 <img class="hs-slide" data-src="assets/hero/04-rainy-rockstar.webp" alt="Boy in a pink skeleton hoodie dancing in the rain" style="--x:56%" decoding="async" draggable="false">
 <img class="hs-slide" data-src="assets/hero/05-skateboard-puffer.webp" alt="Boy in a light blue Dolce Orso puffer on a skateboard" style="--x:60%" decoding="async" draggable="false">
 <img class="hs-slide" data-src="assets/hero/06-rain-city-duo.webp" alt="Two boys in a tribal zip hoodie and a magenta fur jacket at night" style="--x:52%" decoding="async" draggable="false">
 <img class="hs-slide" data-src="assets/hero/07-golden-scroll-parkour.webp" alt="Boy running up a wall in gold scroll embroidered jeans" style="--x:55%" decoding="async" draggable="false">
-<img class="hs-slide" data-src="assets/hero/08-loft-duo.webp" alt="Two boys in a neon face tee and an armoured denim jacket" style="--x:30%" decoding="async" draggable="false">
+<img class="hs-slide" data-src="assets/hero/08-loft-duo.webp" alt="Two boys in a neon face tee and an armoured denim jacket" style="--x:48%" decoding="async" draggable="false">
 <img class="hs-slide" data-src="assets/hero/09-butterfly-breakdance.webp" alt="Boy in a butterfly print tee breakdancing at a skatepark" style="--x:45%" decoding="async" draggable="false">
 <img class="hs-slide" data-src="assets/hero/10-fur-street.webp" alt="Boy in a brown faux fur jacket and black cargo jeans" style="--x:63%" decoding="async" draggable="false">
 <img class="hs-slide" data-src="assets/hero/11-rooftop-parkour.webp" alt="Boy vaulting a rooftop ledge in a red croc bomber" style="--x:60%" decoding="async" draggable="false">
@@ -488,13 +488,14 @@ class Component extends DCLogic {
     const showSizes = this.props.showSizes ?? true;
     const cardRatio = (this.props.cardShape ?? 'tall') === 'tall' ? '4/5' : '1/1';
     const mk = (catSlug, names, prices, imgs) => names.map((n, i) => {
-      const sale = (i === 0 || i === 4) && showSale;
+      const realP = DOLCE.bySlug(DOLCE.slugForImg((imgs && imgs[i] && imgs[i][0]) || ''));
+      const sale = !!(realP && realP.sale) && showSale;   // sale badge comes from the product data, same as the shop pages
       const sp = sale ? Math.round(prices[i] * 0.8) : null;
       const productImgs = (imgs && imgs[i]) ? imgs[i] : [];
       const pid = catSlug + '-' + i;
       const isHov = this.state.hovPid === pid;
       const curImg = productImgs[0] || '';
-      return { name: n, priceText: '\u20b9' + prices[i].toLocaleString('en-IN'), onSale: sale, notOnSale: !sale, salePriceText: sp ? '\u20b9' + sp.toLocaleString('en-IN') : '', salePercent: '-20%', sizes: 'S \u00b7 M \u00b7 L \u00b7 XL', img: curImg, hoverImg: productImgs[1] || curImg, href: DOLCE.hrefForImg(productImgs[0]), slug: DOLCE.slugForImg(productImgs[0]), imgs: productImgs, onCardEnter: () => this._startHoverCycle(pid, productImgs), onCardLeave: () => this._stopHoverCycle() };
+      return { name: n, priceText: '\u20b9' + prices[i].toLocaleString('en-IN'), onSale: sale, notOnSale: !sale, salePriceText: sp ? '\u20b9' + sp.toLocaleString('en-IN') : '', salePercent: '-20%', sizes: 'XXXS \u2013 XXL', img: curImg, hoverImg: productImgs[1] || curImg, href: DOLCE.hrefForImg(productImgs[0]), slug: DOLCE.slugForImg(productImgs[0]), imgs: productImgs, onCardEnter: () => this._startHoverCycle(pid, productImgs), onCardLeave: () => this._stopHoverCycle() };
     });
     const categories = [
       { name: 'Denim', slug: 'denim', pageLink: 'denim', thumbImg: DOLCE.cover('denim'), thumbEl: null, products: mk('denim',DOLCE.names('denim',8),DOLCE.prices('denim',8),DOLCE.imgs('denim',8)) },
@@ -536,7 +537,7 @@ class Component extends DCLogic {
       searchBtnDisplay: this.state.searchOpen && vw >= 768 ? 'none' : 'flex',
       searchBarDisplay: this.state.searchOpen && vw >= 768 ? 'flex' : 'none',
       footJustify: vw < 768 ? 'flex-start' : 'flex-end',
-      fAlign: vw < 768 ? 'center' : 'left', fItems: vw < 768 ? 'center' : 'flex-start', fSelf: vw < 768 ? 'center' : 'end', fNewsCols: vw < 768 ? 'minmax(0,1fr)' : 'repeat(auto-fit,minmax(min(420px,100%),1fr))', fLinkCols: vw < 768 ? 'repeat(2,minmax(0,1fr))' : 'repeat(auto-fit,minmax(min(160px,100%),1fr))', fBarJustify: vw < 768 ? 'center' : 'space-between', fBarDir: vw < 768 ? 'column' : 'row', footAlign: vw < 768 ? 'left' : 'right',
+      fAlign: vw < 768 ? 'center' : 'left', fItems: vw < 768 ? 'center' : 'flex-start', fSelf: vw < 768 ? 'center' : 'end', fNewsCols: vw < 768 ? 'minmax(0,1fr)' : 'repeat(auto-fit,minmax(min(420px,100%),1fr))', fLinkCols: vw < 768 ? 'repeat(2,minmax(0,1fr))' : vw < 1024 ? 'repeat(4,minmax(0,1fr))' : 'repeat(auto-fit,minmax(min(160px,100%),1fr))', fBarJustify: vw < 768 ? 'center' : 'space-between', fBarDir: vw < 768 ? 'column' : 'row', footAlign: vw < 768 ? 'left' : 'right',
       megaOpen: this.state.megaOpen,
       megaDisplay: this.state.megaOpen ? 'block' : 'none',
       megaOpacity: this.state.megaOpen ? 1 : 0,
@@ -548,7 +549,7 @@ class Component extends DCLogic {
         { name: 'Hoodies', img: DOLCE.menuCover('hoodies'), anchor: 'ensembles' },
       ],
       toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
-      gridCols: vw >= 1024 ? 'repeat(4, 1fr)' : vw >= 768 ? 'repeat(3, 1fr)' : 'repeat(2, 1fr)',
+      gridCols: vw >= 768 ? 'repeat(4, minmax(0, 1fr))' : 'repeat(2, minmax(0, 1fr))',   // 8 pieces per category: 2 even rows of 4 on tablet and desktop
       categories: categories.map((c, i) => Object.assign({}, c, { idxLabel: String(i + 1).padStart(2, '0') + ' / ' + String(categories.length).padStart(2, '0')})), showSizes, cardRatio, catRatio: mob ? '8/3' : '32/9',
       catNavItems: categories.map(c => ({ name: c.name, anchor: '#' + c.slug })),
       ...this._catBoxLayout(vw),

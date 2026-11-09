@@ -82,7 +82,7 @@
     btn.setAttribute('aria-label',lab+': '+val);btn.setAttribute('aria-haspopup','listbox');
     btn.style.cssText=hdr
       ?'background:none;border:none;padding:0 10px;min-height:40px;display:flex;align-items:center;gap:7px;font:400 13px Inter,sans-serif;letter-spacing:0.5px;color:inherit;white-space:nowrap'
-      :'background:none;border:none;padding:6px 0;display:inline-flex;align-items:center;gap:8px;font:400 10px '+MONO+';letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.62);white-space:nowrap;transition:color .2s';
+      :'background:none;border:none;padding:6px 0;display:inline-flex;align-items:center;gap:8px;font:400 11px '+MONO+';letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.62);white-space:nowrap;transition:color .2s';
     btn.innerHTML='<span style="opacity:'+(hdr?'0.6':'0.7')+'">'+lab+'</span><span style="'+(hdr?'':'color:#fff')+'">'+val+'</span>'+CHEV;
     if(!hdr){btn.onmouseenter=()=>{btn.style.color='#fff';};btn.onmouseleave=()=>{btn.style.color='rgba(255,255,255,0.62)';};}
     let panel=null;
