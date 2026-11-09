@@ -103,10 +103,10 @@
   #products button { min-height: 40px; }
 }
 
-/* product card shine flash — every 6s, all cards flash together, slow sweep */
+/* product card shine flash — 7s cycle, ~3s slow sweep, all cards in sync */
 @keyframes doCardShine {
   0%   { transform: translateX(-120%); }
-  12%  { transform: translateX(120%); }
+  45%  { transform: translateX(120%); }
   100% { transform: translateX(120%); }
 }
 a[href^="product?p="] > div:first-child::after,
@@ -130,7 +130,7 @@ a[href^="product?p="] > div:first-child::after,
     transparent 100%
   );
   transform: translateX(-120%);
-  animation: doCardShine 6s ease-in-out infinite;
+  animation: doCardShine 7s ease-in-out infinite;
   z-index: 3;
 }
 
