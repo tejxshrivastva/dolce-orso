@@ -18,6 +18,8 @@
     ['Gold', '#c9a227', /\bgold|golden|gilded|sunflower|yellow\b/]
   ];
   var PRICES = [['Under ₹3,000', 0, 2999], ['₹3,000 – ₹5,000', 3000, 5000], ['Over ₹5,000', 5001, 1e9]];
+  var SORTS = [{key:'new',label:'Newest'},{key:'low',label:'Price: Low to High'},{key:'high',label:'Price: High to Low'},{key:'best',label:'Best Selling'}];
+  var CHEV_S = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0"><polyline points="6 9 12 15 18 9"></polyline></svg>';
 
   var st = { price: [], colour: [], sale: false, sort: 'new' };
   function price(p) { return p.sale ? D.salePrice(p) : p.price; }
@@ -102,7 +104,10 @@
     + '.lf-chip.on{background:#000;color:#fff;border-color:#000}.lf-chip i{width:12px;height:12px;border-radius:50%;border:1px solid rgba(0,0,0,.18);flex-shrink:0}.lf-chip.on i{border-color:rgba(255,255,255,.6)}.lf-chip small{opacity:.55;font-size:11px}'
     + '.lf-tog{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:15px}.lf-sw{position:relative;width:48px;height:28px;border-radius:14px;background:#ddd;border:0;cursor:pointer;transition:background .2s;flex-shrink:0}.lf-sw::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}.lf-sw.on{background:#000}.lf-sw.on::after{transform:translateX(20px)}'
     + '.lf-ft{display:grid;grid-template-columns:1fr 2fr;gap:10px;padding:14px 20px calc(14px + env(safe-area-inset-bottom));border-top:1px solid #eee}'
-    + '.lf-btn{display:inline-flex;align-items:center;justify-content:center;height:50px;padding:0 20px;border-radius:999px;border:1.5px solid #000;background:#000;color:#fff;font:500 11px "JetBrains Mono",monospace;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}.lf-btn.o{background:#fff;color:#000;border-color:#e0e0e0}';
+    + '.lf-btn{display:inline-flex;align-items:center;justify-content:center;height:50px;padding:0 20px;border-radius:999px;border:1.5px solid #000;background:#000;color:#fff;font:500 11px "JetBrains Mono",monospace;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}.lf-btn.o{background:#fff;color:#000;border-color:#e0e0e0}'
+    + '.lf-sort-btn{height:36px;border:1px solid #ddd;border-radius:20px;font:500 11px "JetBrains Mono",monospace;cursor:pointer;background:#fff;padding:0 14px;color:#000;display:inline-flex;align-items:center;gap:7px;white-space:nowrap;transition:border-color .2s}.lf-sort-btn:hover{border-color:#000}.lf-sort-btn svg{transition:transform .2s}.lf-sort-btn.open svg{transform:rotate(180deg)}'
+    + '.lf-sort-dd{position:absolute;top:calc(100% + 6px);right:0;background:#fff;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.15);padding:6px;min-width:210px;z-index:200;overflow:hidden}'
+    + '.lf-sort-opt{display:flex;align-items:center;width:100%;padding:10px 14px;border:none;border-radius:10px;background:transparent;font:400 13px Inter,sans-serif;color:#000;cursor:pointer;text-align:left;transition:background .15s}.lf-sort-opt:hover{background:#f6f6f6}.lf-sort-opt.on{background:#f2f2f2;font-weight:500}';
   var css = document.createElement('style'); css.textContent = CSS; document.head.appendChild(css);
 
   var sheet = null, scrim = null, draft = null;
@@ -131,6 +136,7 @@
   }
   function open(sec) {
     if (sheet) return;
+    closeSortDD();
     draft = { price: st.price.slice(), colour: st.colour.slice(), sale: st.sale, sort: st.sort };
     scrim = document.createElement('div'); scrim.className = 'lf-scrim';
     sheet = document.createElement('div'); sheet.className = 'lf-sheet'; sheet.setAttribute('role', 'dialog'); sheet.setAttribute('aria-modal', 'true'); sheet.setAttribute('aria-label', 'Filter');
@@ -162,7 +168,38 @@
     setTimeout(function () { s.remove(); c.remove(); }, 320);
   }
   function scrollToGrid() { var b = bar(); if (b) { var y = b.getBoundingClientRect().top + scrollY - 90; if (Math.abs(scrollY - y) > 40) scrollTo({ top: y, behavior: 'smooth' }); } }
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { close(); closeSortDD(); } });
+
+  /* ---------- custom sort dropdown ---------- */
+  var sortDD = null, _sortClose = null;
+  function sortLabel() { return (SORTS.find(function (s) { return s.key === st.sort; }) || SORTS[0]).label; }
+  function closeSortDD() {
+    if (!sortDD) return;
+    sortDD.remove(); sortDD = null;
+    var b = document.querySelector('.lf-sort-btn'); if (b) b.classList.remove('open');
+    if (_sortClose) { document.removeEventListener('click', _sortClose); _sortClose = null; }
+  }
+  function openSortDD(anchor) {
+    if (sortDD) { closeSortDD(); return; }
+    anchor.classList.add('open');
+    var wrap = anchor.parentElement; wrap.style.position = 'relative';
+    sortDD = document.createElement('div'); sortDD.className = 'lf-sort-dd'; sortDD.setAttribute('role', 'listbox');
+    sortDD.innerHTML = SORTS.map(function (s) {
+      return '<button type="button" role="option" class="lf-sort-opt' + (s.key === st.sort ? ' on' : '') + '" data-sk="' + s.key + '">' + s.label + '</button>';
+    }).join('');
+    [].forEach.call(sortDD.querySelectorAll('.lf-sort-opt'), function (o) {
+      o.onclick = function (e) {
+        e.stopPropagation();
+        st.sort = o.dataset.sk;
+        apply();
+        anchor.innerHTML = sortLabel() + ' ' + CHEV_S;
+        closeSortDD();
+      };
+    });
+    wrap.appendChild(sortDD);
+    _sortClose = function (e) { if (sortDD && !sortDD.contains(e.target) && e.target !== anchor) closeSortDD(); };
+    setTimeout(function () { document.addEventListener('click', _sortClose); }, 0);
+  }
 
   /* ---------- wire the bar (re-done whenever the page re-renders it) ---------- */
   function wire() {
@@ -170,12 +207,15 @@
     var sizeB = btn('size') || b.querySelector('[data-lf-sale]');
     if (sizeB && !sizeB.hasAttribute('data-lf-sale')) { sizeB.setAttribute('data-lf-sale', '1'); sizeB.textContent = 'On sale'; }
     var sel = b.querySelector('select');
-    if (sel && !sel.dataset.lfw) {
-      sel.dataset.lfw = '1';
-      sel.setAttribute('aria-label', 'Sort');
-      sel.addEventListener('change', function () { st.sort = ['new', 'low', 'high', 'best'][sel.selectedIndex] || 'new'; apply(); });
+    if (sel) {
+      var sb = document.createElement('button'); sb.type = 'button'; sb.className = 'lf-sort-btn';
+      sb.setAttribute('aria-haspopup', 'listbox'); sb.setAttribute('aria-label', 'Sort');
+      sb.innerHTML = sortLabel() + ' ' + CHEV_S;
+      sb.onclick = function (e) { e.stopPropagation(); openSortDD(sb); };
+      sel.replaceWith(sb);
     }
-    if (sel) { var want = ['new', 'low', 'high', 'best'].indexOf(st.sort); if (want > -1 && sel.selectedIndex !== want) sel.selectedIndex = want; }
+    var eb = b.querySelector('.lf-sort-btn');
+    if (eb) { var nl = sortLabel() + ' ' + CHEV_S; if (eb.innerHTML !== nl) eb.innerHTML = nl; }
     if (!document.getElementById('lf-count')) {
       var c = document.createElement('span'); c.id = 'lf-count'; b.appendChild(c);
       b.style.flexWrap = 'wrap';

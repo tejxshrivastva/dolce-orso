@@ -93,7 +93,7 @@
   #products > div:first-child { display: grid !important; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px !important; width: 100%; overflow: visible !important; }
   #products > div:first-child > button { padding: 0 6px !important; justify-content: center; display: inline-flex; align-items: center; gap: 6px; min-width: 0; }
   #products > div:nth-child(2) { justify-content: center; }
-  #products button, #products select { min-height: 40px; }
+  #products button { min-height: 40px; }
 }
 
 /* very narrow phones (iPhone SE / mini): keep the header roomy */
