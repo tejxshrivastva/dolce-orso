@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script>try{if(localStorage.getItem('do-dark')==='1')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dolce Orso</title>
@@ -11,7 +10,7 @@
 <script src="./shop.js?v=124"></script>
 <script src="./support.js"></script>
 <style>@font-face{font-family:"Germanica";src:url("assets/fonts/PlainGermanica.woff") format("woff");font-weight:400;font-style:normal;font-display:swap}</style>
-<link rel="stylesheet" href="./mobile.css?v=15">
+<link rel="stylesheet" href="./mobile.css?v=16">
 </head>
 <body>
 <x-dc>
@@ -70,11 +69,6 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 <a href="bag" style="display:flex;align-items:center;justify-content:space-between;height:52px;border-bottom:1px solid rgba(255,255,255,.1);font-size:14px;color:rgba(255,255,255,.7)">Bag</a>
 <a href="wishlist" style="display:flex;align-items:center;justify-content:space-between;height:52px;border-bottom:1px solid rgba(255,255,255,.1);font-size:14px;color:rgba(255,255,255,.7)">Wishlist</a>
 <a href="concierge" style="display:flex;align-items:center;justify-content:space-between;height:52px;border-bottom:1px solid rgba(255,255,255,.1);font-size:14px;color:rgba(255,255,255,.7)">Concierge</a>
-<button onClick="{{ toggleDark }}" style="display:flex;align-items:center;justify-content:space-between;height:52px;border:none;border-bottom:1px solid rgba(255,255,255,.1);font-size:14px;color:rgba(255,255,255,.7);background:none;padding:0;width:100%;font-family:inherit">
-<span>{{ darkLabel }}</span>
-<svg class="do-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path></svg>
-<svg class="do-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-</button>
 </div>
 </div>
 </sc-if>
@@ -108,10 +102,6 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 <a href="account" style="min-width:40px;min-height:40px;display:flex;align-items:center;justify-content:center;color:{{ headerColor }}">
 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4.42 3.58-8 8-8s8 3.58 8 8"></path></svg>
 </a>
-<button onClick="{{ toggleDark }}" aria-label="Toggle dark mode" class="do-dark-toggle" style="background:none;border:none;padding:0;min-width:40px;min-height:40px;display:{{ darkBtnDesktop }};align-items:center;justify-content:center;color:{{ headerColor }}">
-<svg class="do-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path></svg>
-<svg class="do-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-</button>
 </div>
 </div>
 <sc-if value="{{ mobSearchOpen }}" hint-placeholder-val="{{ false }}">
@@ -337,7 +327,7 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 }">
 
 class Component extends DCLogic {
-  state = { vw: typeof window !== 'undefined' ? window.innerWidth : 1440, menuOpen: false, scrolled: false, headerHover: false, megaOpen: false, searchOpen: false, dragIndex: -1, dragDx: 0, dragDy: 0, hoverIndex: -1, activePanel: 0, darkMode: typeof window !== 'undefined' && localStorage.getItem('do-dark') === '1' };
+  state = { vw: typeof window !== 'undefined' ? window.innerWidth : 1440, menuOpen: false, scrolled: false, headerHover: false, megaOpen: false, searchOpen: false, dragIndex: -1, dragDx: 0, dragDy: 0, hoverIndex: -1, activePanel: 0 };
   _rafId = null;
   componentDidMount() {
     this._r = () => this.setState({ vw: window.innerWidth });
@@ -560,9 +550,6 @@ class Component extends DCLogic {
       ],
       toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
       closeMenu: () => this.setState({ menuOpen: false }),
-      toggleDark: () => { const next = !this.state.darkMode; try{localStorage.setItem('do-dark', next ? '1' : '0')}catch(e){} document.documentElement.setAttribute('data-theme', next ? 'dark' : 'light'); this.setState({ darkMode: next }); },
-      darkLabel: this.state.darkMode ? 'Light Mode' : 'Dark Mode',
-      darkBtnDesktop: vw >= 768 ? 'flex' : 'none',
       gridCols: vw >= 768 ? 'repeat(4, minmax(0, 1fr))' : 'repeat(2, minmax(0, 1fr))',   // 8 pieces per category: 2 even rows of 4 on tablet and desktop
       categories: categories.map((c, i) => Object.assign({}, c, { idxLabel: String(i + 1).padStart(2, '0') + ' / ' + String(categories.length).padStart(2, '0')})), showSizes, cardRatio, catRatio: mob ? '8/3' : '32/9',
       catNavItems: categories.map(c => ({ name: c.name, anchor: '#' + c.slug })),

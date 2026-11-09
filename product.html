@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script>try{if(localStorage.getItem('do-dark')==='1')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dolce Orso</title>
@@ -11,7 +10,7 @@
 <script src="./shop.js?v=124"></script>
 <script src="./support.js"></script>
 <style>@font-face{font-family:"Germanica";src:url("assets/fonts/PlainGermanica.woff") format("woff");font-weight:400;font-style:normal;font-display:swap}</style>
-<link rel="stylesheet" href="./mobile.css?v=15">
+<link rel="stylesheet" href="./mobile.css?v=16">
 </head>
 <body>
 <x-dc>
@@ -59,11 +58,6 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 <a href="bag" style="display:flex;align-items:center;justify-content:space-between;height:52px;border-bottom:1px solid rgba(255,255,255,.1);font-size:14px;color:rgba(255,255,255,.7)">Bag</a>
 <a href="wishlist" style="display:flex;align-items:center;justify-content:space-between;height:52px;border-bottom:1px solid rgba(255,255,255,.1);font-size:14px;color:rgba(255,255,255,.7)">Wishlist</a>
 <a href="concierge" style="display:flex;align-items:center;justify-content:space-between;height:52px;border-bottom:1px solid rgba(255,255,255,.1);font-size:14px;color:rgba(255,255,255,.7)">Concierge</a>
-<button onClick="{{ toggleDark }}" style="display:flex;align-items:center;justify-content:space-between;height:52px;border:none;border-bottom:1px solid rgba(255,255,255,.1);font-size:14px;color:rgba(255,255,255,.7);background:none;padding:0;width:100%;font-family:inherit">
-<span>{{ darkLabel }}</span>
-<svg class="do-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path></svg>
-<svg class="do-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-</button>
 </div>
 </div>
 </sc-if>
@@ -93,10 +87,6 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 <a href="bag" style="position:relative;min-width:40px;min-height:40px;display:flex;align-items:center;justify-content:center;color:#000"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 8h14l-1 12H6L5 8z"></path><path d="M9 8V6a3 3 0 016 0v2"></path></svg><span data-bagcount style="display:none;position:absolute;top:4px;right:2px;min-width:16px;height:16px;padding:0 4px;box-sizing:border-box;border-radius:999px;background:#000;color:#fff;font:500 10px 'JetBrains Mono',monospace;align-items:center;justify-content:center"></span></a>
 <a href="wishlist" style="min-width:40px;min-height:40px;display:flex;align-items:center;justify-content:center;color:#000"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21s-9-5.5-9-12.5C3 5.42 5.42 3 8.5 3c1.74 0 3.41.81 3.5 2 .09-1.19 1.76-2 3.5-2C18.58 3 21 5.42 21 8.5 21 15.5 12 21 12 21z"></path></svg></a>
 <a href="account" style="min-width:40px;min-height:40px;display:flex;align-items:center;justify-content:center;color:#000"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4.42 3.58-8 8-8s8 3.58 8 8"></path></svg></a>
-<button onClick="{{ toggleDark }}" aria-label="Toggle dark mode" class="do-dark-toggle" style="background:none;border:none;padding:0;min-width:40px;min-height:40px;display:{{ darkBtnDesktop }};align-items:center;justify-content:center;color:{{ headerColor }}">
-<svg class="do-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path></svg>
-<svg class="do-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-</button>
 </div>
 </div>
 <sc-if value="{{ mobSearchOpen }}" hint-placeholder-val="{{ false }}">
@@ -452,7 +442,7 @@ class Component extends DCLogic {
 
       menuOpen: !!this.state.menuOpen,
       onMenuClick: () => { if (vw < 1024) this.setState({ menuOpen: true, megaOpen: false, searchOpen: false }); else this.setState(s => ({ megaOpen: !s.megaOpen, searchOpen: false })); },
-      closeMenu: () => this.setState({ menuOpen: false, darkMode: typeof window !== "undefined" && localStorage.getItem("do-dark") === "1" }),
+      closeMenu: () => this.setState({ menuOpen: false }),
       onSearchClick: () => this.setState(s => ({ searchOpen: !s.searchOpen, megaOpen: false })),
       closeSearch: () => this.setState({ searchOpen: false }),
       mobSearchOpen: this.state.searchOpen && vw < 768,
