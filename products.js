@@ -223,4 +223,11 @@
       return bySlug(s) || PRODUCTS[0];
     }
   };
+
+  // product page with a missing or unknown ?p= goes to the not-found page instead of showing a random piece
+  (function () {
+    if (!/\/product(\.html)?$/.test(location.pathname)) return;
+    var s = ''; try { s = new URLSearchParams(location.search).get('p') || ''; } catch (e) {}
+    if (!bySlug(s)) location.replace('404.html');
+  })();
 })();

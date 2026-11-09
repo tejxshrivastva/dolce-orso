@@ -8,6 +8,15 @@
   function load(k, d) { try { var v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch (e) { return d; } }
   function save(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
   var bag = load('dolce-bag', []), wish = load('dolce-wish', []);
+  // drop pieces that no longer exist (old slugs), so counts and WhatsApp orders stay right
+  (function () {
+    if (!Array.isArray(bag)) bag = [];
+    if (!Array.isArray(wish)) wish = [];
+    var b = bag.filter(function (i) { return i && D.bySlug(i.slug) && i.qty > 0; });
+    var w = wish.filter(function (s) { return D.bySlug(s); });
+    if (b.length !== bag.length) { bag = b; save('dolce-bag', bag); }
+    if (w.length !== wish.length) { wish = w; save('dolce-wish', wish); }
+  })();
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function PAGE(p) { return p; }
   D.pageHref = PAGE;
@@ -164,7 +173,7 @@
 
   /* ---------- special pages ---------- */
   var R = {};
-  var SIZES = ['S', 'M', 'L', 'XL'], lastRemoved = null, wsz = {};
+  var SIZES = ['XXXS', 'XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL'], lastRemoved = null, wsz = {};
   var BW_CSS = [
     '.do-eyebrow{margin:0;font:500 11px "JetBrains Mono",monospace;letter-spacing:.08em;text-transform:uppercase}@keyframes doUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}',
     '.do-bag{display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,400px);gap:clamp(20px,3vw,48px);align-items:start}',
@@ -190,7 +199,7 @@
     '.do-emp{display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;padding:clamp(36px,7vw,88px) 20px;border:1px solid #e0e0e0;border-radius:20px}.do-emp svg{opacity:.85}.do-emp h2{margin:0;font-size:clamp(26px,3vw,40px);font-weight:500;letter-spacing:-.035em}.do-emp p{margin:0 0 8px;max-width:420px;color:#666;font-size:15px;line-height:1.65}',
     '.do-wtools{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:clamp(14px,2vw,24px)}',
     '.do-wc{gap:12px;animation:doUp .5s cubic-bezier(.2,.7,.2,1) both}.do-wc:hover{opacity:1}',
-    '.do-wc .do-szs{margin-top:2px}.do-wc .do-szs button{flex:1;min-width:0;height:34px;padding:0}',
+    '.do-wc .do-szs{margin-top:2px}.do-wc .do-szs button{flex:1 0 calc(25% - 6px);min-width:0;height:34px;padding:0}',
     '.do-wc .do-btn{height:44px;width:100%;padding:0 12px;box-sizing:border-box}'
   ].join('');
   var stB = document.createElement('style'); stB.textContent = BW_CSS; (document.head || document.documentElement).appendChild(stB);
