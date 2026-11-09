@@ -6,7 +6,8 @@
   if (window.__bannerCharm) return; window.__bannerCharm = true;
 
   var css = [
-    '.bc-pos{position:absolute;left:0;right:0;bottom:calc(clamp(18px,3vw,40px) + clamp(40px,6.6vw,104px) * .95);height:60%;display:flex;justify-content:center;pointer-events:none;z-index:3}',
+    '.bc-pos{position:absolute;left:0;right:0;bottom:calc(clamp(18px,3vw,40px) + clamp(40px,6.6vw,104px) * .95);height:60%;display:flex;justify-content:center;pointer-events:none;z-index:1}',
+    'section[id] > a[href] > div:has(> h2){position:absolute;z-index:2;pointer-events:none}',
     '@media (max-width:767px){.bc-pos{height:52%}}',
     '.bc{height:100%;aspect-ratio:1;pointer-events:auto;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;opacity:0;transition:opacity .9s ease;will-change:transform}',
     '.bc.ready{opacity:1}',
@@ -17,14 +18,14 @@
   var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var IDLE = reduce ? 0 : 30, PHI0 = 82, R = '104%', K = 62, C = 6.5;
+  var IDLE = reduce ? 0 : 60, PHI0 = 90, R = '112%', K = 62, C = 6.5;   // 60deg/s = the wardrobe models' turn
   var SRC = 'assets/home-objects/starburst.glb';
   var items = [], suppressUntil = 0;
   function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
 
   function build(banner) {
     var pos = document.createElement('div'); pos.className = 'bc-pos'; pos.setAttribute('aria-hidden', 'true');
-    pos.innerHTML = '<div class="bc"><div class="bc-body"><model-viewer src="' + SRC + '" alt="" camera-orbit="0deg ' + PHI0 + 'deg ' + R + '" field-of-view="30deg" exposure="1.25" shadow-intensity="0" environment-image="neutral" interaction-prompt="none" loading="lazy" interpolation-decay="20" disable-zoom disable-pan disable-tap></model-viewer></div></div>';
+    pos.innerHTML = '<div class="bc"><div class="bc-body"><model-viewer src="' + SRC + '" alt="" camera-orbit="0deg ' + PHI0 + 'deg ' + R + '" orientation="0deg 0deg 0deg" field-of-view="30deg" exposure="1.25" shadow-intensity="0" environment-image="neutral" interaction-prompt="none" loading="lazy" interpolation-decay="20" disable-zoom disable-pan disable-tap></model-viewer></div></div>';
     banner.appendChild(pos);
     var el = pos.firstChild, mv = el.querySelector('model-viewer');
     var s = { banner: banner, el: el, mv: mv, x: 0, y: 0, vx: 0, vy: 0, theta: Math.random() * 360, phi: PHI0, spin: IDLE, tilt: 0, t: Math.random() * 6, drag: null, moved: false, visible: true };
@@ -40,7 +41,9 @@
     var banners = document.querySelectorAll('section[id] > a[href]');
     items = items.filter(function (s) { return document.body.contains(s.el); });
     Array.prototype.forEach.call(banners, function (b) {
-      if (!b.querySelector('.bc-pos') && b.querySelector('h2')) items.push(build(b));
+      var h2 = b.querySelector('h2'); if (!h2) return;
+      if (h2.parentElement) { h2.parentElement.style.zIndex = '2'; h2.parentElement.style.pointerEvents = 'none'; }
+      if (!b.querySelector('.bc-pos')) items.push(build(b));
     });
   }
   setInterval(attach, 600); attach();
@@ -106,14 +109,18 @@
         var idle = IDLE * (1 + 0.35 * Math.sin(s.t * 0.5));
         s.spin = idle + (s.spin - idle) * Math.exp(-dt * 1.4);
         s.theta += s.spin * dt;
-        s.phi += (PHI0 + (reduce ? 0 : Math.sin(s.t * 0.9) * 10) - s.phi) * (1 - Math.exp(-dt * 3));
+        s.phi += (PHI0 - s.phi) * (1 - Math.exp(-dt * 3));
       }
-      var sway = (d || reduce) ? 0 : Math.sin(s.t * 1.1) * 4;
-      s.tilt += (clamp(s.vx * 0.02, -28, 28) + sway - s.tilt) * (1 - Math.exp(-dt * 10));
-      var bob = (d || reduce) ? 0 : Math.sin(s.t * 1.3) * 4;
-      s.el.style.transform = 'translate3d(' + s.x.toFixed(1) + 'px,' + (s.y + bob).toFixed(1) + 'px,0)';
+      s.tilt += (clamp(s.vx * 0.02, -28, 28) - s.tilt) * (1 - Math.exp(-dt * 10));
+      s.el.style.transform = 'translate3d(' + s.x.toFixed(1) + 'px,' + s.y.toFixed(1) + 'px,0)';
       var body = s.el.firstElementChild; if (body) body.style.transform = 'rotate(' + s.tilt.toFixed(2) + 'deg)';
-      if (s.mv) s.mv.cameraOrbit = (s.theta % 360).toFixed(1) + 'deg ' + s.phi.toFixed(1) + 'deg ' + R;
+      if (s.mv) {
+        s.mv.cameraOrbit = (s.theta % 360).toFixed(1) + 'deg ' + s.phi.toFixed(1) + 'deg ' + R;
+        // tumble: pitch and roll swing on their own slow, unrelated beats, so the spin never repeats the same pose
+        var rx = reduce ? 0 : Math.sin(s.t * 0.9) * 34 + Math.sin(s.t * 0.37 + 1.3) * 14;
+        var rz = reduce ? 0 : Math.sin(s.t * 0.62 + 2.1) * 28 + Math.sin(s.t * 1.15) * 8;
+        s.mv.orientation = rx.toFixed(1) + 'deg 0deg ' + rz.toFixed(1) + 'deg';
+      }
     });
   }
   requestAnimationFrame(frame);
