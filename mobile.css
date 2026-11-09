@@ -61,7 +61,7 @@
   .dco-section { margin-left: 8px !important; margin-right: 8px !important; margin-top: 8px !important; }
   /* wardrobe: single column stack so each object is bigger */
   .dco-stage { grid-template-columns: 1fr !important; }
-  .dco-label { margin-left: 10px !important; margin-right: 10px !important; column-gap: 8px !important; }
+  .dco-label { margin-left: 16px !important; margin-right: 16px !important; column-gap: 14px !important; }
   .dco-label em { font-size: clamp(16px, 5.4vw, 22px) !important; white-space: nowrap; }
   .dco-label b { width: clamp(30px, 9vw, 36px) !important; }
 

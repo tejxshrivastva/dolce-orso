@@ -61,7 +61,7 @@
     '.dco-stage{grid-template-columns:1fr}',
     '.dco-item{padding:clamp(20px,4vw,28px) 0}',
     '.dco-item+.dco-item{border-left:0;border-top:1px solid rgba(255,255,255,.14)}',
-    '.dco-label{margin-left:auto;margin-right:auto;max-width:fit-content;text-align:center;padding-left:16px;padding-right:16px}',
+    '.dco-label{display:flex;justify-content:center;align-items:center;column-gap:14px;text-align:center;padding-left:0;padding-right:0}',
     '.dco-float{width:68%}',
     '.dco-spot{width:68%;top:clamp(20px,4vw,28px)}',
     '}',
