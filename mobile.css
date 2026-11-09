@@ -246,6 +246,13 @@ button:has(> .do-moon) .do-sun { display: none; }
   color: #e0e0e0 !important;
 }
 
+/* footer: the line under the newsletter runs edge to edge, like the one above the copyright */
+footer div[style*="border-bottom: 1px solid rgba"] { border-bottom: 0 !important; position: relative; }
+footer div[style*="border-bottom: 1px solid rgba"]::after {
+  content: ""; position: absolute; bottom: 0; left: calc(-1 * clamp(16px,3vw,48px)); right: calc(-1 * clamp(16px,3vw,48px));
+  height: 1px; background: rgba(255,255,255,.1); pointer-events: none;
+}
+
 /* very narrow phones (iPhone SE / mini): keep the header roomy */
 @media (max-width: 360px) {
   header > div:first-child > a { font-size: 11px !important; letter-spacing: .02em; }
