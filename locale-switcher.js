@@ -14,7 +14,9 @@
     {code:'hi',label:'हिन्दी',short:'हि'}
   ];
   let curr=localStorage.getItem(CK)||'INR';
-  let lang=localStorage.getItem(LK)||'en';
+  // the site is written in English only; the old FR/IT/HI options translated just a few labels, so they are retired
+  let lang='en';
+  try{localStorage.removeItem(LK);}catch(e){}
   function ci(){return currencies.find(c=>c.code===curr)||currencies[0];}
   function fmtConverted(inr,c){
     const v=Math.round(inr*c.rate);
@@ -123,9 +125,8 @@
     document.querySelectorAll('#dolce-locale,header [data-dl]').forEach(e=>e.remove());
     const fb=footerBar();
     if(!fb)return;
-    let fl=fb.querySelector('[data-dl="language"]'),fc=fb.querySelector('[data-dl="currency"]');
-    if(!fl){fl=mk('language','footer');fb.insertBefore(fl,fb.children[1]||null);}
-    if(!fc)fb.insertBefore(mk('currency','footer'),fl.nextSibling);
+    fb.querySelectorAll('[data-dl="language"]').forEach(e=>e.remove());
+    if(!fb.querySelector('[data-dl="currency"]'))fb.insertBefore(mk('currency','footer'),fb.children[1]||null);
   }
   function init(){
     ensure();

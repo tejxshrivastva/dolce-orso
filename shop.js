@@ -102,12 +102,23 @@
     var a = e.target.closest && e.target.closest('[data-act]');
     if (!a) return;
     var act = a.getAttribute('data-act'), p = D.current();
-    var size = window.DOLCE_SIZE || 'M';
+    var size = window.DOLCE_SIZE || '';
+    if ((act === 'add' || act === 'buy') && !size) {             // a size must be chosen first
+      e.preventDefault(); e.stopPropagation();
+      toast('Please choose a size');
+      var first = [].filter.call(document.querySelectorAll('button,div,span'), function (b) { return b.textContent.trim() === 'XXXS' && !b.children.length; })[0];
+      var grp = first && first.parentElement;
+      if (grp) {
+        grp.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        grp.animate([{ transform: 'translateX(0)' }, { transform: 'translateX(-6px)' }, { transform: 'translateX(6px)' }, { transform: 'translateX(-4px)' }, { transform: 'translateX(0)' }], { duration: 420, delay: 250 });
+      }
+      return;
+    }
     if ((act === 'add' || act === 'buy') && needLogin({ t: act, slug: p.slug, size: size })) { e.preventDefault(); return; }
     if (act === 'add') { addToBag(p.slug, size, 1); toast('Added to bag'); }
     else if (act === 'buy') { addToBag(p.slug, size, 1); location.href = PAGE('bag'); }
     else if (act === 'wa') {
-      window.open(wa('Hello Dolce Orso, I would like help with: ' + p.name + ' (size ' + size + ', ' + D.inr(unit(p)) + ').'), '_blank');
+      window.open(wa('Hello Dolce Orso, I would like help with: ' + p.name + ' (' + (size ? 'size ' + size : 'size not chosen yet') + ', ' + D.inr(unit(p)) + ').'), '_blank');
     }
   }, true);
 
@@ -141,11 +152,11 @@
   var BM = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.5"><path d="M5 3h14v18l-7-4-7 4V3z"></path></svg>';
   function cardHTML(p) {
     var c = D.card(p);
-    return '<a class="do-card" href="' + c.href + '"><div class="do-ph"><img src="' + c.img + '" alt=""><img class="h" src="' + c.hoverImg + '" alt="">'
+    return '<a class="do-card" href="' + c.href + '"><div class="do-ph"><img loading="lazy" decoding="async" src="' + c.img + '" alt=""><img class="h" data-hover="' + c.hoverImg + '" alt="">'
       + (p.sale ? '<div style="position:absolute;top:8px;left:8px;background:#333;color:#fff;font-size:11px;font-weight:500;padding:3px 8px;border-radius:3px;font-family:\'JetBrains Mono\',monospace">-20%</div>' : '')
       + '<div data-wish="' + p.slug + '" style="position:absolute;top:8px;right:8px;background:rgba(255,255,255,.88);border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer">' + BM + '</div></div>'
       + '<div style="display:flex;flex-direction:column;gap:3px;padding:0 2px"><p style="margin:0;font-size:clamp(13px,1.1vw,15px);font-weight:500;line-height:1.3">' + esc(p.name) + '</p>'
-      + '<p style="margin:0;font-size:10px;color:#999;font-family:\'JetBrains Mono\',monospace">S · M · L · XL</p>'
+      + '<p style="margin:0;font-size:10px;color:#999;font-family:\'JetBrains Mono\',monospace">XXXS – XXL</p>'
       + '<div style="display:flex;gap:6px;align-items:center;margin-top:2px">' + (p.sale
         ? '<span style="font-size:12px;color:#aaa;text-decoration:line-through">' + D.inr(p.price) + '</span><span style="font-size:13px;font-weight:600;color:#333">' + D.inr(D.salePrice(p)) + '</span>'
         : '<span style="font-size:13px;font-weight:500">' + D.inr(p.price) + '</span>') + '</div></div></a>';
@@ -192,6 +203,9 @@
     '.do-sum .do-eyebrow{color:rgba(255,255,255,.6)}',
     '.do-srow{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:12px 0;font-size:14px;color:rgba(255,255,255,.78);border-bottom:1px solid rgba(255,255,255,.14)}.do-srow b{font-weight:500;color:#fff}',
     '.do-stotal{display:flex;justify-content:space-between;align-items:baseline;padding:18px 0 20px}.do-stotal span{font:500 11px "JetBrains Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.7)}.do-stotal b{font-size:clamp(28px,2.6vw,36px);font-weight:500;letter-spacing:-.03em}',
+    '.do-who{display:grid;gap:8px;margin:0 0 18px;padding:16px 0 0;border-top:1px solid rgba(255,255,255,.14)}.do-who .do-eyebrow{margin-bottom:4px}',
+    '.do-who input,.do-who textarea{width:100%;box-sizing:border-box;height:46px;padding:0 18px;border:1px solid rgba(255,255,255,.22);border-radius:999px;background:rgba(255,255,255,.04);color:#fff;font:400 16px Inter,sans-serif;outline:none;transition:border-color .2s}',
+    '.do-who textarea{height:auto;min-height:64px;padding:12px 18px;border-radius:18px;resize:vertical;line-height:1.45}.do-who input::placeholder,.do-who textarea::placeholder{color:rgba(255,255,255,.45)}.do-who input:focus,.do-who textarea:focus{border-color:#fff}',
     '.do-sum .do-btn.w{width:100%;box-sizing:border-box;height:54px;background:#fff;color:#000;border-color:#fff}.do-sum .do-btn.w:hover{background:#e9e9e9}.do-sum .do-btn .do-arr{display:inline-block;margin-left:8px;transition:transform .25s}.do-sum .do-btn:hover .do-arr{transform:translateX(5px)}',
     '.do-perks2{margin:20px 0 0;padding:18px 0 0;border-top:1px solid rgba(255,255,255,.14);display:grid;gap:10px}.do-perks2 p{margin:0;display:flex;gap:10px;align-items:center;font-size:13px;color:rgba(255,255,255,.82)}',
     '.do-bar{display:none}@media(max-width:959px){.do-bar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:50;align-items:center;justify-content:space-between;gap:14px;padding:12px clamp(12px,3vw,24px) calc(12px + env(safe-area-inset-bottom));background:rgba(255,255,255,.96);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid #e8e8e8}.do-bar .do-btn{height:46px;padding:0 22px}}',
@@ -233,6 +247,14 @@
       + (save_ > 0 ? '<div class="do-srow"><span>Savings</span><b>− ' + D.inr(save_) + '</b></div>' : '')
       + '<div class="do-srow"><span>Delivery</span><b>With your concierge</b></div>'
       + '<div class="do-stotal"><span>Total</span><b>' + D.inr(bagTotal()) + '</b></div>'
+      + (function () {
+          var me = load('dolce-me', {});
+          return '<div class="do-who" id="do-who"><p class="do-eyebrow" style="color:rgba(255,255,255,.6)">Your details</p>'
+            + '<input id="do-wn" type="text" autocomplete="name" placeholder="Full name" value="' + esc(me.name || '') + '">'
+            + '<input id="do-wp" type="tel" inputmode="tel" autocomplete="tel" placeholder="Mobile number" value="' + esc(me.phone || '') + '">'
+            + '<textarea id="do-wa" autocomplete="street-address" rows="2" placeholder="Delivery address (optional)">' + esc(me.address || '') + '</textarea>'
+            + '<p id="do-wm" role="status" aria-live="polite" style="display:none;margin:0;font-size:12px;color:#ff8a80"></p></div>';
+        })()
       + '<a class="do-btn w" data-order="1" href="#">Order on WhatsApp<span class="do-arr">→</span></a>'
       + '<p style="margin:14px 0 0;font-size:12px;line-height:1.6;color:rgba(255,255,255,.6);text-align:center">Payment and delivery are confirmed personally before anything is charged.</p>'
       + '<div class="do-perks2">' + perks + '</div></aside>';
@@ -243,6 +265,10 @@
   };
   R.bag.after = function () {
     var main = document.getElementById('dolce-main');
+    [['do-wn', 'name'], ['do-wp', 'phone'], ['do-wa', 'address']].forEach(function (f) {   // keep typed details across re-renders
+      var el = document.getElementById(f[0]); if (!el) return;
+      el.addEventListener('input', function () { var me = load('dolce-me', {}); me[f[1]] = el.value; save('dolce-me', me); });
+    });
     main.onclick = function (e) {
       var q = e.target.closest('[data-q]'), r = e.target.closest('[data-rm]'), z = e.target.closest('[data-sz]'), sv = e.target.closest('[data-sv]'), u = e.target.closest('[data-undo]');
       if (q) { var it = bag[+q.getAttribute('data-q')]; it.qty += +q.getAttribute('data-d'); if (it.qty < 1) it.qty = 1; lastRemoved = null; }
@@ -267,7 +293,15 @@
       o.addEventListener('click', function (e) {
         e.preventDefault();
         if (needLogin({ t: 'order' })) return;
-        var me = load('dolce-me', {});
+        var me = load('dolce-me', {}), wn = document.getElementById('do-wn'), wp = document.getElementById('do-wp'), wad = document.getElementById('do-wa'), wm = document.getElementById('do-wm');
+        if (wn) {
+          var nm = wn.value.trim(), ph = wp.value.trim(), digits = ph.replace(/\D/g, '');
+          function bad(t, el) { wm.textContent = t; wm.style.display = 'block'; document.getElementById('do-who').scrollIntoView({ behavior: 'smooth', block: 'center' }); setTimeout(function () { el.focus({ preventScroll: true }); }, 350); }
+          if (nm.length < 2) { bad('Please add your name so we know who the order is for.', wn); return; }
+          if (digits.length < 10) { bad('Please add a mobile number we can confirm the order on.', wp); return; }
+          wm.style.display = 'none';
+          me.name = nm; me.phone = ph; me.address = wad.value.trim(); save('dolce-me', me);
+        }
         var lines = bag.map(function (it) { var p = D.bySlug(it.slug); return '- ' + p.name + ' | size ' + it.size + ' | qty ' + it.qty + ' | ' + D.inr(unit(p) * it.qty); });
         var msg = 'Hello Dolce Orso, I would like to place an order:\n' + lines.join('\n') + '\nTotal: ' + D.inr(bagTotal())
           + (me.name ? '\nName: ' + me.name : '') + (me.phone ? '\nPhone: ' + me.phone : '') + (me.address ? '\nDelivery address: ' + me.address : '');
@@ -278,7 +312,7 @@
 
   function wishCard(p) {
     var c = D.card(p), sz = wsz[p.slug] || 'M';
-    return '<div class="do-card do-wc"><a href="' + c.href + '" style="display:block"><div class="do-ph"><img src="' + c.img + '" alt="' + esc(p.name) + '"><img class="h" src="' + c.hoverImg + '" alt="">'
+    return '<div class="do-card do-wc"><a href="' + c.href + '" style="display:block"><div class="do-ph"><img loading="lazy" decoding="async" src="' + c.img + '" alt="' + esc(p.name) + '"><img class="h" data-hover="' + c.hoverImg + '" alt="">'
       + (p.sale ? '<div style="position:absolute;top:8px;left:8px;background:#333;color:#fff;font-size:11px;font-weight:500;padding:3px 8px;border-radius:3px;font-family:\'JetBrains Mono\',monospace">-20%</div>' : '')
       + '<div data-wish="' + p.slug + '" aria-label="Remove from wishlist" style="position:absolute;top:8px;right:8px;background:rgba(255,255,255,.88);border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer">' + BM + '</div></div></a>'
       + '<div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:0 2px"><a href="' + c.href + '" style="color:#000;text-decoration:none;font-size:clamp(13px,1.1vw,15px);font-weight:500;line-height:1.3">' + esc(p.name) + '</a>'
@@ -323,11 +357,19 @@
     var words = ql.split(/\s+/).filter(Boolean);
     var res = !words.length ? [] : D.products.filter(function (p) {
       var cat = D.categories.filter(function (c) { return c.slug === p.category; })[0];
-      var hay = (p.name + ' ' + (cat ? cat.name : '') + ' ' + p.category.replace('-', ' ')).toLowerCase();
-      return words.every(function (w) { return hay.indexOf(w) > -1; });
+      var hay = (p.name + ' ' + (cat ? cat.name : '') + ' ' + p.category.replace('-', ' ') + ' ' + p.category.replace('-', '') + ' ' + (p.details || []).join(' ') + ' ' + (p.description || '') + (p.sale ? ' sale' : '')).toLowerCase();
+      return words.every(function (w) {
+        if (hay.indexOf(w) > -1) return true;
+        return [w.replace(/s$/, ''), w.replace(/es$/, '')].some(function (s) { return s !== w && s.length > 2 && hay.indexOf(s) > -1; });   // "tees" -> "tee", "jackets" -> "jacket", "boxes" -> "box"
+      });
+    });
+    // best matches first: name hits before description-only hits
+    res.sort(function (a, b) {
+      function score(p) { var n = p.name.toLowerCase(); return words.filter(function (w) { return n.indexOf(w.replace(/s$/, '')) > -1; }).length; }
+      return score(b) - score(a);
     });
     var body = '<form id="do-sf" style="display:flex;gap:8px;max-width:560px;margin-bottom:28px"><input class="do-input" name="q" value="' + esc(q) + '" placeholder="Search our collection..." autofocus><button class="do-btn" type="submit">Search</button></form>'
-      + (res.length ? gridHTML(res) : empty(q ? 'No pieces matched “' + esc(q) + '”. Try “jeans”, “tee” or “set”.' : 'Type something to search.', 'Shop All', 'shop'));
+      + (res.length ? gridHTML(res) : empty(q ? 'No pieces matched “' + esc(q) + '”. Try “jeans”, “hoodie” or “pink”.' : 'Type something to search.', 'Shop All', 'shop'));
     return head('Search', q ? res.length + ' result' + (res.length === 1 ? '' : 's') + ' for “' + esc(q) + '”' : '') + wrap(body);
   };
   R.search.after = function () {
@@ -435,6 +477,7 @@
     '.do-phone span{padding:0 14px 0 20px;font-size:15px;color:#000;border-right:1px solid #e8e8e8;height:24px;display:flex;align-items:center}.do-phone input{flex:1;min-width:0;height:100%;border:0;outline:0;padding:0 18px;font:400 16px Inter,sans-serif;letter-spacing:.02em;background:transparent;box-shadow:none}',
     '.do-live{display:inline-block;width:7px;height:7px;border-radius:50%;background:#2a7a3b;margin-right:8px;box-shadow:0 0 0 0 rgba(42,122,59,.5);animation:doPulse 2s infinite}@keyframes doPulse{70%{box-shadow:0 0 0 8px rgba(42,122,59,0)}100%{box-shadow:0 0 0 0 rgba(42,122,59,0)}}',
     '.do-solo{grid-template-columns:1fr!important;grid-template-rows:minmax(0,1fr)!important;max-width:none!important}.do-solo .do-auth-form{max-width:420px;text-align:center}.do-solo .do-auth-form h1{font-size:clamp(34px,3.4vw,48px)}.do-solo .do-link{text-align:center}.do-auth-form.has-why .do-sub{display:none!important}',
+    '.do-auth-form.pv .do-g,.do-auth-form.pv .do-or,.do-auth-form.pv #do-phone,.do-auth-form.pv #do-otpf,.do-auth-form.pv .do-prev{display:none!important}',
     '.do-m{display:none}.do-auth-form.otp .do-g,.do-auth-form.otp .do-or,.do-auth-form.otp .do-prev,.do-auth-form.otp #do-guest{display:none!important}',
     '@media(max-height:640px){.do-prev{display:none}.do-auth-form{gap:9px}}',
     '@media(max-width:899px){.do-auth-side{min-height:150px}.do-side-in{padding:16px 20px;gap:6px;justify-content:flex-end}.do-side-in .do-eyebrow{position:absolute;top:16px;left:20px}.do-perks,.do-cap,.do-dots{display:none!important}.do-big{font-size:30px!important;margin:0!important}.do-big br{display:none}.do-m{display:block}}',
@@ -474,8 +517,8 @@
     if (session()) { return head('Signed in', '') + wrap('<div class="do-box" style="max-width:440px"><p class="do-txt">You are already signed in. Welcome back.</p><a class="do-btn" href="' + PAGE('account') + '">Enter my account</a></div>', true); }
     var pend = load(PENDING, null), why = !pend ? '' : { add: 'Sign in to reserve this piece in your bag.', buy: 'Sign in to complete your purchase.', wish: 'Sign in to keep this among your favourites.', order: 'Sign in to place your order.' }[pend.t] || '';
     return '<style>' + AUTH_CSS + '</style><section class="do-auth do-solo do-fit">'
-      + '<div class="do-auth-main"><div class="do-auth-form' + (why ? ' has-why' : '') + '">'
-      + '<div style="display:flex;flex-direction:column;gap:10px"><p class="do-eyebrow do-opt" style="color:#888">Maison Dolce Orso</p><h1>Welcome back</h1><p class="do-sub" style="margin:0;color:#666;font-size:15px;line-height:1.6">Keep favourites, follow orders and be looked after personally.</p></div>'
+      + '<div class="do-auth-main"><div class="do-auth-form' + (why ? ' has-why' : '') + (firebaseConfigured() ? '' : ' pv') + '">'
+      + '<div style="display:flex;flex-direction:column;gap:10px"><p class="do-eyebrow do-opt" style="color:#888">Maison Dolce Orso</p><h1>' + (firebaseConfigured() ? 'Welcome back' : 'Almost there') + '</h1><p class="do-sub" style="margin:0;color:#666;font-size:15px;line-height:1.6">' + (firebaseConfigured() ? 'Keep favourites, follow orders and be looked after personally.' : 'Tell us who you are and we will look after the rest.') + '</p></div>'
       + (why ? '<p style="margin:0;padding:12px 16px;border:1px solid #000;border-radius:14px;font-size:14px;line-height:1.5">' + why + ' We will bring you straight back.</p>' : '')
       + (firebaseConfigured() ? '' : '<p class="do-prev" style="margin:0;padding:9px 14px;border-radius:999px;background:#f4f4f4;color:#666;font-size:11px;text-align:center;' + MONO + '">Preview · private accounts open at launch</p>')
       + '<button id="do-google" type="button" class="do-btn o do-g" style="gap:12px">' + GLOGO + 'Continue with Google</button>'
@@ -491,8 +534,12 @@
       + '<p style="margin:0;font-size:13px;color:#666;text-align:center"><span id="do-timer"></span><button type="button" id="do-resend" class="do-link" disabled>Resend code</button></p></form>'
       + '<p id="do-msg" role="status" aria-live="polite" style="margin:0;font-size:13px;line-height:1.5;color:#b3261e;display:none"></p>'
       + '<div id="do-recaptcha"></div>'
-      + (firebaseConfigured() ? '' : '<button id="do-guest" type="button" class="do-btn o">Browse as a guest · preview</button>')
-      + '<p class="do-opt" style="margin:0;font-size:12px;color:#999;line-height:1.6;display:flex;align-items:center;justify-content:center;gap:6px">' + ICON.lock + 'Your number is used only to sign you in.</p>'
+      + (firebaseConfigured() ? '' : '<form id="do-guestf" novalidate style="display:flex;flex-direction:column;gap:12px">'
+        + '<label class="do-lbl" for="do-gname" style="margin:0">Your name</label><input id="do-gname" class="do-input" type="text" autocomplete="name" placeholder="Full name">'
+        + '<label class="do-lbl" for="do-gnum" style="margin:4px 0 0">Mobile number</label><div class="do-phone"><span>+91</span><input id="do-gnum" type="tel" inputmode="numeric" autocomplete="tel-national" maxlength="11" placeholder="98765 43210"></div>'
+        + '<button id="do-guest" class="do-btn" type="submit" style="margin-top:4px">Continue' + ARR + '</button>'
+        + '<p style="margin:0;font-size:12px;color:#888;line-height:1.6;text-align:center">We use these only to confirm your order with you on WhatsApp.</p></form>')
+      + (firebaseConfigured() ? '<p class="do-opt" style="margin:0;font-size:12px;color:#999;line-height:1.6;display:flex;align-items:center;justify-content:center;gap:6px">' + ICON.lock + 'Your number is used only to sign you in.</p>' : '')
       + '<p style="margin:0;font-size:12px;color:#999;line-height:1.6">By continuing you accept our <a href="' + PAGE('terms') + '" style="color:#555">Terms of Service</a>.</p>'
       + '</div></div></section>';
   };
@@ -580,7 +627,21 @@
     $('do-otpf').addEventListener('submit', function (e) { e.preventDefault(); verify(); });
     $('do-change').addEventListener('click', function () { msg(''); showPhone(); $('do-num').focus(); });
     $('do-resend').addEventListener('click', function () { if (!busy) { showPhone(); sendCode(); } });
-    if ($('do-guest')) $('do-guest').addEventListener('click', function () { finishLogin({ uid: 'preview', displayName: '' }, 'preview'); });
+    var gf = $('do-guestf');
+    if (gf) {
+      var gme = load('dolce-me', {});
+      if (gme.name) $('do-gname').value = gme.name;
+      if (gme.phone) { var gd = gme.phone.replace(/\D/g, '').slice(-10); $('do-gnum').value = gd.slice(0, 5) + ' ' + gd.slice(5); }
+      $('do-gnum').addEventListener('input', function () { var d = this.value.replace(/\D/g, '').slice(0, 10); this.value = d.length > 5 ? d.slice(0, 5) + ' ' + d.slice(5) : d; });
+      gf.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var name = $('do-gname').value.trim(), raw = $('do-gnum').value.replace(/\D/g, '');
+        if (name.length < 2) { msg('Please enter your name.'); $('do-gname').focus(); return; }
+        if (raw.length !== 10) { msg('Please enter your 10-digit mobile number.'); $('do-gnum').focus(); return; }
+        var me = load('dolce-me', {}); me.name = name; me.phone = '+91 ' + raw.slice(0, 5) + ' ' + raw.slice(5); save('dolce-me', me);
+        finishLogin({ uid: 'guest', displayName: name, phoneNumber: '+91' + raw }, 'preview');
+      });
+    }
     startSlides();
     $('do-num').focus();
   };
@@ -716,6 +777,11 @@
       else if (t === 'LinkedIn' && soc.linkedin) { a.href = soc.linkedin; a.target = '_blank'; }
       else if (t === 'DOLCE ORSO') a.href = './';
     });
+    // footer copyright always shows the current year
+    var yr = String(new Date().getFullYear());
+    [].forEach.call(document.querySelectorAll('footer p'), function (p) {
+      if (/^© \d{4} /.test(p.textContent) && p.textContent.indexOf('© ' + yr) !== 0 && p.childNodes.length === 1) p.textContent = p.textContent.replace(/^© \d{4}/, '© ' + yr);
+    });
   }
   var t;
   new MutationObserver(function () { clearTimeout(t); t = setTimeout(tick, 60); }).observe(document.documentElement, { childList: true, subtree: true });
@@ -731,7 +797,16 @@
 (function () {
   var D = window.DOLCE;
   if (!D || !window.matchMedia || !matchMedia('(hover: hover)').matches) return;
-  var STEP = 750;                                   // ms each photo stays before the next one
+  // hover photos are written as data-hover (no src), so phones never download them; mouse devices load them lazily here
+  var wq = 0;
+  function wake() {
+    wq = 0;
+    var l = document.querySelectorAll('img[data-hover]:not([src])');
+    for (var i = 0; i < l.length; i++) { l[i].loading = 'lazy'; l[i].decoding = 'async'; l[i].src = l[i].getAttribute('data-hover'); }
+  }
+  new MutationObserver(function () { if (!wq) wq = setTimeout(wake, 40); }).observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['data-hover'] });
+  wake();
+  var STEP = 750;                                  // ms each photo stays before the next one
   var cache = {}, active = null, run = 0;
   function preload(u) { return cache[u] || (cache[u] = new Promise(function (ok) { var i = new Image(); i.onload = i.onerror = ok; i.src = u; })); }
   function sleep(ms) { return new Promise(function (ok) { setTimeout(ok, ms); }); }
@@ -757,7 +832,7 @@
   }
   function start(k) {
     var h = k.h, my = ++run;
-    if (!h.dataset.orig) h.dataset.orig = h.getAttribute('src');
+    if (!h.dataset.orig) h.dataset.orig = h.getAttribute('src') || h.getAttribute('data-hover');
     var list = frames(k), last = h.dataset.orig;
     list.forEach(preload);
     (async function () {

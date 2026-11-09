@@ -189,7 +189,7 @@
   function card(p) {
     return { slug: p.slug, name: p.name, img: img(p, 7), hoverImg: img(p, p.hov ? 8 : 0), href: href(p), priceText: inr(p.price),
       onSale: !!p.sale, notOnSale: !p.sale, salePriceText: p.sale ? inr(salePrice(p)) : '', salePercent: '-20%',
-      sizes: 'S \u00b7 M \u00b7 L \u00b7 XL' };
+      sizes: 'XXXS \u2013 XXL' };
   }
 
   window.DOLCE = {

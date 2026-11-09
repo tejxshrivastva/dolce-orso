@@ -3,12 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./products.js?v=114"></script>
-<script src="./settings.js?v=114"></script>
-<script src="./pages.js?v=114"></script>
-<script src="./shop.js?v=114"></script>
+<title>Dolce Orso</title>
+<script src="./products.js?v=116"></script>
+<script src="./settings.js?v=116"></script>
+<script src="./pages.js?v=116"></script>
+<script src="./shop.js?v=116"></script>
 <script src="./support.js"></script>
 <style>@font-face{font-family:"Germanica";src:url("assets/fonts/PlainGermanica.woff") format("woff");font-weight:400;font-style:normal;font-display:swap}</style>
+<link rel="stylesheet" href="./mobile.css?v=1">
 </head>
 <body>
 <x-dc>
@@ -25,8 +27,8 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 ::-webkit-scrollbar{width:0;height:0}
 </style>
 <script type="module" src="https://unpkg.com/@google/model-viewer@3.5.0/dist/model-viewer.min.js"></script>
-<script src="./panda-drag.js?v=114"></script>
-<script src="./locale-switcher.js"></script>
+<script src="./panda-drag.js?v=116"></script>
+<script src="./locale-switcher.js?v=116"></script>
 </helmet>
 
 <!-- MOBILE MENU DRAWER -->
@@ -43,7 +45,7 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 <nav style="display:flex;flex-direction:column;gap:8px">
 <sc-for list="{{ megaCats }}" as="mc" hint-placeholder-count="5">
 <a href="{{ mc.anchor }}" onClick="{{ closeMenu }}" style="display:flex;align-items:center;gap:14px;padding:8px;border-radius:16px;background:#f5f5f5;color:#000" style-hover="background:#eee;color:#000">
-<div style="width:64px;height:64px;border-radius:12px;overflow:hidden;background:#000;flex-shrink:0"><sc-if value="{{ mc.img }}" hint-placeholder-val="{{ false }}"><img src="{{ mc.img }}" style="width:100%;height:100%;object-fit:cover;display:block"></sc-if></div>
+<div style="width:64px;height:64px;border-radius:12px;overflow:hidden;background:#000;flex-shrink:0"><sc-if value="{{ mc.img }}" hint-placeholder-val="{{ false }}"><img loading="lazy" decoding="async" src="{{ mc.img }}" style="width:100%;height:100%;object-fit:cover;display:block"></sc-if></div>
 <span style="flex:1;font-size:16px;font-weight:500;letter-spacing:-0.22px">{{ mc.name }}</span>
 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-right:8px;flex-shrink:0"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="13 6 19 12 13 18"></polyline></svg>
 </a>
@@ -99,7 +101,7 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 <sc-for list="{{ megaCats }}" as="mc" hint-placeholder-count="5">
 <a href="{{ mc.anchor }}" style="text-decoration:none;color:#000;flex:1 1 0;min-width:0;background:#fff;border-radius:14px;overflow:hidden;display:flex;flex-direction:column" style-hover="opacity:0.9">
 <div style="width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:12px;background:#000">
-<sc-if value="{{ mc.img }}" hint-placeholder-val="{{ false }}"><img src="{{ mc.img }}" style="width:100%;height:100%;object-fit:cover"></sc-if>
+<sc-if value="{{ mc.img }}" hint-placeholder-val="{{ false }}"><img loading="lazy" decoding="async" src="{{ mc.img }}" style="width:100%;height:100%;object-fit:cover"></sc-if>
 </div>
 <div style="padding:3px 0;text-align:center">
 <span style="font-size:12px;font-weight:400;letter-spacing:0.02px;font-family:'Inter',sans-serif">{{ mc.name }}</span>
@@ -111,7 +113,7 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 </header>
 
 <!-- PDP 3-COLUMN LAYOUT -->
-<div style="display:{{ pdpDisplay }};gap:6px;padding:{{ pdpTop }} clamp(6px,0.5vw,8px) 8px;align-items:flex-start">
+<div style="display:{{ pdpDisplay }};grid-template-columns:{{ pdpCols }};gap:6px;padding:{{ pdpTop }} clamp(6px,0.5vw,8px) 8px;align-items:flex-start">
 <!-- LEFT: STICKY IMAGE -->
 <div style="flex:1;position:{{ stickyPos }};top:{{ stickyTop }};min-width:0;height:{{ leftH }};aspect-ratio:{{ leftRatio }}">
 <div id="zoom-container" onMouseMove="{{ onZoomMove }}" onMouseEnter="{{ onZoomEnter }}" onMouseLeave="{{ onZoomLeave }}" style="width:100%;height:100%;background:#fff;border-radius:20px;overflow:hidden;display:flex;align-items:center;justify-content:center;border:1px solid #ddd;position:relative;cursor:crosshair">
@@ -124,10 +126,10 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 </div>
 </div>
 <!-- MIDDLE: SCROLLING IMAGES -->
-<div style="flex:1;display:flex;flex-direction:{{ midDir }};gap:6px;min-width:0;padding-top:{{ midPadTop }};overflow-x:{{ midOverflow }};scroll-snap-type:x mandatory">
+<div style="flex:1;order:{{ midOrder }};grid-column:{{ midSpan }};display:flex;flex-direction:{{ midDir }};gap:6px;min-width:0;padding-top:{{ midPadTop }};overflow-x:{{ midOverflow }};scroll-snap-type:x mandatory">
 <sc-for list="{{ midImages }}" as="mi" hint-placeholder-count="6">
 <div style="flex:{{ midItemFlex }};scroll-snap-align:start;aspect-ratio:4/5;background:#fff;border-radius:20px;overflow:hidden;display:flex;align-items:center;justify-content:center;border:1px solid #ddd">
-<img src="{{ mi.src }}" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block">
+<img loading="lazy" decoding="async" src="{{ mi.src }}" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block">
 </div>
 </sc-for>
 </div>
@@ -210,8 +212,8 @@ Personal Shopping via WhatsApp
 <sc-for list="{{ relatedProducts }}" as="product" hint-placeholder-count="4">
 <a href="{{ product.href }}" style="text-decoration:none;color:#000;display:flex;flex-direction:column;gap:8px" style-hover="opacity:0.92">
 <div style="position:relative;aspect-ratio:4/5;border-radius:20px;background:#000;overflow:hidden;border:1px solid #ddd">
-<img src="{{ product.img }}" alt="{{ product.name }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block">
-<img src="{{ product.hoverImg }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;display:block;opacity:0;transition:opacity 0.35s ease" style-hover="opacity:1">
+<img loading="lazy" decoding="async" src="{{ product.img }}" alt="{{ product.name }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block">
+<img data-hover="{{ product.hoverImg }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;display:block;opacity:0;transition:opacity 0.35s ease" style-hover="opacity:1">
 <div data-wish="{{ product.slug }}" style="position:absolute;top:8px;right:8px;background:rgba(255,255,255,0.88);border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer">
 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.5"><path d="M5 3h14v18l-7-4-7 4V3z"></path></svg>
 </div>
@@ -262,7 +264,7 @@ Personal Shopping via WhatsApp
 <a href="most-loved" style="font-size:14px;color:rgba(255,255,255,0.62);text-decoration:none;transition:color 0.2s ease" style-hover="color:#fff">Most Loved</a>
 <a href="collections" style="font-size:14px;color:rgba(255,255,255,0.62);text-decoration:none;transition:color 0.2s ease" style-hover="color:#fff">Collections</a>
 <a href="gift-guide" style="font-size:14px;color:rgba(255,255,255,0.62);text-decoration:none;transition:color 0.2s ease" style-hover="color:#fff">Gift Guide</a>
-<a href="gift-guide" style="font-size:14px;color:rgba(255,255,255,0.62);text-decoration:none;transition:color 0.2s ease" style-hover="color:#fff">Gift Guide</a>
+<a href="size-guide" style="font-size:14px;color:rgba(255,255,255,0.62);text-decoration:none;transition:color 0.2s ease" style-hover="color:#fff">Size Guide</a>
 </div>
 </div>
 <div style="display:flex;flex-direction:column;align-items:{{ fItems }};gap:18px">
@@ -308,7 +310,7 @@ Personal Shopping via WhatsApp
 <p style="margin:0 0 -.22em;width:100%;text-align:center;font-family:'Germanica',serif;font-size:clamp(48px,14vw,256px);font-weight:400;letter-spacing:.04em;text-indent:.04em;word-spacing:-.25em;font-kerning:none;font-variant-ligatures:none;line-height:.92;white-space:nowrap;color:#fff;user-select:none;position:relative;z-index:2;pointer-events:none">Dolce Orso</p>
 </div>
 <div style="padding:clamp(20px,2.4vw,28px) clamp(16px,3vw,48px);display:flex;flex-direction:{{ fBarDir }};align-items:center;justify-content:{{ fBarJustify }};gap:12px 24px;flex-wrap:wrap;text-align:center;border-top:1px solid rgba(255,255,255,0.1);margin-top:clamp(10px,1.6vw,22px)">
-<p style="margin:0;font-size:10px;letter-spacing:1px;color:rgba(255,255,255,0.45);font-family:'JetBrains Mono',monospace">© 2025 DOLCE ORSO. ALL RIGHTS RESERVED</p>
+<p style="margin:0;font-size:10px;letter-spacing:1px;color:rgba(255,255,255,0.45);font-family:'JetBrains Mono',monospace">© 2026 DOLCE ORSO. ALL RIGHTS RESERVED</p>
 <a href="#" style="display:inline-flex;align-items:center;gap:8px;font-size:10px;letter-spacing:1px;text-transform:uppercase;font-family:'JetBrains Mono',monospace;color:rgba(255,255,255,0.62);text-decoration:none" style-hover="color:#fff">Back to top<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 19V5M6 11l6-6 6 6"></path></svg></a>
 </div>
 </div>
@@ -318,7 +320,7 @@ Personal Shopping via WhatsApp
 <script type="text/x-dc" data-dc-script data-props="{}">
 
 class Component extends DCLogic {
-  state = { vw: typeof window !== 'undefined' ? window.innerWidth : 1440, selectedSize: 'M', activeTab: 'details', megaOpen: false, searchOpen: false, zoomVisible: false, zoomPctX: 0, zoomPctY: 0, midZoomIdx: -1, midZoomX: 0, midZoomY: 0 };
+  state = { vw: typeof window !== 'undefined' ? window.innerWidth : 1440, selectedSize: '', activeTab: 'details', megaOpen: false, searchOpen: false, zoomVisible: false, zoomPctX: 0, zoomPctY: 0, midZoomIdx: -1, midZoomX: 0, midZoomY: 0 };
   componentDidMount() {
     this._r = () => this.setState({ vw: window.innerWidth });
     window.addEventListener('resize', this._r);
@@ -348,7 +350,7 @@ class Component extends DCLogic {
     }));
     const at = this.state.activeTab;
     const tabs = [
-      { label: 'Details & Description', id: 'details' },
+      { label: mob ? 'Details' : 'Details & Description', id: 'details' },
       { label: 'Washcare', id: 'washcare' },
       { label: 'Shipping', id: 'shipping' }
     ].map(t => ({
@@ -409,18 +411,17 @@ class Component extends DCLogic {
           ziY: (isZ ? (50 - my * 700) : 0) + '%',
         };
       }),
-      pdpDisplay: mob ? 'block' : 'flex',
+      pdpDisplay: mob ? 'grid' : 'flex', midOrder: mob ? 1 : 0, pdpCols: (mob && vw >= 600) ? 'minmax(0,1fr) minmax(0,1fr)' : 'minmax(0,1fr)', midSpan: mob ? '1 / -1' : 'auto', midItemFlex: (mob && vw >= 600) ? '0 0 40%' : (mob ? '0 0 72%' : '0 0 auto'),
       stickyTop: mob ? '0' : '72px',
-      mob, selSize: sel,
+      mob, selSize: sel || '· choose',
       pdpTop: mob ? '66px' : '72px',
       leftH: mob ? 'auto' : 'calc(100vh - 80px)',
       leftRatio: mob ? '4/5' : 'auto',
       midDir: mob ? 'row' : 'column',
       midPadTop: mob ? '6px' : '0',
       midOverflow: mob ? 'auto' : 'visible',
-      midItemFlex: mob ? '0 0 72%' : '0 0 auto',
       infoH: mob ? 'auto' : 'calc(100vh - 80px)',
-      infoMt: mob ? '6px' : '0',
+      infoMt: '0',
       footPadB: mob ? '76px' : '0',
       stickyPos: mob ? 'relative' : 'sticky',
       megaCats: [

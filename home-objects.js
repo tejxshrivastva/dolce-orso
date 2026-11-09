@@ -78,15 +78,16 @@
   var states = new WeakMap(), drag = null, moved = false, last = performance.now();
 
   // if the 3D viewer script can't load (offline, blocked), fall back to the flat photos
-  function fallback3d() {
+  // (models load lazily when scrolled near, so "not loaded yet" is normal: only the missing script or a real load error falls back)
+  function fallback3d(only) {
     var v = document.querySelectorAll('.dco-3d');
     for (var i = 0; i < v.length; i++) {
-      if (customElements.get('model-viewer') && v[i].firstElementChild.loaded !== false) continue;
+      if (only ? v[i].firstElementChild !== only : customElements.get('model-viewer')) continue;
       v[i].style.display = 'none'; var f = v[i].parentNode.querySelector('.dco-2d'); if (f) f.style.display = '';
     }
   }
-  setTimeout(fallback3d, 9000);
-  document.addEventListener('error', function (e) { if (e.target && e.target.tagName === 'MODEL-VIEWER') fallback3d(); }, true);
+  setTimeout(function () { fallback3d(); }, 9000);
+  document.addEventListener('error', function (e) { if (e.target && e.target.tagName === 'MODEL-VIEWER') fallback3d(e.target); }, true);
 
   function state(el) {
     var s = states.get(el);

@@ -3,13 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./products.js?v=114"></script>
+<script src="./products.js?v=116"></script>
 <script>window.DOLCE_KEY='terms';</script>
-<script src="./settings.js?v=114"></script>
-<script src="./pages.js?v=114"></script>
-<script src="./shop.js?v=114"></script>
+<script src="./settings.js?v=116"></script>
+<script src="./pages.js?v=116"></script>
+<script src="./shop.js?v=116"></script>
 <script src="./support.js"></script>
 <style>@font-face{font-family:"Germanica";src:url("assets/fonts/PlainGermanica.woff") format("woff");font-weight:400;font-style:normal;font-display:swap}</style>
+<link rel="stylesheet" href="./mobile.css?v=1">
 </head>
 <body>
 <x-dc>
@@ -26,8 +27,8 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 ::-webkit-scrollbar{width:0;height:0}
 </style>
 <script type="module" src="https://unpkg.com/@google/model-viewer@3.5.0/dist/model-viewer.min.js"></script>
-<script src="./panda-drag.js?v=114"></script>
-<script src="./locale-switcher.js"></script>
+<script src="./panda-drag.js?v=116"></script>
+<script src="./locale-switcher.js?v=116"></script>
 </helmet>
 
 <!-- MOBILE MENU DRAWER -->
@@ -44,7 +45,7 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 <nav style="display:flex;flex-direction:column;gap:8px">
 <sc-for list="{{ megaCats }}" as="mc" hint-placeholder-count="5">
 <a href="{{ mc.anchor }}" onClick="{{ closeMenu }}" style="display:flex;align-items:center;gap:14px;padding:8px;border-radius:16px;background:#f5f5f5;color:#000" style-hover="background:#eee;color:#000">
-<div style="width:64px;height:64px;border-radius:12px;overflow:hidden;background:#000;flex-shrink:0"><sc-if value="{{ mc.img }}" hint-placeholder-val="{{ false }}"><img src="{{ mc.img }}" style="width:100%;height:100%;object-fit:cover;display:block"></sc-if></div>
+<div style="width:64px;height:64px;border-radius:12px;overflow:hidden;background:#000;flex-shrink:0"><sc-if value="{{ mc.img }}" hint-placeholder-val="{{ false }}"><img loading="lazy" decoding="async" src="{{ mc.img }}" style="width:100%;height:100%;object-fit:cover;display:block"></sc-if></div>
 <span style="flex:1;font-size:16px;font-weight:500;letter-spacing:-0.22px">{{ mc.name }}</span>
 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-right:8px;flex-shrink:0"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="13 6 19 12 13 18"></polyline></svg>
 </a>
@@ -100,7 +101,7 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 <sc-for list="{{ megaCats }}" as="mc" hint-placeholder-count="5">
 <a href="{{ mc.anchor }}" style="text-decoration:none;color:#000;flex:1 1 0;min-width:0;background:#fff;border-radius:14px;overflow:hidden;display:flex;flex-direction:column" style-hover="opacity:0.9">
 <div style="width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:12px;background:#000">
-<sc-if value="{{ mc.img }}" hint-placeholder-val="{{ false }}"><img src="{{ mc.img }}" style="width:100%;height:100%;object-fit:cover"></sc-if>
+<sc-if value="{{ mc.img }}" hint-placeholder-val="{{ false }}"><img loading="lazy" decoding="async" src="{{ mc.img }}" style="width:100%;height:100%;object-fit:cover"></sc-if>
 </div>
 <div style="padding:3px 0;text-align:center">
 <span style="font-size:12px;font-weight:400;letter-spacing:0.02px;font-family:'Inter',sans-serif">{{ mc.name }}</span>
@@ -142,7 +143,7 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 <a href="most-loved" style="font-size:14px;color:rgba(255,255,255,0.62);text-decoration:none;transition:color 0.2s ease" style-hover="color:#fff">Most Loved</a>
 <a href="collections" style="font-size:14px;color:rgba(255,255,255,0.62);text-decoration:none;transition:color 0.2s ease" style-hover="color:#fff">Collections</a>
 <a href="gift-guide" style="font-size:14px;color:rgba(255,255,255,0.62);text-decoration:none;transition:color 0.2s ease" style-hover="color:#fff">Gift Guide</a>
-<a href="gift-guide" style="font-size:14px;color:rgba(255,255,255,0.62);text-decoration:none;transition:color 0.2s ease" style-hover="color:#fff">Gift Guide</a>
+<a href="size-guide" style="font-size:14px;color:rgba(255,255,255,0.62);text-decoration:none;transition:color 0.2s ease" style-hover="color:#fff">Size Guide</a>
 </div>
 </div>
 <div style="display:flex;flex-direction:column;align-items:{{ fItems }};gap:18px">
@@ -188,7 +189,7 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 <p style="margin:0 0 -.22em;width:100%;text-align:center;font-family:'Germanica',serif;font-size:clamp(48px,14vw,256px);font-weight:400;letter-spacing:.04em;text-indent:.04em;word-spacing:-.25em;font-kerning:none;font-variant-ligatures:none;line-height:.92;white-space:nowrap;color:#fff;user-select:none;position:relative;z-index:2;pointer-events:none">Dolce Orso</p>
 </div>
 <div style="padding:clamp(20px,2.4vw,28px) clamp(16px,3vw,48px);display:flex;flex-direction:{{ fBarDir }};align-items:center;justify-content:{{ fBarJustify }};gap:12px 24px;flex-wrap:wrap;text-align:center;border-top:1px solid rgba(255,255,255,0.1);margin-top:clamp(10px,1.6vw,22px)">
-<p style="margin:0;font-size:10px;letter-spacing:1px;color:rgba(255,255,255,0.45);font-family:'JetBrains Mono',monospace">© 2025 DOLCE ORSO. ALL RIGHTS RESERVED</p>
+<p style="margin:0;font-size:10px;letter-spacing:1px;color:rgba(255,255,255,0.45);font-family:'JetBrains Mono',monospace">© 2026 DOLCE ORSO. ALL RIGHTS RESERVED</p>
 <a href="#" style="display:inline-flex;align-items:center;gap:8px;font-size:10px;letter-spacing:1px;text-transform:uppercase;font-family:'JetBrains Mono',monospace;color:rgba(255,255,255,0.62);text-decoration:none" style-hover="color:#fff">Back to top<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 19V5M6 11l6-6 6 6"></path></svg></a>
 </div>
 </div>
