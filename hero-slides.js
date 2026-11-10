@@ -38,7 +38,7 @@
     '.hs-eyebrow s{position:relative;width:6px;height:6px;border-radius:50%;background:#fff}',
     '.hs-eyebrow s::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:1px solid rgba(255,255,255,.6);animation:hsPulse 2.4s ease-out infinite}',
     '@keyframes hsPulse{0%{transform:scale(.4);opacity:1}100%{transform:scale(1.6);opacity:0}}',
-    '@font-face{font-family:"Germanica";src:url("assets/fonts/PlainGermanica.woff") format("woff");font-weight:400;font-style:normal;font-display:block}',
+    '@font-face{font-family:"Germanica";src:url("assets/fonts/PlainGermanica-v2.woff") format("woff");font-weight:400;font-style:normal;font-display:block}',
     '.hs-title{margin:0 0 -.42em;white-space:nowrap;font:400 clamp(32px,8.2vw,150px)/1 "Germanica","Inter",sans-serif;letter-spacing:.05em;word-spacing:-.275em;font-kerning:none;font-variant-ligatures:none;text-shadow:0 2px 24px rgba(0,0,0,.5)}',
     '.hs-line{display:block;overflow:hidden;padding:.4em .1em .4em .25em;margin:-.4em 0}',
     '.hs-line>*{display:inline-block}',
@@ -68,7 +68,7 @@
     '@keyframes hsRise{to{opacity:1;transform:none}}',
     // phones: photo on top, text below it on black, so the photo is cropped far less
     '@media (max-width:767px),(max-width:1199px) and (orientation:portrait){',   // phones and portrait tablets: photo on top, text below
-    '.hs-hero{min-height:640px}',
+    '.hs-hero{min-height:520px}',   // was 640: on small phones (SE, 360x640) that pushed the buttons below the first screen
     '#hero-media{inset:0 0 auto 0;height:70%;-webkit-mask-image:linear-gradient(to bottom,#000 62%,rgba(0,0,0,.55) 82%,transparent 100%);mask-image:linear-gradient(to bottom,#000 62%,rgba(0,0,0,.55) 82%,transparent 100%)}',   // photo melts into the black, no seam
     '.hs-shade{background:linear-gradient(to top,#000 0%,rgba(0,0,0,.78) 14%,rgba(0,0,0,.28) 34%,rgba(0,0,0,0) 52%),linear-gradient(to bottom,rgba(0,0,0,.38) 0%,rgba(0,0,0,0) 18%)}',
     '.hs-ui{padding:0 16px calc(clamp(28px,4.5vh,44px) + env(safe-area-inset-bottom))}',
@@ -76,6 +76,18 @@
     '.hs-hero{--g:clamp(14px,2.8vh,24px)}.hs-tag{font-size:11px;letter-spacing:.12em;padding-left:.12em}',
     '.hs-scroll{display:none}',
     '.hs-ctas{width:100%;max-width:440px;margin-top:0}.hs-ctas .hs-btn{flex:1;padding:0 14px;height:48px}',
+    '}',
+    // short landscape screens (phones turned sideways, small laptop windows): size the text by HEIGHT so the whole stack fits on one screen
+    '@media (orientation:landscape) and (max-height:520px){',
+    '.hs-hero{height:100vh;height:100svh;min-height:0;max-height:none}',
+    '#hero-media{inset:0;height:auto;-webkit-mask-image:none;mask-image:none}',   // full-bleed photo again (the phone layout stacks it on top)
+    '.hs-shade{background:linear-gradient(to top,rgba(0,0,0,.88) 0%,rgba(0,0,0,.55) 30%,rgba(0,0,0,0) 62%),linear-gradient(to bottom,rgba(0,0,0,.36) 0%,rgba(0,0,0,0) 22%)}',
+    '.hs-tag{font-size:10px}.hs-ctas{width:auto}.hs-ctas .hs-btn{flex:none;padding:0 20px}',
+    '.hs-hero{--g:clamp(8px,2.6vh,16px)}',
+    '.hs-ui{padding:60px 16px calc(14px + env(safe-area-inset-bottom))}',
+    '.hs-title{font-size:clamp(28px,15vh,76px);font-size:clamp(28px,15svh,76px)}',
+    '.hs-scroll{display:none}',
+    '.hs-ctas{margin-top:0}.hs-ctas .hs-btn{height:36px}',
     '}',
     '@media (prefers-reduced-motion:reduce){.hs-slide.on,.hs-slide.was,.hs-eyebrow s::after,.hs-scroll svg,.hs-glass::after{animation:none}.hs-hero.ready .hs-rise{animation-duration:.01ms}}'
   ].join('\n');

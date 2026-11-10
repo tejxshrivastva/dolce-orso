@@ -42,9 +42,13 @@
     var h = el(); if (!h || drag) return;
     var hero = h.closest('.hs-hero'); if (!hero) return;
     var c = window.__hc || (innerWidth < 768 ? HOME.phone : HOME.desk);
-    hero.style.setProperty('--hc-w', c.w + 'px');
+    var tt = c.title && document.querySelector('.hs-title'), cw = c.w;
+    if (tt) {                                        // short screens: shrink so the charm never reaches the header (64px)
+      var room = tt.getBoundingClientRect().top - hero.getBoundingClientRect().top - 64;
+      cw = Math.max(40, Math.min(c.w, room / (1.6 * (1 - c.gap))));
+    }
+    hero.style.setProperty('--hc-w', Math.round(cw) + 'px');
     var W = hero.clientWidth, H = hero.clientHeight, w = h.offsetWidth, hh = h.offsetHeight, cx, top;
-    var tt = c.title && document.querySelector('.hs-title');
     if (tt) {                                        // centred above the headline, like an emblem
       var tr = tt.getBoundingClientRect(), hr = hero.getBoundingClientRect();
       cx = tr.left + tr.width / 2 - hr.left; top = tr.top - hr.top - hh * (1 - c.gap);
