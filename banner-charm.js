@@ -20,16 +20,22 @@
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var IDLE = reduce ? 0 : 60, PHI0 = 90, R = '112%', K = 62, C = 6.5;   // 60deg/s = the wardrobe models' turn
   // one model per banner, keyed by the section id; a banner with no entry gets no charm
-  var MODELS = { denim: 'assets/home-objects/starburst.glb' };
+  // at = where the charm's centre sits along the title, 0 = its left end, 1 = its right end (omit = the CSS default)
+  // anim = the model's own baked animation (the controller's keys and sticks), played on loop
+  var MODELS = {
+    denim:   { src: 'assets/home-objects/starburst.glb' },
+    hoodies: { src: 'assets/home-objects/controller.glb', at: 0.15, anim: true }
+  };
   var items = [], suppressUntil = 0;
   function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
 
-  function build(banner, SRC) {
+  function build(banner, cfg) {
+    var SRC = cfg.src;
     var pos = document.createElement('div'); pos.className = 'bc-pos'; pos.setAttribute('aria-hidden', 'true');
-    pos.innerHTML = '<div class="bc"><div class="bc-body"><model-viewer src="' + SRC + '" alt="" camera-orbit="0deg ' + PHI0 + 'deg ' + R + '" orientation="0deg 0deg 0deg" field-of-view="30deg" exposure="1.25" shadow-intensity="0" environment-image="neutral" interaction-prompt="none" loading="lazy" interpolation-decay="20" disable-zoom disable-pan disable-tap></model-viewer></div></div>';
+    pos.innerHTML = '<div class="bc"><div class="bc-body"><model-viewer src="' + SRC + '" alt="" camera-orbit="0deg ' + PHI0 + 'deg ' + R + '" orientation="0deg 0deg 0deg"' + (cfg.anim ? ' autoplay animation-name="keys"' : '') + ' field-of-view="30deg" exposure="1.25" shadow-intensity="0" environment-image="neutral" interaction-prompt="none" loading="lazy" interpolation-decay="20" disable-zoom disable-pan disable-tap></model-viewer></div></div>';
     banner.appendChild(pos);
     var el = pos.firstChild, mv = el.querySelector('model-viewer');
-    var s = { banner: banner, el: el, mv: mv, x: 0, y: 0, vx: 0, vy: 0, theta: Math.random() * 360, phi: PHI0, spin: IDLE, tilt: 0, t: Math.random() * 6, drag: null, moved: false, visible: true };
+    var s = { at: cfg.at, banner: banner, el: el, mv: mv, x: 0, y: 0, vx: 0, vy: 0, theta: Math.random() * 360, phi: PHI0, spin: IDLE, tilt: 0, t: Math.random() * 6, drag: null, moved: false, visible: true };
     mv.addEventListener('load', function () { el.classList.add('ready'); });
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(function (en) { s.visible = en[0].isIntersecting; }).observe(banner);
@@ -48,7 +54,16 @@
       if (!b.querySelector('.bc-pos')) items.push(build(b, src));
     });
   }
-  setInterval(attach, 600); attach();
+  function place() {   // centre the charm over a chosen point of the title
+    items.forEach(function (s) {
+      if (s.at == null) return;
+      var h = s.banner.querySelector('h2'), pos = s.el.parentNode; if (!h || !pos) return;
+      var b = s.banner.getBoundingClientRect(), t = h.getBoundingClientRect(); if (!b.width) return;
+      var cx = t.left - b.left + t.width * s.at;
+      pos.style.right = Math.max(0, b.width - 2 * cx) + 'px';
+    });
+  }
+  setInterval(function () { attach(); place(); }, 600); attach(); place(); addEventListener('resize', place);
 
   function find(e) {
     var c = e.target.closest && e.target.closest('.bc'); if (!c) return null;
