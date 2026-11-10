@@ -9,6 +9,8 @@
     '.bc-pos{position:absolute;left:0;right:6.5%;bottom:calc(clamp(18px,3vw,40px) + clamp(40px,6.6vw,104px) * .46);height:60%;display:flex;justify-content:center;pointer-events:none;z-index:1}',
     'section[id] > a[href] > div:has(> h2){position:absolute;z-index:2;pointer-events:none}',
     '@media (max-width:767px){.bc-pos{height:52%}}',
+    '.bc-pos.bc-crown{height:40%;bottom:calc(clamp(20px,3.4vw,60px) + clamp(40px,6.6vw,104px) * .62)}',
+    '@media (max-width:767px){.bc-pos.bc-crown{height:30%;bottom:calc(clamp(20px,3.4vw,60px) + clamp(40px,6.6vw,104px) * .38)}}',
     '.br{position:absolute;pointer-events:none;opacity:0;transition:opacity .9s ease;will-change:transform}',
     '.br.ready{opacity:1}',
     '.br{z-index:3}',
@@ -28,7 +30,8 @@
   // anim = the model's own baked animation (the controller's keys and sticks), played on loop
   var MODELS = {
     denim:   { src: 'assets/home-objects/starburst.glb' },
-    hoodies: { src: 'assets/home-objects/controller.glb', at: 0.19, anim: true },
+    // crown: sits centred on the title like it is wearing it, turns on the vertical axis only
+    hoodies: { src: 'assets/home-objects/crown.glb', at: 0.5, spinOnly: true, phi: 76, cls: 'bc-crown', before: true },
     // ring: a thorn ring worn by the title. It slides along the text, one half drawn behind the letters, one half in front
     't-shirts': { src: 'assets/home-objects/ring.glb', ring: true }
   };
@@ -37,11 +40,14 @@
 
   function build(banner, cfg) {
     var SRC = cfg.src;
-    var pos = document.createElement('div'); pos.className = 'bc-pos'; pos.setAttribute('aria-hidden', 'true');
-    pos.innerHTML = '<div class="bc"><div class="bc-body"><model-viewer src="' + SRC + '" alt="" camera-orbit="0deg ' + PHI0 + 'deg ' + R + '" orientation="0deg 0deg 0deg"' + (cfg.anim ? ' autoplay animation-name="keys"' : '') + ' field-of-view="30deg" exposure="1.25" shadow-intensity="0" environment-image="neutral" interaction-prompt="none" loading="lazy" interpolation-decay="20" disable-zoom disable-pan disable-tap></model-viewer></div></div>';
-    banner.appendChild(pos);
+    var pos = document.createElement('div'); pos.className = 'bc-pos' + (cfg.cls ? ' ' + cfg.cls : ''); pos.setAttribute('aria-hidden', 'true');
+    pos.innerHTML = '<div class="bc"><div class="bc-body"><model-viewer src="' + SRC + '" alt="" camera-orbit="0deg ' + (cfg.phi || PHI0) + 'deg ' + R + '" orientation="0deg 0deg 0deg"' + (cfg.anim ? ' autoplay animation-name="keys"' : '') + ' field-of-view="30deg" exposure="1.25" shadow-intensity="0" environment-image="neutral" interaction-prompt="none" loading="lazy" interpolation-decay="20" disable-zoom disable-pan disable-tap></model-viewer></div></div>';
+    // before = keep the real title the banner's last child (the page's banner rules style div:last-child;
+    // appending makes those rules pad and centre the charm box instead). Denim keeps its approved, appended layout.
+    var tb = title(banner) && title(banner).parentElement;
+    if (cfg.before && tb) banner.insertBefore(pos, tb); else banner.appendChild(pos);
     var el = pos.firstChild, mv = el.querySelector('model-viewer');
-    var s = { at: cfg.at, banner: banner, el: el, mv: mv, x: 0, y: 0, vx: 0, vy: 0, theta: Math.random() * 360, phi: PHI0, spin: IDLE, tilt: 0, t: Math.random() * 6, drag: null, moved: false, visible: true };
+    var s = { at: cfg.at, spinOnly: cfg.spinOnly, phi0: cfg.phi || PHI0, banner: banner, el: el, mv: mv, x: 0, y: 0, vx: 0, vy: 0, theta: Math.random() * 360, phi: cfg.phi || PHI0, spin: IDLE, tilt: 0, t: Math.random() * 6, drag: null, moved: false, visible: true };
     mv.addEventListener('load', function () { el.classList.add('ready'); });
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(function (en) { s.visible = en[0].isIntersecting; }).observe(banner);
@@ -176,7 +182,7 @@
         s.x += (d.tx - s.x) * f; s.y += (d.ty - s.y) * f;
         s.vx = (s.x - px) / dt; s.vy = (s.y - py) / dt;
         s.theta += (s.x - px) * 0.9;                      // moving it turns it
-        s.phi += (clamp(PHI0 - s.vy * 0.05, 40, 120) - s.phi) * (1 - Math.exp(-dt * 8));
+        s.phi += (clamp(s.phi0 - s.vy * 0.05, 40, 120) - s.phi) * (1 - Math.exp(-dt * 8));
         s.spin = IDLE;
       } else {
         s.vx += (-K * s.x - C * s.vx) * dt; s.vy += (-K * s.y - C * s.vy) * dt;
@@ -186,7 +192,7 @@
         var idle = IDLE * (1 + 0.35 * Math.sin(s.t * 0.5));
         s.spin = idle + (s.spin - idle) * Math.exp(-dt * 1.4);
         s.theta += s.spin * dt;
-        s.phi += (PHI0 - s.phi) * (1 - Math.exp(-dt * 3));
+        s.phi += (s.phi0 - s.phi) * (1 - Math.exp(-dt * 3));
       }
       s.tilt += (clamp(s.vx * 0.02, -28, 28) - s.tilt) * (1 - Math.exp(-dt * 10));
       s.el.style.transform = 'translate3d(' + s.x.toFixed(1) + 'px,' + s.y.toFixed(1) + 'px,0)';
@@ -194,8 +200,8 @@
       if (s.mv) {
         s.mv.cameraOrbit = (s.theta % 360).toFixed(1) + 'deg ' + s.phi.toFixed(1) + 'deg ' + R;
         // tumble: pitch and roll swing on their own slow, unrelated beats, so the spin never repeats the same pose
-        var rx = reduce ? 0 : Math.sin(s.t * 0.9) * 34 + Math.sin(s.t * 0.37 + 1.3) * 14;
-        var rz = reduce ? 0 : Math.sin(s.t * 0.62 + 2.1) * 28 + Math.sin(s.t * 1.15) * 8;
+        var rx = (reduce || s.spinOnly) ? 0 : Math.sin(s.t * 0.9) * 34 + Math.sin(s.t * 0.37 + 1.3) * 14;
+        var rz = (reduce || s.spinOnly) ? 0 : Math.sin(s.t * 0.62 + 2.1) * 28 + Math.sin(s.t * 1.15) * 8;
         s.mv.orientation = rx.toFixed(1) + 'deg 0deg ' + rz.toFixed(1) + 'deg';
       }
     });
