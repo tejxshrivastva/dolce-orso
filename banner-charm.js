@@ -78,6 +78,7 @@
         el.style.width = el.style.height = L.toFixed(1) + 'px';
         el.style.left = (cx - L / 2).toFixed(1) + 'px'; el.style.top = (cy - L / 2).toFixed(1) + 'px';
         var mv = r.mvs[i];
+        mv.style.width = mv.style.height = L.toFixed(1) + 'px';   // explicit px: both halves must render at exactly the same size
         if (!r.shown && r.mvs[0].loaded && r.mvs[1].loaded) { r.shown = true; r.els.forEach(function (e) { e.classList.add('ready'); }); try { r.mvs.forEach(function (m) { m.play(); m.pause(); }); } catch (_) {} }
         if (r.shown) { try { mv.currentTime = reduce ? 0 : (r.t % 6); } catch (_) {} }
       });
