@@ -21,11 +21,11 @@
 <link rel="icon" type="image/png" sizes="32x32" href="./icon-32.png?v=4">
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png?v=4">
 <link rel="apple-touch-icon" href="./apple-touch-icon.png?v=4">
-<script src="./products.js?v=124"></script>
+<script src="./products.js?v=125"></script>
 <script>window.DOLCE_KEY='boutiques';</script>
-<script src="./settings.js?v=124"></script>
+<script src="./settings.js?v=125"></script>
 <script src="./pages.js?v=124"></script>
-<script src="./shop.js?v=124"></script>
+<script src="./shop.js?v=125"></script>
 <script src="./support.js"></script>
 <style>@font-face{font-family:"Germanica";src:url("assets/fonts/PlainGermanica-v2.woff") format("woff");font-weight:400;font-style:normal;font-display:swap}</style>
 <link rel="stylesheet" href="./mobile.css?v=17">
@@ -34,6 +34,7 @@
 <x-dc>
 
 <helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 body{margin:0;font-family:'Inter',sans-serif;font-feature-settings:'ss01';color:#000;background:#fff;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
@@ -44,7 +45,7 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 *{box-sizing:border-box}
 ::-webkit-scrollbar{width:0;height:0}
 </style>
-<script type="module" src="https://unpkg.com/@google/model-viewer@3.5.0/dist/model-viewer.min.js"></script>
+<script>/* 3D library (~250KB): on inner pages only the footer blade uses it, so fetch it when the footer comes near. Checked on scroll (the page template re-renders the footer, so a watched element can go stale) */(function(){var d=0;function go(){if(d)return;d=1;removeEventListener("scroll",chk);clearInterval(t);var s=document.createElement("script");s.type="module";s.src="https://unpkg.com/@google/model-viewer@3.5.0/dist/model-viewer.min.js";document.head.appendChild(s);}function chk(){var f=document.querySelector("[data-slot=footer-panda]");if(f&&f.getBoundingClientRect().top<innerHeight+1200)go();}addEventListener("scroll",chk,{passive:true});var t=setInterval(chk,700);})();</script>
 <script src="./panda-drag.js?v=124"></script>
 <script src="./locale-switcher.js?v=124"></script>
 </helmet>
@@ -203,7 +204,7 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 <span style="width:6px;height:6px;border-radius:50%;background:#fff"></span>
 <span style="font-size:11px;letter-spacing:0.55px;text-transform:uppercase;font-family:'JetBrains Mono',monospace;font-weight:500;color:rgba(255,255,255,0.62)">Crafted for little ones</span>
 </div>
-<div data-slot="footer-panda" class="do-rose" aria-hidden="true"><model-viewer src="assets/home-objects/blade.glb" alt="" camera-orbit="0deg 90deg 100%" field-of-view="30deg" exposure="1.5" shadow-intensity="0" environment-image="neutral" interaction-prompt="none" loading="lazy" interpolation-decay="20" disable-zoom disable-pan disable-tap></model-viewer></div>
+<div data-slot="footer-panda" class="do-rose" aria-hidden="true"><model-viewer src="assets/home-objects/blade.glb" alt="" camera-orbit="0deg 90deg 100%" field-of-view="30deg" exposure="1.5" shadow-intensity="0" environment-image="neutral" interaction-prompt="none" loading="eager" interpolation-decay="20" disable-zoom disable-pan disable-tap></model-viewer></div>
 <p style="margin:0 0 -.22em;width:100%;text-align:center;font-family:'Germanica',serif;font-size:clamp(48px,14vw,256px);font-weight:400;letter-spacing:.04em;text-indent:.04em;word-spacing:-.25em;font-kerning:none;font-variant-ligatures:none;line-height:.92;white-space:nowrap;color:#fff;user-select:none;position:relative;z-index:2;pointer-events:none">Dolce Orso</p>
 </div>
 <div style="padding:clamp(20px,2.4vw,28px) clamp(16px,3vw,48px);display:flex;flex-direction:{{ fBarDir }};align-items:center;justify-content:{{ fBarJustify }};gap:12px 24px;flex-wrap:wrap;text-align:center;border-top:1px solid rgba(255,255,255,0.1);margin-top:clamp(10px,1.6vw,22px)">

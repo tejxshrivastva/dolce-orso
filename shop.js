@@ -798,15 +798,14 @@
 (function () {
   var D = window.DOLCE;
   if (!D || !window.matchMedia || !matchMedia('(hover: hover)').matches) return;
-  // hover photos are written as data-hover (no src), so phones never download them; mouse devices load them lazily here
-  var wq = 0;
-  function wake() {
-    wq = 0;
-    var l = document.querySelectorAll('img[data-hover]:not([src])');
-    for (var i = 0; i < l.length; i++) { l[i].loading = 'lazy'; l[i].decoding = 'async'; l[i].src = l[i].getAttribute('data-hover'); }
-  }
-  new MutationObserver(function () { if (!wq) wq = setTimeout(wake, 40); }).observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['data-hover'] });
-  wake();
+  // hover photos are written as data-hover (no src): phones never download them, and mouse devices fetch a card's
+  // hover photo only when the pointer reaches that card (it used to fetch every card's hover photo while scrolling:
+  // ~12MB on the home page alone)
+  document.addEventListener('pointerover', function (e) {
+    var a = e.target.closest && e.target.closest('a, .do-card'); if (!a) return;
+    var l = a.querySelectorAll('img[data-hover]:not([src])');
+    for (var i = 0; i < l.length; i++) { l[i].decoding = 'async'; l[i].src = l[i].getAttribute('data-hover'); }
+  }, { passive: true });
   var STEP = 750;                                  // ms each photo stays before the next one
   var cache = {}, active = null, run = 0;
   function preload(u) { return cache[u] || (cache[u] = new Promise(function (ok) { var i = new Image(); i.onload = i.onerror = ok; i.src = u; })); }
