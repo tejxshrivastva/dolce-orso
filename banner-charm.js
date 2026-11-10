@@ -9,6 +9,10 @@
     '.bc-pos{position:absolute;left:0;right:6.5%;bottom:calc(clamp(18px,3vw,40px) + clamp(40px,6.6vw,104px) * .46);height:60%;display:flex;justify-content:center;pointer-events:none;z-index:1}',
     'section[id] > a[href] > div:has(> h2){position:absolute;z-index:2;pointer-events:none}',
     '@media (max-width:767px){.bc-pos{height:52%}}',
+    '.br{position:absolute;pointer-events:none;opacity:0;transition:opacity .9s ease;will-change:transform}',
+    '.br.ready{opacity:1}',
+    '.br-back{z-index:1}.br-front{z-index:3}',
+    '.br model-viewer{width:100%;height:100%;pointer-events:none;background:transparent;--poster-color:transparent;--progress-bar-height:0px;--progress-mask:transparent}',
     '.bc{height:100%;aspect-ratio:1;pointer-events:auto;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;opacity:0;transition:opacity .9s ease;will-change:transform}',
     '.bc.ready{opacity:1}',
     '.bc.grab{cursor:grabbing}',
@@ -24,7 +28,9 @@
   // anim = the model's own baked animation (the controller's keys and sticks), played on loop
   var MODELS = {
     denim:   { src: 'assets/home-objects/starburst.glb' },
-    hoodies: { src: 'assets/home-objects/controller.glb', at: 0.19, anim: true }
+    hoodies: { src: 'assets/home-objects/controller.glb', at: 0.19, anim: true },
+    // ring: a thorn ring worn by the title. It slides along the text, one half drawn behind the letters, one half in front
+    't-shirts': { src: 'assets/home-objects/ring.glb', ring: true }
   };
   var items = [], suppressUntil = 0;
   function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
@@ -43,14 +49,51 @@
     return s;
   }
 
+  var rings = [];
+  var RING_THETA = 38;     // camera swings round so the ring is seen as a narrow ellipse: near arc on one side, far arc on the other
+  function buildRing(banner, cfg) {
+    function layer(cls, clip) {
+      var d = document.createElement('div'); d.className = 'br ' + cls; d.setAttribute('aria-hidden', 'true');
+      d.style.clipPath = clip;
+      d.innerHTML = '<model-viewer src="' + cfg.src + '" alt="" camera-orbit="' + RING_THETA + 'deg 90deg 100%" field-of-view="30deg" exposure="1.25" shadow-intensity="0" environment-image="neutral" interaction-prompt="none" loading="lazy" interpolation-decay="20" animation-name="spin" disable-zoom disable-pan disable-tap></model-viewer>';
+      banner.appendChild(d); return d;
+    }
+    var back = layer('br-back', 'inset(0 0 0 50%)'), front = layer('br-front', 'inset(0 50% 0 0)');
+    var r = { banner: banner, els: [back, front], mvs: [back.firstChild, front.firstChild], t: Math.random() * 10, visible: true, shown: false };
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (en) { r.visible = en[0].isIntersecting; }).observe(banner);
+    return r;
+  }
+  function tickRings(dt) {
+    rings.forEach(function (r) {
+      if (!r.visible) return;
+      r.t += dt;
+      var h = r.banner.querySelector('h2'); if (!h) return;
+      var b = r.banner.getBoundingClientRect(), t = h.getBoundingClientRect(); if (!b.width) return;
+      var fs = parseFloat(getComputedStyle(h).fontSize) || 60, L = fs * 2.4;          // box side
+      var span = t.width + fs * 0.9;                                                      // sweep a little past both ends
+      var u = (reduce ? 0.5 : (r.t / 9) % 2); u = u > 1 ? 2 - u : u;                      // constant speed there and back
+      u = u + 0.16 * (u * u * (3 - 2 * u) - u);                                           // soften only the turnarounds
+      var cx = t.left - b.left + t.width / 2 - span / 2 + u * span, cy = t.top - b.top + t.height / 2 - fs * 0.34;
+      r.els.forEach(function (el, i) {
+        el.style.width = el.style.height = L.toFixed(1) + 'px';
+        el.style.left = (cx - L / 2).toFixed(1) + 'px'; el.style.top = (cy - L / 2).toFixed(1) + 'px';
+        var mv = r.mvs[i];
+        if (!r.shown && r.mvs[0].loaded && r.mvs[1].loaded) { r.shown = true; r.els.forEach(function (e) { e.classList.add('ready'); }); try { r.mvs.forEach(function (m) { m.play(); m.pause(); }); } catch (_) {} }
+        if (r.shown) { try { mv.currentTime = reduce ? 0 : (r.t % 6); } catch (_) {} }
+      });
+    });
+  }
+
   // (re)attach to every category banner, in case the page re-renders them
   function attach() {
     var banners = document.querySelectorAll('section[id] > a[href]');
     items = items.filter(function (s) { return document.body.contains(s.el); });
+    rings = rings.filter(function (r) { return document.body.contains(r.els[0]); });
     Array.prototype.forEach.call(banners, function (b) {
       var sec = b.closest('section[id]'), src = sec && MODELS[sec.id]; if (!src) return;
       var h2 = b.querySelector('h2'); if (!h2) return;
       if (h2.parentElement) { h2.parentElement.style.zIndex = '2'; h2.parentElement.style.pointerEvents = 'none'; }
+      if (src.ring) { if (!b.querySelector('.br')) { var r = buildRing(b, src); rings.push(r); } return; }
       if (!b.querySelector('.bc-pos')) items.push(build(b, src));
     });
   }
@@ -106,6 +149,7 @@
     requestAnimationFrame(frame);
     var dt = last ? Math.min((now - last) / 1000, 1 / 20) : 1 / 60; last = now;
     if (document.hidden) return;
+    tickRings(dt);
     items.forEach(function (s) {
       if (!s.visible) return;
       if (!s.shown && s.mv.loaded) { s.shown = true; s.el.classList.add('ready'); }
