@@ -10,6 +10,8 @@
     'section[id] > a[href] > div:has(> h2){position:absolute;z-index:2;pointer-events:none}',
     '@media (max-width:767px){.bc-pos{height:52%}}',
     '.bc-pos.bc-crown{height:40%;bottom:calc(clamp(20px,3.4vw,60px) + clamp(40px,6.6vw,104px) * .98)}',
+    '.bc-pos.bc-king{height:64%;bottom:calc(clamp(20px,3.4vw,60px) + clamp(40px,6.6vw,104px) * .5 - 6%)}',
+    '@media (max-width:767px){.bc-pos.bc-king{height:52%}}',
     '@media (max-width:767px){.bc-pos.bc-crown{height:30%;bottom:calc(clamp(20px,3.4vw,60px) + clamp(40px,6.6vw,104px) * .74)}}',
     '.br{position:absolute;pointer-events:none;opacity:0;transition:opacity .9s ease;will-change:transform}',
     '.br.ready{opacity:1}',
@@ -31,6 +33,8 @@
   var MODELS = {
     denim:   { src: 'assets/home-objects/starburst.glb' },
     // crown: sits centred on the title like it is wearing it, turns on the vertical axis only
+    // king: stands behind the title, floats, turns slowly, and every 7s does a quick 'checkmate' pirouette with a little rise
+    jackets: { src: 'assets/home-objects/king.glb', at: 0.5, spinOnly: true, phi: 84, cls: 'bc-king', before: true, motion: 'king', idle: 36 },
     hoodies: { src: 'assets/home-objects/crown.glb', at: 0.5, spinOnly: true, phi: 76, cls: 'bc-crown', before: true },
     // ring: a thorn ring worn by the title. It slides along the text, one half drawn behind the letters, one half in front
     't-shirts': { src: 'assets/home-objects/ring.glb', ring: true }
@@ -47,7 +51,7 @@
     var tb = title(banner) && title(banner).parentElement;
     if (cfg.before && tb) banner.insertBefore(pos, tb); else banner.appendChild(pos);
     var el = pos.firstChild, mv = el.querySelector('model-viewer');
-    var s = { at: cfg.at, spinOnly: cfg.spinOnly, phi0: cfg.phi || PHI0, banner: banner, el: el, mv: mv, x: 0, y: 0, vx: 0, vy: 0, theta: Math.random() * 360, phi: cfg.phi || PHI0, spin: IDLE, tilt: 0, t: Math.random() * 6, drag: null, moved: false, visible: true };
+    var s = { motion: cfg.motion, idle0: cfg.idle, at: cfg.at, spinOnly: cfg.spinOnly, phi0: cfg.phi || PHI0, banner: banner, el: el, mv: mv, x: 0, y: 0, vx: 0, vy: 0, theta: Math.random() * 360, phi: cfg.phi || PHI0, spin: cfg.idle || IDLE, tilt: 0, t: Math.random() * 6, drag: null, moved: false, visible: true };
     mv.addEventListener('load', function () { el.classList.add('ready'); });
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(function (en) { s.visible = en[0].isIntersecting; }).observe(banner);
@@ -183,22 +187,32 @@
         s.vx = (s.x - px) / dt; s.vy = (s.y - py) / dt;
         s.theta += (s.x - px) * 0.9;                      // moving it turns it
         s.phi += (clamp(s.phi0 - s.vy * 0.05, 40, 120) - s.phi) * (1 - Math.exp(-dt * 8));
-        s.spin = IDLE;
+        s.spin = reduce ? 0 : (s.idle0 || IDLE);
       } else {
         s.vx += (-K * s.x - C * s.vx) * dt; s.vy += (-K * s.y - C * s.vy) * dt;
         s.x += s.vx * dt; s.y += s.vy * dt;
         if (Math.abs(s.x) < 0.05 && Math.abs(s.vx) < 0.5) { s.x = 0; s.vx = 0; }
         if (Math.abs(s.y) < 0.05 && Math.abs(s.vy) < 0.5) { s.y = 0; s.vy = 0; }
-        var idle = IDLE * (1 + 0.35 * Math.sin(s.t * 0.5));
+        var idle = (reduce ? 0 : (s.idle0 || IDLE)) * (1 + 0.35 * Math.sin(s.t * 0.5));
         s.spin = idle + (s.spin - idle) * Math.exp(-dt * 1.4);
         s.theta += s.spin * dt;
         s.phi += (s.phi0 - s.phi) * (1 - Math.exp(-dt * 3));
       }
       s.tilt += (clamp(s.vx * 0.02, -28, 28) - s.tilt) * (1 - Math.exp(-dt * 10));
-      s.el.style.transform = 'translate3d(' + s.x.toFixed(1) + 'px,' + s.y.toFixed(1) + 'px,0)';
-      var body = s.el.firstElementChild; if (body) body.style.transform = 'rotate(' + s.tilt.toFixed(2) + 'deg)';
+      // king: levitate + sway, and a 1.2s pirouette with a small rise every 7s
+      var fl = 0, lift = 0, sway = 0, lean = 0;
+      if (s.motion === 'king' && !reduce) {
+        var bh = s.el.offsetHeight || 200, u = s.t % 7, p = clamp((u - 5.6) / 1.2, 0, 1);
+        var e = p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;          // ease in-out
+        fl = 360 * e;                                                              // the pirouette
+        lift = -bh * (0.045 * Math.sin(s.t * 2.2) + 0.07 * Math.sin(Math.PI * p));  // float + rise during the spin
+        sway = 3.5 * Math.sin(s.t * 1.15);
+        lean = -10 * Math.sin(Math.PI * p);
+      }
+      s.el.style.transform = 'translate3d(' + s.x.toFixed(1) + 'px,' + (s.y + lift).toFixed(1) + 'px,0)';
+      var body = s.el.firstElementChild; if (body) body.style.transform = 'rotate(' + (s.tilt + sway).toFixed(2) + 'deg)';
       if (s.mv) {
-        s.mv.cameraOrbit = (s.theta % 360).toFixed(1) + 'deg ' + s.phi.toFixed(1) + 'deg ' + R;
+        s.mv.cameraOrbit = ((s.theta + fl) % 360).toFixed(1) + 'deg ' + (s.phi + lean).toFixed(1) + 'deg ' + R;
         // tumble: pitch and roll swing on their own slow, unrelated beats, so the spin never repeats the same pose
         var rx = (reduce || s.spinOnly) ? 0 : Math.sin(s.t * 0.9) * 34 + Math.sin(s.t * 0.37 + 1.3) * 14;
         var rz = (reduce || s.spinOnly) ? 0 : Math.sin(s.t * 0.62 + 2.1) * 28 + Math.sin(s.t * 1.15) * 8;
