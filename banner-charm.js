@@ -6,7 +6,7 @@
   if (window.__bannerCharm) return; window.__bannerCharm = true;
 
   var css = [
-    '.bc-pos{position:absolute;left:0;right:0;bottom:calc(clamp(18px,3vw,40px) + clamp(40px,6.6vw,104px) * .95);height:60%;display:flex;justify-content:center;pointer-events:none;z-index:1}',
+    '.bc-pos{position:absolute;left:0;right:9%;bottom:calc(clamp(18px,3vw,40px) + clamp(40px,6.6vw,104px) * .62);height:60%;display:flex;justify-content:center;pointer-events:none;z-index:1}',
     'section[id] > a[href] > div:has(> h2){position:absolute;z-index:2;pointer-events:none}',
     '@media (max-width:767px){.bc-pos{height:52%}}',
     '.bc{height:100%;aspect-ratio:1;pointer-events:auto;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;opacity:0;transition:opacity .9s ease;will-change:transform}',
