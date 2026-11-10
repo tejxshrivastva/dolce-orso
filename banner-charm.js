@@ -81,7 +81,7 @@
       r.t += dt;
       var h = title(r.banner); if (!h) return;
       var b = r.banner.getBoundingClientRect(), t = h.getBoundingClientRect(); if (!b.width) return;
-      var fs = parseFloat(getComputedStyle(h).fontSize) || 60, L = fs * 1.85;          // box side
+      var fs = parseFloat(getComputedStyle(h).fontSize) || 60, L = fs * 2.25;          // box side
       var span = t.width + fs * 0.9;                                                      // sweep a little past both ends
       var u = (reduce ? 0.5 : (r.t / 9) % 2); u = u > 1 ? 2 - u : u;                      // constant speed there and back
       u = u + 0.16 * (u * u * (3 - 2 * u) - u);                                           // soften only the turnarounds
