@@ -19,11 +19,12 @@
 
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var IDLE = reduce ? 0 : 60, PHI0 = 90, R = '112%', K = 62, C = 6.5;   // 60deg/s = the wardrobe models' turn
-  var SRC = 'assets/home-objects/starburst.glb';
+  // one model per banner, keyed by the section id; a banner with no entry gets no charm
+  var MODELS = { denim: 'assets/home-objects/starburst.glb' };
   var items = [], suppressUntil = 0;
   function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
 
-  function build(banner) {
+  function build(banner, SRC) {
     var pos = document.createElement('div'); pos.className = 'bc-pos'; pos.setAttribute('aria-hidden', 'true');
     pos.innerHTML = '<div class="bc"><div class="bc-body"><model-viewer src="' + SRC + '" alt="" camera-orbit="0deg ' + PHI0 + 'deg ' + R + '" orientation="0deg 0deg 0deg" field-of-view="30deg" exposure="1.25" shadow-intensity="0" environment-image="neutral" interaction-prompt="none" loading="lazy" interpolation-decay="20" disable-zoom disable-pan disable-tap></model-viewer></div></div>';
     banner.appendChild(pos);
@@ -41,9 +42,10 @@
     var banners = document.querySelectorAll('section[id] > a[href]');
     items = items.filter(function (s) { return document.body.contains(s.el); });
     Array.prototype.forEach.call(banners, function (b) {
+      var sec = b.closest('section[id]'), src = sec && MODELS[sec.id]; if (!src) return;
       var h2 = b.querySelector('h2'); if (!h2) return;
       if (h2.parentElement) { h2.parentElement.style.zIndex = '2'; h2.parentElement.style.pointerEvents = 'none'; }
-      if (!b.querySelector('.bc-pos')) items.push(build(b));
+      if (!b.querySelector('.bc-pos')) items.push(build(b, src));
     });
   }
   setInterval(attach, 600); attach();
