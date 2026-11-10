@@ -147,3 +147,44 @@ footer div[style*="border-bottom: 1px solid rgba"]::after {
   header > div:first-child > div > * { min-width: 34px !important; }
   header > div:first-child { padding-left: 8px !important; padding-right: 8px !important; }
 }
+
+/* ===== footer link columns (all pages) — numbered headings, column rules, hover arrow =====
+   The grid is the footer block whose children each hold an <h4> heading + a list of links. */
+footer div:has(> div > h4) { counter-reset: fcol; }
+footer div:has(> h4) { counter-increment: fcol; gap: 22px !important; }
+footer div:has(> h4) > h4 {
+  display: flex; align-items: center; gap: 10px;
+  color: rgba(255,255,255,.88) !important; letter-spacing: .16em !important;
+}
+footer div:has(> h4) > h4::before {
+  content: counter(fcol, decimal-leading-zero);
+  color: rgba(255,255,255,.32); letter-spacing: .06em;
+}
+footer div:has(> h4) > h4::after {               /* short rule after the heading */
+  content: ""; flex: 0 0 28px; height: 1px; background: rgba(255,255,255,.18);
+}
+footer div:has(> h4) > div { gap: 13px !important; }
+footer div:has(> h4) > div > a {
+  position: relative; display: inline-block; width: max-content; max-width: 100%;
+  font-size: 15px !important; letter-spacing: -.005em;
+  transition: color .25s ease, transform .35s cubic-bezier(.2,.75,.2,1) !important;
+}
+footer div:has(> h4) > div > a::after {          /* arrow slides in on hover */
+  content: "\2197"; position: absolute; left: calc(100% + 6px); top: 50%; margin-top: -.55em; font-size: 12px; opacity: 0; transform: translate(-6px, 2px);   /* outside the text box: centred links stay centred */
+  transition: opacity .25s ease, transform .35s cubic-bezier(.2,.75,.2,1);
+}
+footer div:has(> h4) > div > a::before {         /* hairline underline grows from the left */
+  content: ""; position: absolute; left: 0; right: 0; bottom: -3px; height: 1px;
+  background: rgba(255,255,255,.55); transform: scaleX(0); transform-origin: left;
+  transition: transform .4s cubic-bezier(.2,.75,.2,1);
+}
+@media (hover: hover) {
+  footer div:has(> h4) > div > a:hover { color: #fff !important; transform: translateX(4px); }
+  footer div:has(> h4) > div > a:hover::after { opacity: 1; transform: translate(0, 0); }
+  footer div:has(> h4) > div > a:hover::before { transform: scaleX(1); }
+}
+/* tablets + desktops: hairline column rules so the four groups read as one composed block */
+@media (max-width: 767px) { footer div:has(> h4) > h4::after { display: none; } footer div:has(> h4) > h4 { justify-content: center; } footer div:has(> h4) > div > a { align-self: center; } }
+@media (min-width: 768px) {
+  footer div:has(> h4) + div:has(> h4) { border-left: 1px solid rgba(255,255,255,.08); padding-left: clamp(18px, 2.4vw, 40px); }
+}
