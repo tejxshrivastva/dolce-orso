@@ -52,11 +52,11 @@
     '.sg-t:focus-visible{outline:1px solid #fff;outline-offset:3px}',
     // hero switch (home page): a quiet "Sound on / off" line where the Scroll cue was, centred under the buttons
     '.hs-hero .hs-scroll{display:none!important}',
-    '.sg-h{position:relative;z-index:6;pointer-events:auto;display:inline-flex;align-items:center;gap:12px;padding:10px 18px 10px 15px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.22);-webkit-backdrop-filter:blur(14px) saturate(1.2);backdrop-filter:blur(14px) saturate(1.2);cursor:pointer;color:rgba(255,255,255,.7);font:500 11px/1 "JetBrains Mono",monospace;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;-webkit-tap-highlight-color:transparent;transition:color .3s,background .3s,border-color .3s,transform .3s}',
-    '.sg-h .sg-eq{height:13px;gap:2.5px;padding-right:12px;border-right:1px solid rgba(255,255,255,.2);box-sizing:content-box}',
-    '.sg-h .sg-eq i{width:2px}',
-    '.sg-h:active{transform:scale(.97)}',
-    '.sg-h:hover{color:#fff;background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.55)}.sg-h:focus{outline:0}.sg-h:focus-visible{outline:1px solid rgba(255,255,255,.6);outline-offset:3px}',
+    '.sg-h{position:relative;z-index:6;pointer-events:auto;display:inline-flex;align-items:center;padding:12px 2px;background:none;border:0;cursor:pointer;color:rgba(255,255,255,.62);font:500 11px/1 "JetBrains Mono",monospace;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;-webkit-tap-highlight-color:transparent;transition:color .3s}',
+    '.sg-h .sg-eq{display:none}',
+    '.sg-h span{padding-bottom:5px;border-bottom:1px solid rgba(255,255,255,.4);transition:border-color .3s}',
+    '.sg-h:hover span,.sg-h:focus-visible span{border-bottom-color:#fff}',
+    '.sg-h:hover{color:#fff}.sg-h:focus{outline:0}.sg-h:focus-visible{outline:0}',
     '.sg-h b{font-weight:600;color:#fff}.sg-h.sg-mute{color:rgba(255,255,255,.5)}.sg-h.sg-mute b{color:rgba(255,255,255,.85)}',
     '.sg-t.sg-away{opacity:0!important;pointer-events:none}',
     '@media (prefers-reduced-motion:reduce){.sg-eq i,.sg-off::after{animation:none}.sg-rise{animation-duration:.01ms}}'
