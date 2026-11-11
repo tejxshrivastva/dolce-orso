@@ -209,3 +209,51 @@ footer div:has(> h4) > div > a::before {         /* hairline underline grows fro
 @media (min-width: 768px) {
   footer div:has(> h4) + div:has(> h4) { border-left: 1px solid rgba(255,255,255,.08); padding-left: clamp(18px, 2.4vw, 40px); }
 }
+
+/* ================= Nov 12: phone polish pass ================= */
+
+/* 1. inputs are 16px on touch screens: iPhone Safari zooms the whole page in when you tap a smaller field */
+@media (max-width: 1023px), (pointer: coarse) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="submit"]):not([type="button"]):not([type="hidden"]),
+  select, textarea { font-size: 16px !important; }
+}
+
+/* 2. finger-sized tap areas (looks stay the same: the extra room is invisible padding) */
+@media (max-width: 1023px), (pointer: coarse) {
+  /* logo in the header */
+  header > div:first-child > a { padding: 14px 0; margin: -14px 0; }
+  /* category strip under the header: wider invisible tap area, same look */
+  header nav a[style*="font-size:11px"] { position: relative; }
+  header nav a[style*="font-size:11px"]::after { content: ""; position: absolute; inset: -4px -7px; }
+  /* footer links: same spacing, 38px-tall tap area */
+  footer div:has(> h4) > div { gap: 0 !important; }
+  footer div:has(> h4) > div > a { padding-top: 10px !important; padding-bottom: 10px !important; display: block; }
+  /* "View all" under the home rails, FAQ questions, quick add (+) */
+  .do-rail + div a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 10px; }
+  details.do-q summary { min-height: 44px; align-items: center; }
+  .do-szs button { min-height: 38px; }
+  .do-wc .do-szs button { height: 38px; }
+}
+@media (max-width: 767px) {
+  /* "Swipe to see more" hint was 9px */
+  .do-rail + div::before { font-size: 10.5px; }
+  /* rows of cards: room under each price so it never touches the next card */
+  .do-grid { row-gap: 22px !important; }
+  /* wishlist cards: name on top, price under it (the two crowded each other in a half-width card) */
+  .do-wc > div[style*="space-between"] { flex-direction: column; align-items: flex-start !important; gap: 4px !important; }
+  /* concierge: the banner gets room for its label and headline, the form sits right under it */
+  .do-auth:not(.do-solo) .do-auth-form { margin-top: 12px !important; }
+}
+
+/* text pages (about, delivery, FAQ, size guide, forms ...): 16px side gutter like the header; pages built around product grids keep the 8px gallery gutter */
+@media (max-width: 767px) {
+  #dolce-main:not(:has(.do-grid)) .do-in { padding-left: 16px; padding-right: 16px; }
+}
+
+/* phones in either orientation + tablets */
+@media (max-width: 1023px), (pointer: coarse) {
+  .sg-h { min-height: 44px; padding-top: 0 !important; padding-bottom: 0 !important; }
+  .hs-tag { font-size: 11px !important; }
+  /* footer bottom row: currency and back-to-top */
+  footer div[style*="border-top"] button, footer div[style*="border-top"] a { min-height: 40px; display: inline-flex; align-items: center; }
+}

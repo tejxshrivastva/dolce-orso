@@ -484,7 +484,7 @@
     '@media(max-width:899px){.do-auth-side{min-height:150px}.do-side-in{padding:16px 20px;gap:6px;justify-content:flex-end}.do-side-in .do-eyebrow{position:absolute;top:16px;left:20px}.do-perks,.do-cap,.do-dots{display:none!important}.do-big{font-size:30px!important;margin:0!important}.do-big br{display:none}.do-m{display:block}}',
     '@media(max-width:899px) and (max-height:760px){.do-auth-side{display:none}.do-auth{grid-template-rows:minmax(0,1fr)}}',
     '@media(max-width:899px) and (min-height:900px){.do-auth{grid-template-rows:minmax(0,.3fr) minmax(0,1fr)}.do-side-in{padding:28px}.do-big{font-size:clamp(40px,8vw,56px)!important}.do-big br{display:inline}}',
-    '@media(max-width:899px) and (max-height:860px){.do-sub,.do-opt{display:none!important}.do-auth-side{min-height:96px}.do-big{font-size:26px!important}.do-auth-form{gap:11px}.do-auth-form h1{font-size:28px}.do-auth .do-btn,.do-phone{height:46px}.do-auth .do-input{height:46px}.do-otp input{height:50px}.do-auth textarea.do-input{height:64px}}',
+    '@media(max-width:899px) and (max-height:860px){.do-sub,.do-opt{display:none!important}.do-auth-side{min-height:132px}.do-big{font-size:28px!important}.do-auth-form{gap:11px}.do-auth-form h1{font-size:28px}.do-auth .do-btn,.do-phone{height:46px}.do-auth .do-input{height:46px}.do-otp input{height:50px}.do-auth textarea.do-input{height:64px}}',
     '@media(max-height:740px){.do-sub,.do-opt{display:none!important}.do-auth-form{gap:11px}.do-auth-form h1{font-size:28px}.do-auth .do-btn{height:46px}.do-phone{height:46px}.do-otp input{height:50px}.do-auth .do-input{height:46px}.do-auth textarea.do-input{height:64px}}',
     '@media(prefers-reduced-motion:reduce){.do-slide.on,.do-auth-form,.do-step,.do-live{animation:none}}'
   ].join('');

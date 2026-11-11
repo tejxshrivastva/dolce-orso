@@ -26,12 +26,12 @@
 <script src="./settings.js?v=126"></script>
 <script src="./sound-gate.js?v=12"></script>
 <script src="./pages.js?v=124"></script>
-<script src="./shop.js?v=126"></script>
+<script src="./shop.js?v=127"></script>
 <script>/* fetch the main product photo right away (it is the largest thing on screen), not after the page script has run */
 (function(){try{var P=DOLCE.current&&DOLCE.current();if(!P)return;var l=document.createElement("link");l.rel="preload";l.as="image";l.href=DOLCE.hero(P);l.setAttribute("fetchpriority","high");document.head.appendChild(l);}catch(e){}})();</script>
 <script src="./support.js"></script>
 <style>@font-face{font-family:"Germanica";src:url("assets/fonts/PlainGermanica-v2.woff") format("woff");font-weight:400;font-style:normal;font-display:swap}</style>
-<link rel="stylesheet" href="./mobile.css?v=22">
+<link rel="stylesheet" href="./mobile.css?v=28">
 </head>
 <body>
 <x-dc>
@@ -476,6 +476,34 @@ class Component extends DCLogic {
   }
 }
 
+</script>
+<script>/* phones: the pinned Add to Bag bar steps aside while the page's own buttons are on screen, and before the footer (so it never covers the newsletter form or links) */
+(function () {
+  var bar = null, ticking = false;
+  function find() {
+    var bs = document.querySelectorAll('[data-act="add"]');
+    for (var i = 0; i < bs.length; i++) { var p = bs[i].parentElement; if (p && getComputedStyle(p).position === 'fixed') return p; }
+    return null;
+  }
+  function inline() {
+    var bs = document.querySelectorAll('[data-act="add"]');
+    for (var i = 0; i < bs.length; i++) if (!bar || !bar.contains(bs[i])) return bs[i];
+    return null;
+  }
+  function update() {
+    ticking = false;
+    if (!bar || !bar.isConnected) { bar = find(); if (bar) bar.style.transition = 'transform .3s ease'; }
+    if (!bar) return;
+    var hide = false, vh = innerHeight, b = inline(), f = document.querySelector('footer');
+    if (b) { var r = b.getBoundingClientRect(); if (r.bottom > 0 && r.top < vh - 8) hide = true; }
+    if (f && f.getBoundingClientRect().top < vh - 40) hide = true;
+    bar.style.transform = hide ? 'translateY(110%)' : '';
+    bar.style.pointerEvents = hide ? 'none' : '';
+  }
+  function kick() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+  addEventListener('scroll', kick, { passive: true }); addEventListener('resize', kick);
+  setInterval(kick, 400);
+})();
 </script>
 </body>
 </html>
