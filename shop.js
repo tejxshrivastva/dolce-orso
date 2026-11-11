@@ -133,7 +133,7 @@
   var MONO = "font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.055em";
   var CSS = '.do-in{padding:0 clamp(8px,1vw,16px)}'
     + '.do-card{display:flex;flex-direction:column;gap:14px;color:#000;text-decoration:none}.do-card:hover{opacity:.92}'
-    + '.do-ph{position:relative;aspect-ratio:4/5;border-radius:15px;background:#000;overflow:hidden;border:1px solid #ddd}'
+    + '.do-ph{position:relative;aspect-ratio:4/5;border-radius:15px;background:#f1f1f1;overflow:hidden;border:1px solid #ddd}'
     + '.do-ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}'
     + '.do-ph img.h{object-position:center center;opacity:0;transition:opacity .35s ease}.do-card:hover .do-ph img.h{opacity:1}'
     + '.do-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(6px,.8vw,10px)}@media(min-width:768px){.do-grid{grid-template-columns:repeat(3,1fr)}}@media(min-width:1024px){.do-grid{grid-template-columns:repeat(4,1fr)}}'
@@ -801,10 +801,16 @@
   // hover photos are written as data-hover (no src): phones never download them, and mouse devices fetch a card's
   // hover photo only when the pointer reaches that card (it used to fetch every card's hover photo while scrolling:
   // ~12MB on the home page alone)
+  var warmed = {};
+  function warm(u) { if (u && !warmed[u]) { warmed[u] = 1; var i = new Image(); i.decoding = 'async'; i.src = u; } }
   document.addEventListener('pointerover', function (e) {
     var a = e.target.closest && e.target.closest('a, .do-card'); if (!a) return;
     var l = a.querySelectorAll('img[data-hover]:not([src])');
     for (var i = 0; i < l.length; i++) { l[i].decoding = 'async'; l[i].src = l[i].getAttribute('data-hover'); }
+    if (!l.length) return;
+    // the pointer is among the cards now: quietly fetch the hover photo of the cards either side, so the next hover is instant
+    var all = document.querySelectorAll('img[data-hover]'), at = Array.prototype.indexOf.call(all, l[0]);
+    for (var k = at - 2; k <= at + 4; k++) if (all[k] && k !== at) warm(all[k].getAttribute('data-hover'));
   }, { passive: true });
   var STEP = 750;                                  // ms each photo stays before the next one
   var cache = {}, active = null, run = 0;
@@ -860,4 +866,17 @@
     if (k) start(k);
   });
   document.addEventListener('mouseout', function (e) { if (e.relatedTarget) return; if (active) { var prev = active; active = null; stop(prev); } });
+})();
+
+/* Warm-up: once the page has finished loading, quietly fetch the four menu photos, so the menu opens with its
+   pictures already there (they sit in a hidden panel, and the browser would otherwise only start fetching them on open). */
+(function () {
+  var D = window.DOLCE; if (!D || !D.menuCover) return;
+  if ((navigator.connection || {}).saveData) return;
+  function go() {
+    (window.requestIdleCallback || function (f) { setTimeout(f, 400); })(function () {
+      ['denim', 't-shirts', 'jackets', 'hoodies'].forEach(function (k) { var i = new Image(); i.decoding = 'async'; i.src = D.menuCover(k); });
+    }, { timeout: 3000 });
+  }
+  if (document.readyState === 'complete') go(); else addEventListener('load', go);
 })();

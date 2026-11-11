@@ -26,7 +26,7 @@
 <script src="./settings.js?v=126"></script>
 <script src="./sound-gate.js?v=9"></script>
 <script src="./pages.js?v=124"></script>
-<script src="./shop.js?v=125"></script>
+<script src="./shop.js?v=126"></script>
 <script src="./support.js"></script>
 <style>@font-face{font-family:"Germanica";src:url("assets/fonts/PlainGermanica-v2.woff") format("woff");font-weight:400;font-style:normal;font-display:block}</style>
 <link rel="stylesheet" href="./mobile.css?v=22">
@@ -57,7 +57,7 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 <link rel="preconnect" href="https://unpkg.com" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <script type="module" src="https://unpkg.com/@google/model-viewer@3.5.0/dist/model-viewer.min.js"></script>
-<script src="./home-objects.js?v=127"></script>
+<script src="./home-objects.js?v=129"></script>
 <script src="./hero-slides.js?v=126"></script>
 <script src="./hero-charm.js?v=126"></script>
 <script src="./banner-charm.js?v=27"></script>
@@ -79,7 +79,7 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 <nav style="display:flex;flex-direction:column;gap:8px">
 <sc-for list="{{ megaCats }}" as="mc" hint-placeholder-count="4">
 <a href="{{ mc.anchor }}" onClick="{{ closeMenu }}" style="display:flex;align-items:center;gap:14px;padding:8px;border-radius:16px;background:rgba(255,255,255,.06);color:#fff" style-hover="background:rgba(255,255,255,.12);color:#fff">
-<div style="width:64px;height:64px;border-radius:12px;overflow:hidden;background:#000;flex-shrink:0"><sc-if value="{{ mc.img }}" hint-placeholder-val="{{ false }}"><img loading="lazy" decoding="async" src="{{ mc.img }}" style="width:100%;height:100%;object-fit:cover;display:block"></sc-if></div>
+<div style="width:64px;height:64px;border-radius:12px;overflow:hidden;background:#1c1c1c;flex-shrink:0"><sc-if value="{{ mc.img }}" hint-placeholder-val="{{ false }}"><img loading="lazy" decoding="async" src="{{ mc.img }}" style="width:100%;height:100%;object-fit:cover;display:block"></sc-if></div>
 <span style="flex:1;font-size:16px;font-weight:500;letter-spacing:-0.22px">{{ mc.name }}</span>
 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-right:8px;flex-shrink:0"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="13 6 19 12 13 18"></polyline></svg>
 </a>
@@ -138,7 +138,7 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 <div style="background:#e8e8e8;border-radius:20px;padding:12px;display:flex;gap:10px;justify-content:flex-start;overflow-x:auto">
 <sc-for list="{{ megaCats }}" as="mc" hint-placeholder-count="4">
 <a href="{{ mc.anchor }}" style="text-decoration:none;color:#000;flex:1 1 0;min-width:0;background:#fff;border-radius:14px;overflow:hidden;display:flex;flex-direction:column" style-hover="opacity:0.9">
-<div style="width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:12px;background:#000">
+<div style="width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:12px;background:#dedede">
 <sc-if value="{{ mc.img }}" hint-placeholder-val="{{ false }}"><img loading="lazy" decoding="async" src="{{ mc.img }}" style="width:100%;height:100%;object-fit:cover"></sc-if>
 </div>
 <div style="padding:3px 0;text-align:center">
@@ -231,7 +231,7 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 <div class="do-rail" style="display:grid;grid-template-columns:{{ gridCols }};gap:clamp(6px,0.8vw,10px)">
 <sc-for list="{{ cat.products }}" as="product" hint-placeholder-count="8">
 <a href="{{ product.href }}" style="text-decoration:none;color:#000;display:flex;flex-direction:column;gap:14px" style-hover="opacity:0.92">
-<div style="position:relative;aspect-ratio:{{ cardRatio }};border-radius:15px;background:#000;overflow:hidden;border:1px solid #ddd">
+<div style="position:relative;aspect-ratio:{{ cardRatio }};border-radius:15px;background:#f1f1f1;overflow:hidden;border:1px solid #ddd">
 <sc-if value="{{ product.img }}" hint-placeholder-val="{{ false }}">
 <img loading="lazy" decoding="async" src="{{ product.img }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block">
 <img data-hover="{{ product.hoverImg }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;display:block;opacity:0;transition:opacity 0.35s ease" style-hover="opacity:1">

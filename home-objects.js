@@ -158,3 +158,41 @@
     moved = false;
   }, true);
 })();
+
+/* 3D models used to start downloading only at the moment they scrolled into view, so each one popped in late.
+   Now they are fetched ahead of time, one at a time, in this order:
+     1. models within ~2 screens of where the visitor is (every device);
+     2. on a computer with a normal connection: all the others, top to bottom, while the page is idle.
+   Photos come first: nothing is fetched while a photo on screen is still loading, or while the page is scrolling.
+   Covers every <model-viewer loading="lazy"> on the page, including the ones other scripts add later. */
+(function () {
+  var conn = navigator.connection || {};
+  var full = !conn.saveData && !/2g|3g/.test(conn.effectiveType || '') && matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var lastScroll = 0; addEventListener('scroll', function () { lastScroll = Date.now(); }, { passive: true });
+  var io = 'IntersectionObserver' in window ? new IntersectionObserver(function (en) {
+    en.forEach(function (e) { e.target.__near = e.isIntersecting; });
+  }, { rootMargin: '200% 0px' }) : null;
+  function photosPending() {
+    var im = document.images, h = innerHeight;
+    for (var i = 0; i < im.length; i++) {
+      var g = im[i]; if (g.complete || !g.getAttribute('src')) continue;
+      var r = g.getBoundingClientRect(); if (r.width && r.bottom > 0 && r.top < h) return true;
+    }
+    return false;
+  }
+  var busy = null, since = 0;
+  function tick() {
+    var list = document.querySelectorAll('model-viewer[loading="lazy"]');
+    for (var i = 0; i < list.length; i++) if (io && !list[i].__seen) { list[i].__seen = 1; io.observe(list[i]); }
+    if (document.hidden || !customElements.get('model-viewer')) return;
+    if (busy && !busy.loaded && busy.isConnected && Date.now() - since < 15000) return;   // one at a time
+    busy = null;
+    if (Date.now() - lastScroll < 700 || photosPending()) return;
+    var pick = null;
+    for (var j = 0; j < list.length && !pick; j++) if (!list[j].loaded && list[j].__near) pick = list[j];
+    if (!pick && full) for (var k = 0; k < list.length && !pick; k++) if (!list[k].loaded) pick = list[k];
+    if (pick) { busy = pick; since = Date.now(); pick.setAttribute('loading', 'eager'); }
+  }
+  function start() { setTimeout(function () { tick(); setInterval(tick, 400); }, 500); }
+  if (document.readyState === 'complete') start(); else addEventListener('load', start);
+})();
