@@ -23,8 +23,10 @@
     '.sg.out{opacity:0;visibility:hidden;pointer-events:none}',
     '.sg-in{display:flex;flex-direction:column;align-items:center;text-align:center;transition:transform .9s cubic-bezier(.45,0,.2,1),filter .9s}',
     '.sg.out .sg-in{transform:scale(1.04);filter:blur(4px)}',
-    '.sg-blade{width:clamp(104px,11vw,160px);aspect-ratio:1/1.9;filter:drop-shadow(0 14px 22px rgba(0,0,0,.6))}',
-    '.sg-blade model-viewer{width:100%;height:100%;background:transparent;--poster-color:transparent;--progress-bar-height:0px;--progress-mask:transparent;opacity:0;transition:opacity 1s ease}',
+    '.sg-blade{width:clamp(150px,16vw,240px);aspect-ratio:1/1.9;filter:drop-shadow(0 14px 22px rgba(0,0,0,.6));cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}',
+    '.sg-blade.grab{cursor:grabbing}',
+    '@media (max-height:600px){.sg-blade{width:clamp(110px,22vh,170px)}}',
+    '.sg-blade model-viewer{width:100%;height:100%;pointer-events:none;will-change:transform;background:transparent;--poster-color:transparent;--progress-bar-height:0px;--progress-mask:transparent;opacity:0;transition:opacity 1s ease}',
     '.sg-blade.ready model-viewer{opacity:1}',
     '.sg-line{margin:6px 0 0;font:500 11px/1.4 "JetBrains Mono",monospace;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.5);padding-left:.22em}',
     '.sg-btns{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;justify-content:center}',
@@ -48,11 +50,11 @@
     '.sg-t{position:fixed;left:clamp(12px,1.6vw,22px);bottom:calc(clamp(12px,1.6vw,22px) + env(safe-area-inset-bottom));z-index:2147482000;width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.28);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);-webkit-tap-highlight-color:transparent;opacity:0;transform:translateY(8px);transition:opacity .5s,transform .5s,bottom .3s,background .3s,border-color .3s}',
     '.sg-t.show{opacity:1;transform:none}.sg-t:hover{background:rgba(0,0,0,.8);border-color:rgba(255,255,255,.7)}',
     '.sg-t:focus-visible{outline:1px solid #fff;outline-offset:3px}',
-    // hero switch (home page): a quiet "Sound on / off" line, bottom-left of the hero, level with Scroll
-    '.sg-h{position:absolute;z-index:6;left:clamp(16px,2.4vw,40px);bottom:calc(clamp(22px,4vh,38px) - 7px);display:inline-flex;align-items:center;gap:10px;padding:8px 0;background:none;border:0;cursor:pointer;color:rgba(255,255,255,.62);font:500 11px/1 "JetBrains Mono",monospace;letter-spacing:.55px;text-transform:uppercase;-webkit-tap-highlight-color:transparent;transition:color .3s}',
-    '.sg-h:hover{color:#fff}.sg-h:focus-visible{outline:1px solid rgba(255,255,255,.45);outline-offset:4px}',
+    // hero switch (home page): a quiet "Sound on / off" line where the Scroll cue was, centred under the buttons
+    '.hs-hero .hs-scroll{display:none!important}',
+    '.sg-h{position:relative;z-index:6;pointer-events:auto;display:inline-flex;align-items:center;gap:10px;padding:8px 0;background:none;border:0;cursor:pointer;color:rgba(255,255,255,.62);font:500 11px/1 "JetBrains Mono",monospace;letter-spacing:.55px;text-transform:uppercase;-webkit-tap-highlight-color:transparent;transition:color .3s}',
+    '.sg-h:hover{color:#fff}.sg-h:focus{outline:0}.sg-h:focus-visible{outline:1px solid rgba(255,255,255,.4);outline-offset:4px;border-radius:999px}',
     '.sg-h b{font-weight:500;color:#fff}',
-    '@media (max-width:767px),(max-width:1199px) and (orientation:portrait){.sg-h{top:74px;bottom:auto;left:16px}}',
     '.sg-t.sg-away{opacity:0!important;pointer-events:none}',
     '@media (prefers-reduced-motion:reduce){.sg-eq i,.sg-off::after{animation:none}.sg-rise{animation-duration:.01ms}}'
   ].join('\n');
@@ -106,11 +108,13 @@
   }
   function heroSwitch() {                               // the home template can re-render the hero: re-add when missing
     var hero = document.querySelector('.hs-hero'); if (!hero) return;
-    if (!hero.querySelector('.sg-h')) {
+    var ui = hero.querySelector('.hs-ui');
+    if (ui && !ui.querySelector('.sg-h')) {
       var b = document.createElement('button'); b.type = 'button'; b.className = 'sg-h';
       b.innerHTML = eq() + '<span></span>';
       b.addEventListener('click', function () { choose(!wantOn); });
-      hero.appendChild(b);
+      var sc = ui.querySelector('.hs-scroll');
+      if (sc) sc.parentNode.insertBefore(b, sc); else ui.appendChild(b);   // takes the Scroll cue's place in the stack
     }
     paintHero();
     if (tog && 'IntersectionObserver' in window && hero !== heroSwitch.seen) {
@@ -165,10 +169,32 @@
       var ms = document.createElement('script'); ms.type = 'module'; ms.src = 'https://unpkg.com/@google/model-viewer@3.5.0/dist/model-viewer.min.js'; document.head.appendChild(ms);
     }
     var bl = g.querySelector('.sg-blade'), bmv = bl.firstChild, th = 0, tt = 0, lastF = 0;
+    // drag it anywhere: it turns with your hand; let go and it springs home with a small wobble (same feel as the hero chain)
+    var x = 0, y = 0, vx = 0, vy = 0, tilt = 0, sp = 30, dr = null;
+    bl.addEventListener('pointerdown', function (e) {
+      e.preventDefault(); try { bl.setPointerCapture(e.pointerId); } catch (_) {}
+      dr = { id: e.pointerId, px: e.clientX, py: e.clientY, sx: x, sy: y, tx: x, ty: y }; bl.classList.add('grab');
+    });
+    bl.addEventListener('pointermove', function (e) {
+      if (!dr || e.pointerId !== dr.id) return;
+      dr.tx = dr.sx + e.clientX - dr.px; dr.ty = dr.sy + e.clientY - dr.py;
+    });
+    function letGo(e) { if (!dr || e.pointerId !== dr.id) return; dr = null; bl.classList.remove('grab'); sp = Math.max(-900, Math.min(900, 30 + vx * .9)); }
+    bl.addEventListener('pointerup', letGo); bl.addEventListener('pointercancel', letGo);
     (function spin(now) {
       if (!g.isConnected) return;
       var dt = lastF ? Math.min((now - lastF) / 1000, .05) : .016; lastF = now; tt += dt;
-      if (!reduce) th += 30 * (1 + .35 * Math.sin(tt * .5)) * dt;
+      var px = x;
+      if (dr) {
+        var f = 1 - Math.exp(-dt * 22); x += (dr.tx - x) * f; y += (dr.ty - y) * f;
+        vx = (x - px) / dt; vy = 0; th += (x - px) * .9;
+      } else {
+        vx += (-62 * x - 6.5 * vx) * dt; vy += (-62 * y - 6.5 * vy) * dt; x += vx * dt; y += vy * dt;
+        var idle = reduce ? 0 : 30 * (1 + .35 * Math.sin(tt * .5));
+        sp = idle + (sp - idle) * Math.exp(-dt * 1.4); th += sp * dt;
+      }
+      tilt += (Math.max(-28, Math.min(28, vx * .02)) - tilt) * (1 - Math.exp(-dt * 10));
+      bmv.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0) rotate(' + tilt.toFixed(2) + 'deg)';
       if (bmv.loaded) { bl.classList.add('ready'); bmv.cameraOrbit = (th % 360).toFixed(1) + 'deg ' + (90 + (reduce ? 0 : Math.sin(tt * .9) * 5)).toFixed(1) + 'deg 100%'; }
       requestAnimationFrame(spin);
     })(0);
