@@ -70,11 +70,16 @@
   // slow turn, only while the footer is on screen
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var IDLE = reduce ? 0 : 30, theta = 0, spin = IDLE, last = 0, t0 = 0;
+  // while the page is scrolling, 3D objects hold still: no re-render per frame, so scrolling stays smooth
+  var lastScroll = 0; addEventListener('scroll', function () { lastScroll = performance.now(); }, { passive: true });
+  function scrolling() { return performance.now() - lastScroll < 220; }
+  var seen = false, watched = null;
   function frame(now) {
     requestAnimationFrame(frame);
     var dt = last ? Math.min((now - last) / 1000, 0.05) : 0.016; last = now;
     var w = document.querySelector('[data-slot="footer-panda"]'); if (!w || document.hidden) return;
-    var r = w.getBoundingClientRect(); if (r.bottom < 0 || r.top > innerHeight) return;
+    if (w !== watched && 'IntersectionObserver' in window) { watched = w; new IntersectionObserver(function (en) { seen = en[0].isIntersecting; }).observe(w); }
+    if (!seen || (scrolling() && !el)) return;
     t0 += dt;
     var idle = IDLE * (1 + 0.35 * Math.sin(t0 * 0.5));          // same turn as the hero chain (30deg/s, breathing)
     spin = idle + (spin - idle) * Math.exp(-dt * 1.4);

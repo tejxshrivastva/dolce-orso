@@ -91,10 +91,13 @@
     }, 500);
   }
 
+  // while the page is scrolling, 3D objects hold still: no re-render per frame, so scrolling stays smooth
+  var lastScroll = 0; addEventListener('scroll', function () { lastScroll = performance.now(); }, { passive: true });
+  function scrolling() { return performance.now() - lastScroll < 220; }
   function frame(now) {
     requestAnimationFrame(frame);
     var dt = last ? Math.min((now - last) / 1000, 1 / 20) : 1 / 60; last = now;
-    var h = el(); if (!h || !visible || document.hidden) return;
+    var h = el(); if (!h || !visible || document.hidden || (scrolling() && !drag)) return;
     t += dt;
     var px = x, py = y;
     if (drag) {

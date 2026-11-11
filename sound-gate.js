@@ -23,13 +23,15 @@
     '.sg.out{opacity:0;visibility:hidden;pointer-events:none}',
     '.sg-in{display:flex;flex-direction:column;align-items:center;text-align:center;transition:transform .9s cubic-bezier(.45,0,.2,1),filter .9s}',
     '.sg.out .sg-in{transform:scale(1.04);filter:blur(4px)}',
-    '.sg-mark{margin:0;font:400 clamp(46px,9vw,108px)/1 "Germanica","Inter",serif;letter-spacing:.04em;text-indent:.04em;word-spacing:-.25em;font-kerning:none;font-variant-ligatures:none;white-space:nowrap}',
-    '.sg-line{margin:clamp(18px,2.6vw,28px) 0 0;font:500 11px/1.4 "JetBrains Mono",monospace;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.5);padding-left:.22em}',
-    '.sg-btns{display:flex;gap:10px;margin-top:clamp(28px,4vw,44px);flex-wrap:wrap;justify-content:center}',
+    '.sg-blade{width:clamp(104px,11vw,160px);aspect-ratio:1/1.9;filter:drop-shadow(0 14px 22px rgba(0,0,0,.6))}',
+    '.sg-blade model-viewer{width:100%;height:100%;background:transparent;--poster-color:transparent;--progress-bar-height:0px;--progress-mask:transparent;opacity:0;transition:opacity 1s ease}',
+    '.sg-blade.ready model-viewer{opacity:1}',
+    '.sg-line{margin:6px 0 0;font:500 11px/1.4 "JetBrains Mono",monospace;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.5);padding-left:.22em}',
+    '.sg-btns{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;justify-content:center}',
     '.sg-b{position:relative;overflow:hidden;isolation:isolate;display:inline-flex;align-items:center;justify-content:center;gap:10px;height:44px;min-width:150px;padding:0 24px;border-radius:999px;cursor:pointer;font:500 11px/1 "JetBrains Mono",monospace;letter-spacing:.55px;text-transform:uppercase;-webkit-tap-highlight-color:transparent;transition:background .3s,color .3s,border-color .3s,transform .3s}',
     '.sg-on{background:#fff;color:#000;border:1px solid #fff}.sg-on:hover{background:#e6e6e6}',
     '.sg-off{background:rgba(255,255,255,.06);color:#fff;border:1px solid rgba(255,255,255,.32)}.sg-off:hover{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.8)}',
-    '.sg-b:focus-visible{outline:1px solid #fff;outline-offset:3px}',
+    '.sg-b:focus-visible{outline:1px solid rgba(255,255,255,.45);outline-offset:3px}',
     '.sg-off::after{content:"";position:absolute;inset:-1px;pointer-events:none;border-radius:inherit;background:linear-gradient(110deg,transparent 0 34%,rgba(255,255,255,.36) 37%,transparent 40%,transparent 43%,rgba(255,255,255,.2) 45%,transparent 47%);transform:translateX(-120%);animation:sgShine 5.2s cubic-bezier(.45,0,.25,1) 1.8s infinite}',
     '@keyframes sgShine{0%{transform:translateX(-120%)}24%{transform:translateX(120%)}100%{transform:translateX(120%)}}',
     // little equaliser (inside Sound On + the corner button)
@@ -46,6 +48,12 @@
     '.sg-t{position:fixed;left:clamp(12px,1.6vw,22px);bottom:calc(clamp(12px,1.6vw,22px) + env(safe-area-inset-bottom));z-index:2147482000;width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.28);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);-webkit-tap-highlight-color:transparent;opacity:0;transform:translateY(8px);transition:opacity .5s,transform .5s,bottom .3s,background .3s,border-color .3s}',
     '.sg-t.show{opacity:1;transform:none}.sg-t:hover{background:rgba(0,0,0,.8);border-color:rgba(255,255,255,.7)}',
     '.sg-t:focus-visible{outline:1px solid #fff;outline-offset:3px}',
+    // hero switch (home page): a quiet "Sound on / off" line, bottom-left of the hero, level with Scroll
+    '.sg-h{position:absolute;z-index:6;left:clamp(16px,2.4vw,40px);bottom:calc(clamp(22px,4vh,38px) - 7px);display:inline-flex;align-items:center;gap:10px;padding:8px 0;background:none;border:0;cursor:pointer;color:rgba(255,255,255,.62);font:500 11px/1 "JetBrains Mono",monospace;letter-spacing:.55px;text-transform:uppercase;-webkit-tap-highlight-color:transparent;transition:color .3s}',
+    '.sg-h:hover{color:#fff}.sg-h:focus-visible{outline:1px solid rgba(255,255,255,.45);outline-offset:4px}',
+    '.sg-h b{font-weight:500;color:#fff}',
+    '@media (max-width:767px),(max-width:1199px) and (orientation:portrait){.sg-h{top:74px;bottom:auto;left:16px}}',
+    '.sg-t.sg-away{opacity:0!important;pointer-events:none}',
     '@media (prefers-reduced-motion:reduce){.sg-eq i,.sg-off::after{animation:none}.sg-rise{animation-duration:.01ms}}'
   ].join('\n');
   var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
@@ -90,7 +98,28 @@
   // ---------- corner toggle ----------
   var tog = null;
   function eq() { return '<span class="sg-eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>'; }
+  function paintHero() {
+    var h = document.querySelector('.sg-h'); if (!h) return;
+    h.classList.toggle('sg-mute', !wantOn);
+    h.setAttribute('aria-pressed', wantOn ? 'true' : 'false');
+    h.lastChild.innerHTML = 'Sound <b>' + (wantOn ? 'On' : 'Off') + '</b>';
+  }
+  function heroSwitch() {                               // the home template can re-render the hero: re-add when missing
+    var hero = document.querySelector('.hs-hero'); if (!hero) return;
+    if (!hero.querySelector('.sg-h')) {
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'sg-h';
+      b.innerHTML = eq() + '<span></span>';
+      b.addEventListener('click', function () { choose(!wantOn); });
+      hero.appendChild(b);
+    }
+    paintHero();
+    if (tog && 'IntersectionObserver' in window && hero !== heroSwitch.seen) {
+      heroSwitch.seen = hero;
+      new IntersectionObserver(function (en) { tog.classList.toggle('sg-away', en[0].isIntersecting); }, { threshold: .15 }).observe(hero);
+    }
+  }
   function paintToggle() {
+    paintHero();
     if (!tog) return;
     tog.classList.toggle('sg-mute', !wantOn);
     tog.setAttribute('aria-pressed', wantOn ? 'true' : 'false');
@@ -118,9 +147,9 @@
   // ---------- the gate ----------
   function gate() {
     var g = document.createElement('div');
-    g.className = 'sg'; g.setAttribute('role', 'dialog'); g.setAttribute('aria-modal', 'true'); g.setAttribute('aria-label', 'Sound');
+    g.className = 'sg'; g.setAttribute('role', 'dialog'); g.setAttribute('aria-modal', 'true'); g.setAttribute('aria-label', 'Dolce Orso. Sound on or off');
     g.innerHTML = '<div class="sg-in">' +
-      '<p class="sg-mark sg-rise">Dolce Orso</p>' +
+      '<div class="sg-blade sg-rise"><model-viewer src="assets/home-objects/blade.glb" alt="" camera-orbit="0deg 90deg 100%" field-of-view="30deg" exposure="1.5" shadow-intensity="0" environment-image="neutral" interaction-prompt="none" loading="eager" disable-zoom disable-pan disable-tap></model-viewer></div>' +
       '<p class="sg-line sg-rise sg-d1">Best experienced with sound</p>' +
       '<div class="sg-btns sg-rise sg-d2">' +
         '<button type="button" class="sg-b sg-on">' + eq() + 'Sound On</button>' +
@@ -131,7 +160,18 @@
     document.documentElement.appendChild(g);           // added before <body> exists, so the page never flashes behind it
     whenBody(function () { if (g.parentNode === document.documentElement) document.body.appendChild(g); });   // into <body> once it exists (screen readers, focus)
     var on = g.querySelector('.sg-on'), off = g.querySelector('.sg-off');
-    setTimeout(function () { try { on.focus({ preventScroll: true }); } catch (e) {} }, 400);
+    // the blade: same model and turn as the footer (30deg/s, breathing, slight nod); needs the 3D library
+    if (!customElements.get('model-viewer') && !document.querySelector('script[src*="model-viewer"]')) {
+      var ms = document.createElement('script'); ms.type = 'module'; ms.src = 'https://unpkg.com/@google/model-viewer@3.5.0/dist/model-viewer.min.js'; document.head.appendChild(ms);
+    }
+    var bl = g.querySelector('.sg-blade'), bmv = bl.firstChild, th = 0, tt = 0, lastF = 0;
+    (function spin(now) {
+      if (!g.isConnected) return;
+      var dt = lastF ? Math.min((now - lastF) / 1000, .05) : .016; lastF = now; tt += dt;
+      if (!reduce) th += 30 * (1 + .35 * Math.sin(tt * .5)) * dt;
+      if (bmv.loaded) { bl.classList.add('ready'); bmv.cameraOrbit = (th % 360).toFixed(1) + 'deg ' + (90 + (reduce ? 0 : Math.sin(tt * .9) * 5)).toFixed(1) + 'deg 100%'; }
+      requestAnimationFrame(spin);
+    })(0);
     function enter(withSound) {
       set('sessionStorage', ASKED, '1');
       choose(withSound);                                 // inside the click: browsers allow the music to start
@@ -141,7 +181,8 @@
     }
     on.addEventListener('click', function () { enter(true); });
     off.addEventListener('click', function () { enter(false); });
-    g.addEventListener('keydown', function (e) {
+    document.addEventListener('keydown', function k(e) {
+      if (!g.isConnected || g.classList.contains('out')) return document.removeEventListener('keydown', k);
       if (e.key === 'Escape') enter(false);
       if (e.key === 'Tab') { e.preventDefault(); (document.activeElement === on ? off : on).focus(); }   // keep focus inside
     });
@@ -161,4 +202,5 @@
     gate();
   }
   start();
+  whenBody(function () { heroSwitch(); setInterval(heroSwitch, 800); });
 })();

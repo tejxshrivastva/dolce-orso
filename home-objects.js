@@ -101,8 +101,17 @@
     if (mv && mv.tagName === 'MODEL-VIEWER') mv.cameraOrbit = (-a).toFixed(2) + 'deg 90deg 105%';
     else el.style.transform = 'rotateY(' + a.toFixed(2) + 'deg)';
   }
+  // while the page is scrolling, 3D objects hold still: no re-render per frame, so scrolling stays smooth
+  var lastScroll = 0; addEventListener('scroll', function () { lastScroll = performance.now(); }, { passive: true });
+  function scrolling() { return performance.now() - lastScroll < 220; }
+  var onScreen = true;
+  setTimeout(function watch() {
+    var sec = document.querySelector('.dco-section'); if (!sec || !('IntersectionObserver' in window)) return setTimeout(watch, 500);
+    new IntersectionObserver(function (en) { onScreen = en[0].isIntersecting; }).observe(sec);
+  }, 0);
   function frame(now) {
     var dt = Math.min(now - last, 50); last = now;
+    if (!onScreen || document.hidden || (scrolling() && !drag)) { requestAnimationFrame(frame); return; }
     var spins = document.querySelectorAll('.dco-spin');
     for (var i = 0; i < spins.length; i++) {
       var el = spins[i], s = state(el);

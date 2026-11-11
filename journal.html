@@ -24,7 +24,7 @@
 <script src="./products.js?v=125"></script>
 <script>window.DOLCE_KEY='journal';</script>
 <script src="./settings.js?v=125"></script>
-<script src="./sound-gate.js?v=2"></script>
+<script src="./sound-gate.js?v=4"></script>
 <script src="./pages.js?v=124"></script>
 <script src="./shop.js?v=125"></script>
 <script src="./support.js"></script>
@@ -47,7 +47,7 @@ a{color:#000;text-decoration:none}a:hover{color:#555}
 ::-webkit-scrollbar{width:0;height:0}
 </style>
 <script>/* 3D library (~250KB): on inner pages only the footer blade uses it, so fetch it when the footer comes near. Checked on scroll (the page template re-renders the footer, so a watched element can go stale) */(function(){var d=0;function go(){if(d)return;d=1;removeEventListener("scroll",chk);clearInterval(t);var s=document.createElement("script");s.type="module";s.src="https://unpkg.com/@google/model-viewer@3.5.0/dist/model-viewer.min.js";document.head.appendChild(s);}function chk(){var f=document.querySelector("[data-slot=footer-panda]");if(f&&f.getBoundingClientRect().top<innerHeight+1200)go();}addEventListener("scroll",chk,{passive:true});var t=setInterval(chk,700);})();</script>
-<script src="./panda-drag.js?v=124"></script>
+<script src="./panda-drag.js?v=125"></script>
 <script src="./locale-switcher.js?v=124"></script>
 </helmet>
 

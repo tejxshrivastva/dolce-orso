@@ -89,18 +89,27 @@
     rings.forEach(function (r) {
       if (!r.visible) return;
       r.t += dt;
-      var h = title(r.banner); if (!h) return;
-      var b = r.banner.getBoundingClientRect(), t = h.getBoundingClientRect(); if (!b.width) return;
-      var fs = parseFloat(getComputedStyle(h).fontSize) || 60, L = fs * 2.25;          // box side
+      var now = performance.now();
+      if (!r.geo || now - r.geoAt > 500) {                // layout reads are expensive: cache them
+        var h = title(r.banner); if (!h) return;
+        var bb = r.banner.getBoundingClientRect(), tb = h.getBoundingClientRect(), gb = r.ghost.getBoundingClientRect(); if (!bb.width) return;
+        r.geo = { b: { left: 0, top: 0 }, t: { left: tb.left - bb.left, top: tb.top - bb.top, width: tb.width, height: tb.height },
+                  g: { left: gb.left - bb.left, top: gb.top - bb.top, width: gb.width, height: gb.height }, fs: parseFloat(getComputedStyle(h).fontSize) || 60 };
+        r.geoAt = now;
+      }
+      var b = r.geo.b, t = r.geo.t;
+      var fs = r.geo.fs, L = fs * 2.25;          // box side
       var span = t.width + fs * 0.9;                                                      // sweep a little past both ends
       var u = (reduce ? 0.5 : (r.t / 9) % 2); u = u > 1 ? 2 - u : u;                      // constant speed there and back
       u = u + 0.16 * (u * u * (3 - 2 * u) - u);                                           // soften only the turnarounds
       var cx = t.left - b.left + t.width / 2 - span / 2 + u * span, cy = t.top - b.top + t.height / 2 - fs * 0.34;
-      var Lp = L.toFixed(1) + 'px';
-      r.el.style.width = r.el.style.height = Lp; r.mv.style.width = r.mv.style.height = Lp;
-      r.el.style.left = (cx - L / 2).toFixed(1) + 'px'; r.el.style.top = (cy - L / 2).toFixed(1) + 'px';
+      if (r.L !== L) {                                    // size: only when it changes (avoids a layout pass every frame)
+        var Lp = L.toFixed(1) + 'px'; r.L = L;
+        r.el.style.width = r.el.style.height = Lp; r.mv.style.width = r.mv.style.height = Lp; r.el.style.left = r.el.style.top = '0px';
+      }
+      r.el.style.transform = 'translate3d(' + (cx - L / 2).toFixed(1) + 'px,' + (cy - L / 2).toFixed(1) + 'px,0)';   // move on the GPU
       // the copied title shows only over the ring's right (far) half
-      var g = r.ghost.getBoundingClientRect(), gx = b.left + cx - g.left, gy = b.top + cy - g.top;
+      var g = r.geo.g, gx = cx - g.left, gy = cy - g.top;
       r.ghost.style.clipPath = 'inset(' + Math.max(0, gy - L / 2).toFixed(1) + 'px ' + Math.max(0, g.width - gx - L / 2).toFixed(1) + 'px ' +
         Math.max(0, g.height - gy - L / 2).toFixed(1) + 'px ' + Math.max(0, gx).toFixed(1) + 'px)';
       if (!r.shown && r.mv.loaded) { r.shown = true; r.el.classList.add('ready'); }
@@ -129,6 +138,7 @@
       var h = title(s.banner), pos = s.el.parentNode; if (!h || !pos) return;
       var b = s.banner.getBoundingClientRect(), t = h.getBoundingClientRect(); if (!b.width) return;
       var cx = t.left - b.left + t.width * s.at;
+      s.bh = s.el.offsetHeight;
       pos.style.right = Math.max(0, b.width - 2 * cx) + 'px';
     });
   }
@@ -170,11 +180,17 @@
     if (performance.now() < suppressUntil && e.target.closest && e.target.closest('.bc')) { e.preventDefault(); e.stopPropagation(); }
   }, true);
 
+  // while the page is scrolling, 3D objects hold still: no re-render per frame, so scrolling stays smooth
+  var lastScroll = 0; addEventListener('scroll', function () { lastScroll = performance.now(); }, { passive: true });
+  function scrolling() { return performance.now() - lastScroll < 220; }
   var last = 0;
   function frame(now) {
     requestAnimationFrame(frame);
     var dt = last ? Math.min((now - last) / 1000, 1 / 20) : 1 / 60; last = now;
     if (document.hidden) return;
+    var anyDrag = items.some(function (s) { return s.drag; });
+    if (scrolling() && !anyDrag) { rings.forEach(function (r) { if (r.mv && !r.mv.paused) { r.mv.pause(); r.held = true; } }); return; }
+    rings.forEach(function (r) { if (r.held) { r.held = false; try { r.mv.play(); } catch (e) {} } });
     tickRings(dt);
     items.forEach(function (s) {
       if (!s.visible) return;
@@ -202,7 +218,7 @@
       // king: levitate + sway, and a 1.2s pirouette with a small rise every 7s
       var fl = 0, lift = 0, sway = 0, lean = 0;
       if (s.motion === 'king' && !reduce) {
-        var bh = s.el.offsetHeight || 200, u = s.t % 7, p = clamp((u - 5.6) / 1.2, 0, 1);
+        var bh = s.bh || 200, u = s.t % 7, p = clamp((u - 5.6) / 1.2, 0, 1);
         var e = p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;          // ease in-out
         fl = 360 * e;                                                              // the pirouette
         lift = -bh * (0.045 * Math.sin(s.t * 2.2) + 0.07 * Math.sin(Math.PI * p));  // float + rise during the spin
