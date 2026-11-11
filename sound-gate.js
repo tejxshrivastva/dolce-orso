@@ -142,6 +142,7 @@
   }
   function toggle() {
     if (!SRC) return;                                    // no music file yet: no corner button
+    if (/(^|\/)(index\.html)?$/.test(location.pathname)) return;   // home has its own switch in the hero: no floating button there
     tog = document.createElement('button'); tog.type = 'button'; tog.className = 'sg-t'; tog.innerHTML = eq();
     tog.addEventListener('click', function () { choose(!wantOn); });
     document.body.appendChild(tog); paintToggle();
