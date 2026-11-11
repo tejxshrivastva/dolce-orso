@@ -34,6 +34,11 @@ window.DOLCE_SETTINGS = {
   // Use the "slug" of any products that have real photos (their background photo is used).
   authPhotos: ['flame-wide-jeans', 'cherry-blossom-wide-jeans', 'sunflower-cargo-jeans', 'butterfly-transformation-tee'],
 
+  // Background music, offered on the "Sound On / Sound Off" screen visitors see when they arrive.
+  // Put the file in assets/audio/ and write its path here, e.g. 'assets/audio/theme.mp3'.
+  // Leave '' for no music (the screen still shows; the small corner sound button stays hidden).
+  music: '',
+
   // Raise this number by 1 whenever you replace product photos, so every
   // visitor's browser downloads the new pictures instead of showing old ones.
   imageVersion: 44,
