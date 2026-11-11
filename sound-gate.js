@@ -65,6 +65,14 @@
   function track() {
     if (audio || !SRC) return audio;
     audio = new Audio(); audio.preload = 'none'; audio.loop = true; audio.src = SRC; audio.volume = 0;
+    var prevT = 0, dipping = false;                     // auto-loop: fade out over the last 3s, fade back in from the top
+    setInterval(function () {
+      if (!audio || audio.paused || !wantOn || !audio.duration) return;
+      var t = audio.currentTime, left = audio.duration - t;
+      if (!dipping && left < 3.2) { dipping = true; fade(0, left * 1000 - 150); }
+      if (t < prevT) { dipping = false; fade(VOL, 3500); }   // it wrapped round to the start
+      prevT = t;
+    }, 200);
     var p = parseFloat(get('sessionStorage', POS));
     if (p > 0) audio.addEventListener('loadedmetadata', function () { try { audio.currentTime = p % (audio.duration || 1e9); } catch (e) {} }, { once: true });
     setInterval(function () { if (audio && !audio.paused) set('sessionStorage', POS, String(audio.currentTime)); }, 1000);
@@ -76,16 +84,19 @@
     var from = audio.volume, t0 = performance.now();
     fadeT = setInterval(function () {
       var k = Math.min(1, (performance.now() - t0) / ms);
-      audio.volume = Math.max(0, Math.min(1, from + (to - from) * k));
+      var e = k * k * (3 - 2 * k);                     // ease in-out: a soft start and a soft landing
+      audio.volume = Math.max(0, Math.min(1, from + (to - from) * e));
       if (k >= 1) { clearInterval(fadeT); if (done) done(); }
     }, 30);
   }
+  var resumed = parseFloat(get('sessionStorage', POS)) > 0;
   function play() {
     var a = track(); if (!a) return Promise.resolve(false);
     var p = a.play();
-    return (p && p.then ? p : Promise.resolve()).then(function () { fade(VOL, reduce ? 10 : 1600); return true; }, function () { return false; });
+    return (p && p.then ? p : Promise.resolve()).then(function () { fade(VOL, reduce ? 10 : (resumed ? 1200 : 3500)); resumed = false; return true; }, function () { return false; });
   }
-  function pause() { if (!audio) return; fade(0, 500, function () { audio.pause(); }); }
+  window.__doSound = function () { return audio ? { paused: audio.paused, time: +audio.currentTime.toFixed(1), volume: +audio.volume.toFixed(2) } : null; };   // for checking only
+  function pause() { if (!audio) return; fade(0, 900, function () { audio.pause(); }); }
   function choose(on) {
     wantOn = on; set('localStorage', KEY, on ? 'on' : 'off');
     if (on) play(); else pause();
